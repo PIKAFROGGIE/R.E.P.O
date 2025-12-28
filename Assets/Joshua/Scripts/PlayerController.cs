@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
 
         if (!Isstunned && direction.magnitude > 0.1f)
         {
-            Quaternion targetRot = Quaternion.LookRotation(moveInput);
+            Quaternion targetRot = Quaternion.LookRotation(new Vector3(moveInput.x, 0f, moveInput.z));
             model.rotation = Quaternion.Slerp(model.rotation, targetRot,Time.deltaTime * 12f);
         }
 
