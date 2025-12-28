@@ -13,9 +13,11 @@ namespace ithappy
 
         public RotationAxis rotationAxis = RotationAxis.Y;
         public float rotationSpeed = 50.0f;
+       
 
         void Update()
-        {
+        {        
+
             float rotationValue = rotationSpeed * Time.deltaTime;
 
             Vector3 axis = Vector3.zero;
