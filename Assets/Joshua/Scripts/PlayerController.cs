@@ -15,7 +15,10 @@ public class PlayerController : MonoBehaviour
 
     public CharacterController CC;
     public Animator anim;
-    public Transform camTrans;
+    public Transform cam;
+
+    [Header("Model")]
+    public Transform model;
 
     private Vector3 moveInput;
     public Vector3 direction;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public bool tutorialMovement = true;
     public bool verticalmoveDetected = true;
     public bool horizontalmoveDetected = true;
+    private bool Isstunned = false;
     public Transform groundCheckpoint;
     public LayerMask ground;
 
@@ -65,11 +69,28 @@ public class PlayerController : MonoBehaviour
 
         float yVelocity = moveInput.y;
 
-        Vector3 verticalmove = transform.forward * Input.GetAxis("Vertical");
-        Vector3 horizontalmove = transform.right * Input.GetAxis("Horizontal");
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
 
-        moveInput = horizontalmove + verticalmove;
-        moveInput.Normalize();
+        Vector3 camForward = cam.forward;
+        Vector3 camRight = cam.right;
+
+        camForward.y = 0f;
+        camRight.y = 0f;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        Vector3 moveDir = camForward * v + camRight * h;
+
+        direction = moveDir.normalized;
+
+        float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
+        moveInput = direction * speed;
+
+        //moveInput = horizontalmove + verticalmove;
+        //moveInput.Normalize();
+        /*
         if (Input.GetKey(KeyCode.LeftShift))
         {
             moveInput = moveInput * sprintSpeed;
@@ -78,7 +99,7 @@ public class PlayerController : MonoBehaviour
         {
             moveInput = moveInput * moveSpeed;
         }
-
+        */
 
         moveInput.y = yVelocity;
         moveInput.y += Physics.gravity.y * gravityForce * Time.deltaTime;
@@ -97,39 +118,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        CC.Move(moveInput * Time.deltaTime);
-        Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-
-        Vector3 camForward = camTrans.forward;
-        camForward.y = 0;
-        camForward.Normalize();
-
-        Vector3 camRight = camTrans.right;
-        camRight.y = 0;
-        camRight.Normalize();
-
-        Vector3 moveDir =
-            camForward * Input.GetAxis("Vertical") +
-            camRight * Input.GetAxis("Horizontal");
-
-        direction = moveDir.normalized;
-
-
-        //transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y + mouseInput.x, 0f);
-        //cameraPitch -= mouseInput.y;
-        //cameraPitch = Mathf.Clamp(cameraPitch, -75f, 75f);
-        //camTrans.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
-
-        float vertical = Input.GetAxis("Vertical");
-
-        if (!isAttacking && vertical > 0.1f)
+        if (!isAttacking && !Isstunned && direction.magnitude > 0.1f)
         {
-            Vector3 forwardDir = transform.forward;
-            forwardDir.y = 0;
-
-            Quaternion targetRot = Quaternion.LookRotation(forwardDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation,targetRot,Time.deltaTime * 10f);
+            Quaternion targetRot = Quaternion.LookRotation(moveInput);
+            model.rotation = Quaternion.Slerp(model.rotation, targetRot,Time.deltaTime * 12f);
         }
+
+        CC.Move(moveInput * Time.deltaTime);
+
+
+
 
 
         float targetBlend = 0f;
@@ -184,6 +182,13 @@ public class PlayerController : MonoBehaviour
             {
                 inputBuffered = true;
             }
+        }
+
+        if (Isstunned)
+        {
+            if (walking) walking.Stop();
+            if (running) running.Stop();
+            return;
         }
     }
 
@@ -243,6 +248,21 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 
+    public void SetStunned(bool value)
+    {
+        Isstunned = value;
+
+        // CC.enabled = !value;
+
+        if (value)
+        {
+            isAttacking = false;
+            inputBuffered = false;
+            comboIndex = 0;
+
+            anim.CrossFade("Idle", 0.1f);
+        }
+    }
     /*
     void EnableDamage(int index, bool enable)
     {
