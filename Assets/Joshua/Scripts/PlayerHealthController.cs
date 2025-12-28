@@ -54,6 +54,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         health -= damage;
         stunCount += stunDamage;
 
+        Debug.Log($"[TakeHit] stunCount after hit = {stunCount}");
         //photonView.RPC("RPC_SyncState", RpcTarget.All, health, stunCount);
         RPC_SyncState(health, stunCount);
 
