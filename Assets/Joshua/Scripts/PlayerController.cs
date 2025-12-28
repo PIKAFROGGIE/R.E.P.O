@@ -23,10 +23,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveInput;
     public Vector3 direction;
 
-    private bool isWaiting = false;
-    public bool tutorialMovement = true;
-    public bool verticalmoveDetected = true;
-    public bool horizontalmoveDetected = true;
     private bool Isstunned = false;
     public Transform groundCheckpoint;
     public LayerMask ground;
@@ -39,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     public int layerIndex = 0;
 
-    public float longPressDuration = 1f; // Duration to consider as a long press
+    public float longPressDuration = 1f;    
 
     PhotonView PV;
 
@@ -113,15 +109,22 @@ public class PlayerController : MonoBehaviour
 
         if (CC.isGrounded)
         {
-            canJump = true;
+            if (!canJump)
+            {
+                canJump = true;
+                if (!isAttacking)
+                {
+                    anim.CrossFade("MovementTree", 0.15f);
+                }
+            }
             moveInput.y = 0f;
-            moveInput.y += Physics.gravity.y * gravityForce * Time.deltaTime;
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
                 canJump = false;
                 if (jumping != null)
                     jumping.Play();
                 moveInput.y = jumpForce;
+                anim.CrossFade("Jumping", 0.1f);
             }
         }
 
@@ -240,8 +243,10 @@ public class PlayerController : MonoBehaviour
         }
 
         comboIndex = 0;
-        anim.CrossFade("MovementTree", 0.15f);
-
+        if (CC.isGrounded)
+        {
+            anim.CrossFade("MovementTree", 0.15f);
+        }
         if (CC != null)
             CC.enabled = true;
 
