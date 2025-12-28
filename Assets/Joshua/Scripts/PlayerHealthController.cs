@@ -54,7 +54,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         health -= damage;
         stunCount += stunDamage;
 
-        photonView.RPC(RPC_SyncState, RpcTarget.All, health, stunCount);
+        photonView.RPC("RPC_SyncState", RpcTarget.All, health, stunCount);
 
         if (!isStunned && stunCount >= maxStun)
         {
