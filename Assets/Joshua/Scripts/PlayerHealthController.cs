@@ -54,7 +54,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         health -= damage;
         stunCount += stunDamage;
 
-        photonView.RPC(nameof(RPC_SyncState), RpcTarget.All, health, stunCount);
+        photonView.RPC(RPC_SyncState, RpcTarget.All, health, stunCount);
 
         if (!isStunned && stunCount >= maxStun)
         {
@@ -63,10 +63,10 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void RPC_SyncState(float newHealth, float newStunMeter)
+    void RPC_SyncState(float newHealth, float newStunCount)
     {
         health = newHealth;
-        stunCount = newStunMeter;
+        stunCount = newStunCount;
     }
 
     IEnumerator StunRoutine()
