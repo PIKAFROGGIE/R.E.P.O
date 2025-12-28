@@ -42,6 +42,16 @@ MonoBehaviour:
   - RPC_SetStunned
   - RPC_SyncState
   - RPC_SetStartTime
+  - RPC_FacingPlayer
+  - RPC_GreenLight
+  - RPC_StartTurning
+  - RPC_Warning
+  - RPC_ConfirmDeath
+  - RPC_RequestDeath
+  - RPC_Finish
+  - RPC_RequestFinish
+  - RPC_RequestRespawn
+  - RPC_Respawn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

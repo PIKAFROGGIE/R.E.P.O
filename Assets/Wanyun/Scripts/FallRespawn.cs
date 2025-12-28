@@ -106,4 +106,12 @@ public class FallRespawn : MonoBehaviour
         }
         fadeCanvas.alpha = target;
     }
+    public void ForceRespawn()
+    {
+        if (!pv.IsMine) return;
+        if (isRespawning || !canDie) return;
+
+        StartCoroutine(RespawnRoutine());
+    }
+
 }
