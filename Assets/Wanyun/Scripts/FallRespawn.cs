@@ -1,29 +1,28 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Photon.Pun;
 using System.Collections;
 
 public class FallRespawn : MonoBehaviour
 {
-    [Header("Death Settings")]
-    public float deathY = -20f;
-
-    [Header("Respawn Area")]
+    [Header("Respawn")]
     public BoxCollider respawnArea;
     public float groundOffset = 0.3f;
 
-    [Header("Anti-Overlap Settings")]
-    public float checkRadius = 0.6f;          // ¼ì²âÍæ¼Ò°ë¾¶
-    public LayerMask playerLayer;
+    [Header("Anti-Overlap (Tag)")]
+    public float checkRadius = 0.6f;
     public int maxTryCount = 15;
 
-    [Header("Fade Settings")]
+    [Header("Fade")]
     public CanvasGroup fadeCanvas;
     public float fadeDuration = 0.5f;
     public float respawnDelay = 0.2f;
+    public float invincibleAfterRespawn = 0.4f;
 
-    private PhotonView pv;
-    private CharacterController cc;
-    private bool isRespawning = false;
+    PhotonView pv;
+    CharacterController cc;
+
+    bool isRespawning = false;
+    bool canDie = true;
 
     void Start()
     {
@@ -31,12 +30,12 @@ public class FallRespawn : MonoBehaviour
         cc = GetComponent<CharacterController>();
     }
 
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
         if (!pv.IsMine) return;
-        if (isRespawning) return;
+        if (!canDie || isRespawning) return;
 
-        if (transform.position.y < deathY)
+        if (other.CompareTag("KillZone"))
         {
             StartCoroutine(RespawnRoutine());
         }
@@ -45,67 +44,66 @@ public class FallRespawn : MonoBehaviour
     IEnumerator RespawnRoutine()
     {
         isRespawning = true;
+        canDie = false;
 
-        // 1?? ºÚÆÁ
         yield return StartCoroutine(Fade(1f));
-
         yield return new WaitForSeconds(respawnDelay);
 
-        // 2?? ÕÒ°²È«µÄËæ»úµã
-        Vector3 safePos = FindSafeRespawnPoint();
-
-        // 3?? ´«ËÍ
+        Vector3 safePos = FindSafeRespawnPoint_Tag();
         cc.enabled = false;
         transform.position = safePos;
+        transform.rotation = Quaternion.identity; // éœ€è¦ä¿ç•™æœå‘å°±åˆ æŽ‰è¿™ä¸€è¡Œ
         cc.enabled = true;
 
-        // 4?? µ­Èë
+        yield return new WaitForSeconds(invincibleAfterRespawn);
         yield return StartCoroutine(Fade(0f));
 
+        canDie = true;
         isRespawning = false;
     }
 
-    Vector3 FindSafeRespawnPoint()
+    Vector3 FindSafeRespawnPoint_Tag()
     {
-        Bounds bounds = respawnArea.bounds;
+        Bounds b = respawnArea.bounds;
 
         for (int i = 0; i < maxTryCount; i++)
         {
-            float x = Random.Range(bounds.min.x, bounds.max.x);
-            float z = Random.Range(bounds.min.z, bounds.max.z);
-            float y = bounds.max.y + groundOffset;
+            float x = Random.Range(b.min.x, b.max.x);
+            float z = Random.Range(b.min.z, b.max.z);
+            float y = b.max.y + groundOffset;
 
             Vector3 candidate = new Vector3(x, y, z);
 
-            bool hitPlayer = Physics.CheckSphere(
-                candidate,
-                checkRadius,
-                playerLayer,
-                QueryTriggerInteraction.Ignore
-            );
+            Collider[] hits = Physics.OverlapSphere(candidate, checkRadius, ~0, QueryTriggerInteraction.Ignore);
+            bool hasPlayer = false;
 
-            if (!hitPlayer)
+            foreach (var hit in hits)
             {
-                return candidate;
+                // é¿å…åˆ·åˆ°å…¶ä»–çŽ©å®¶ï¼ˆä¹ŸæŽ’é™¤è‡ªå·±ï¼‰
+                if (hit.CompareTag("Player") && hit.gameObject != gameObject)
+                {
+                    hasPlayer = true;
+                    break;
+                }
             }
+
+            if (!hasPlayer) return candidate;
         }
 
-        // Èç¹û¶à´ÎÊ§°Ü£¬·µ»ØÇøÓòÖÐÐÄ£¨¶µµ×£©
         return respawnArea.bounds.center + Vector3.up * groundOffset;
     }
 
-    IEnumerator Fade(float targetAlpha)
+    IEnumerator Fade(float target)
     {
-        float startAlpha = fadeCanvas.alpha;
+        float start = fadeCanvas.alpha;
         float t = 0f;
 
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            fadeCanvas.alpha = Mathf.Lerp(startAlpha, targetAlpha, t / fadeDuration);
+            fadeCanvas.alpha = Mathf.Lerp(start, target, t / fadeDuration);
             yield return null;
         }
-
-        fadeCanvas.alpha = targetAlpha;
+        fadeCanvas.alpha = target;
     }
 }
