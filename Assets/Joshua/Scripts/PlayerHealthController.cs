@@ -8,8 +8,9 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
     [Header("Stun Settings")]
     public float stunCount = 0f;
     public float maxStun = 100f;
-    public float stunTime = 2.5f;
+    public float stunTime = 10f;
     public float stunDecayRate = 15f;
+    public bool IsIncapacitated => isStunned;
 
     [Header("HP")]
     public float health = 100f;
@@ -86,6 +87,8 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         isStunned = false;
         //photonView.RPC("RPC_SetStunned", RpcTarget.All, false);
         RPC_SetStunned(false);
+        anim.speed = 1f;
+        anim.CrossFade("Idle", 0.1f);
     }
 
     //[PunRPC]
@@ -98,9 +101,23 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
             controller.SetStunned(stunned);
         }
 
-        if (anim != null)
+        if (anim != null && stunned)
         {
-            anim.SetBool("Stunned", stunned);
+            anim.CrossFade("Stun", 0.15f);
+            StartCoroutine(FreezeStunAnimation());
         }
+    }
+
+    IEnumerator FreezeStunAnimation()
+    {
+        yield return new WaitUntil(() =>
+            anim.GetCurrentAnimatorStateInfo(0).IsName("Stun")
+        );
+
+        yield return new WaitUntil(() =>
+            anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f
+        );
+
+        anim.speed = 0f;
     }
 }

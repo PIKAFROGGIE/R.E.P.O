@@ -28,7 +28,7 @@ public class DamageObject : MonoBehaviour
     {
         if (!enable) return;
         if (!attackPlayer) return;
-
+        if (other.gameObject.CompareTag("Player") )return;
         health = other.GetComponent<PlayerHealthController>();
         PhotonView targetPV = other.GetComponent<PhotonView>();
 

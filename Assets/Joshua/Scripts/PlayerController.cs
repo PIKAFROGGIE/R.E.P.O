@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     public int totalComboCount = 2;
 
     [Header("References")]
-    //public DamageObject[] punchDamages;
+    public DamageObject[] punchStun;
 
     private int comboIndex = 0;
     private bool isAttacking = false;
@@ -223,12 +223,12 @@ public class PlayerController : MonoBehaviour
         while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < hitStart)
             yield return null;
 
-        //EnableDamage(comboIndex, true);
+        EnableDamage(comboIndex, true);
 
         while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < hitEnd)
             yield return null;
 
-        //EnableDamage(comboIndex, false);
+        EnableDamage(comboIndex, false);
 
         float timer = comboInputWindow;
         while (timer > 0f)
@@ -264,20 +264,14 @@ public class PlayerController : MonoBehaviour
             isAttacking = false;
             inputBuffered = false;
             comboIndex = 0;
-
-            anim.CrossFade("Idle", 0.1f);
         }
     }
-    /*
     void EnableDamage(int index, bool enable)
     {
-        for (int i = 0; i < punchDamages.Length; i++)
+        for (int i = 0; i < punchStun.Length; i++)
         {
-            punchDamages[i].enable = (i == index - 1) && enable;
-            punchDamages[i].attacked = false;
+            punchStun[i].enable = true;
         }
     }
-
-    */
 
 }
