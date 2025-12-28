@@ -67,6 +67,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!PV.IsMine) return;
 
+        if (Isstunned)
+        {
+            if (walking) walking.Stop();
+            if (running) running.Stop();
+            return;
+        }
+
         float yVelocity = moveInput.y;
 
         float h = Input.GetAxis("Horizontal");
@@ -118,7 +125,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!isAttacking && !Isstunned && direction.magnitude > 0.1f)
+        if (!Isstunned && direction.magnitude > 0.1f)
         {
             Quaternion targetRot = Quaternion.LookRotation(moveInput);
             model.rotation = Quaternion.Slerp(model.rotation, targetRot,Time.deltaTime * 12f);
@@ -182,13 +189,6 @@ public class PlayerController : MonoBehaviour
             {
                 inputBuffered = true;
             }
-        }
-
-        if (Isstunned)
-        {
-            if (walking) walking.Stop();
-            if (running) running.Stop();
-            return;
         }
     }
 
