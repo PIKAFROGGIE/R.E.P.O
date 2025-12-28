@@ -99,13 +99,38 @@ public class PlayerController : MonoBehaviour
 
         CC.Move(moveInput * Time.deltaTime);
         Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-        //transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y + mouseInput.x, 0f);
-        cameraPitch -= mouseInput.y;
-        cameraPitch = Mathf.Clamp(cameraPitch, -75f, 75f);
-        camTrans.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
 
-        direction = moveInput;
-        direction.y = 0;
+        Vector3 camForward = camTrans.forward;
+        camForward.y = 0;
+        camForward.Normalize();
+
+        Vector3 camRight = camTrans.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+        Vector3 moveDir =
+            camForward * Input.GetAxis("Vertical") +
+            camRight * Input.GetAxis("Horizontal");
+
+        direction = moveDir.normalized;
+
+
+        //transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y + mouseInput.x, 0f);
+        //cameraPitch -= mouseInput.y;
+        //cameraPitch = Mathf.Clamp(cameraPitch, -75f, 75f);
+        //camTrans.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
+
+        float vertical = Input.GetAxis("Vertical");
+
+        if (!isAttacking && vertical > 0.1f)
+        {
+            Vector3 forwardDir = transform.forward;
+            forwardDir.y = 0;
+
+            Quaternion targetRot = Quaternion.LookRotation(forwardDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation,targetRot,Time.deltaTime * 10f);
+        }
+
 
         float targetBlend = 0f;
 
@@ -176,7 +201,7 @@ public class PlayerController : MonoBehaviour
         string animName = "Box" + comboIndex;
 
         anim.SetInteger("comboIndex", comboIndex);
-        anim.CrossFade(animName, 0.15f);
+        anim.CrossFade(animName, 0.1f);
 
         if (CC != null)
             //CC.enabled = false;
