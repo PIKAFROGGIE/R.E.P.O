@@ -648,6 +648,7 @@ GameObject:
   - component: {fileID: 3784981197077328337}
   - component: {fileID: 1434388338530713391}
   - component: {fileID: 2284148276173675487}
+  - component: {fileID: 3869253939681216269}
   m_Layer: 0
   m_Name: Astronaut
   m_TagString: Untagged
@@ -663,7 +664,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3762465439587634585}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -822,6 +823,25 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &3869253939681216269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3762465439587634585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29d619fca047d74da1241af78f8906f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunCount: 0
+  maxStun: 100
+  stunTime: 2.5
+  stunDecayRate: 15
+  health: 100
+  controller: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!1 &4507010609977493701
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,7 +901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 6, z: -16}
+  m_FollowOffset: {x: 0, y: 6, z: -9}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1006,8 +1026,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4861202090368509361}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000003574932, y: -0.00000001759764, z: 0.0000000051767977,
-    w: 1}
+  m_LocalRotation: {x: -0.00000002881845, y: -4.09076e-11, z: 2.3169881e-11, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1250,7 +1269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 6, z: -16}
+  m_FollowOffset: {x: 0, y: 6, z: -9}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1646,8 +1665,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6868151120327932700}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.06891175, y: 0.000000016935163, z: -0.00000000373618, w: 0.9976228}
-  m_LocalPosition: {x: 0.05, y: 2.3322353, z: -11.469991}
+  m_LocalRotation: {x: 0.1825529, y: 0.00000001452996, z: -0.0000000050053717, w: 0.9831961}
+  m_LocalPosition: {x: 0.05, y: 3.3656485, z: -4.5466924}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1854,11 +1873,11 @@ MonoBehaviour:
   m_SplineCurvature: 0.2
   m_Orbits:
   - m_Height: 8
-    m_Radius: 18
+    m_Radius: 11
   - m_Height: 7
-    m_Radius: 17
+    m_Radius: 10
   - m_Height: 6
-    m_Radius: 16
+    m_Radius: 9
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
   - {fileID: 4185041467747088418}
@@ -1989,7 +2008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 3
-  m_FollowOffset: {x: 0, y: 6, z: -16}
+  m_FollowOffset: {x: 0, y: 6, z: -9}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -2082,7 +2101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7229907021001889621}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.036324892, y: -0.000000035627263, z: 0.000000011902963, w: 0.99934006}
+  m_LocalRotation: {x: 0.03632495, y: -0.000000013088114, z: 0.000000008054489, w: 0.9993401}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2257,8 +2276,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7415085411054323957}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.018141389, y: -0.000000035837875, z: 0.0000000112529515,
-    w: 0.99983543}
+  m_LocalRotation: {x: 0.018141475, y: -0.000000028251732, z: 0.00000001668548, w: 0.9998355}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
