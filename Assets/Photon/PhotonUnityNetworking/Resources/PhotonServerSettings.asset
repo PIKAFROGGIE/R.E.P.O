@@ -39,7 +39,6 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-<<<<<<< Updated upstream
   - RPC_SetStunned
   - RPC_SyncState
   - RPC_SetStartTime
@@ -67,8 +66,3 @@ MonoBehaviour:
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
-=======
-  DisableAutoOpenWizard: 1
-  ShowSettings: 1
-  DevRegionSetOnce: 0
->>>>>>> Stashed changes
