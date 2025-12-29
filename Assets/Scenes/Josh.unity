@@ -135,6 +135,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a664090dddc014cb6ee11d38b7cf5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &913242206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4767010686573849210, guid: 1d19f4796f3889042ad11d56258ddd0b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2411892554856246918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &913242215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913242206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce60d5ae9a1b4b248bed91727e12837d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragRange: 2
+  dragHoldTime: 1
+  dragDistance: 1.2
+  dragFollowSpeed: 8
 --- !u!1 &1373590045
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +562,7 @@ GameObject:
   - component: {fileID: 6849458627010382544}
   - component: {fileID: 6849458627010382543}
   - component: {fileID: 6849458627010382545}
+  - component: {fileID: 6849458627010382546}
   m_Layer: 0
   m_Name: Astronaut (1)
   m_TagString: Untagged
@@ -1090,7 +1113,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4767010686573849210, guid: 1d19f4796f3889042ad11d56258ddd0b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 913242215}
   m_SourcePrefab: {fileID: 100100000, guid: 1d19f4796f3889042ad11d56258ddd0b, type: 3}
 --- !u!4 &2419360934543074440
 Transform:
@@ -1903,6 +1930,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6849458627010382546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190794047214701067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b51d1506315f6f645ab841af1c311125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  struggleValue: 0
+  struggleMax: 100
+  struggleAddPerPress: 25
+  struggleDecay: 15
 --- !u!4 &6932221444357750114
 Transform:
   m_ObjectHideFlags: 0

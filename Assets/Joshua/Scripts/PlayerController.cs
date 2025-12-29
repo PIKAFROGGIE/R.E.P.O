@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource walking, running, jumping;
     public bool canWalk = true, canRun = true, canJump = true, stopSound = false, isPause = false;
 
-
+    Coroutine attackCheckRoutine;
 
     public int layerIndex = 0;
 
@@ -184,14 +184,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!isAttacking)
-            {
-                StartCoroutine(DoPunch());
-            }
-            else
-            {
-                inputBuffered = true;
-            }
+            if (attackCheckRoutine != null)
+                StopCoroutine(attackCheckRoutine);
+
+            attackCheckRoutine = StartCoroutine(CheckAttackInput());
         }
     }
 
@@ -274,4 +270,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator CheckAttackInput()
+    {
+        float timer = 0f;
+        while (Input.GetMouseButton(0))
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= longPressDuration)
+            {
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        if (!isAttacking)
+        {
+            StartCoroutine(DoPunch());
+        }
+        else
+        {
+            inputBuffered = true;
+        }
+    }
 }

@@ -4,22 +4,18 @@ using UnityEngine;
 using Photon.Pun;
 public class PlayerDrag : MonoBehaviourPunCallbacks
 {
-    [Header("Struggle Settings")]
-    public float struggleValue = 0f;
-    public float struggleMax = 100f;
-    public float struggleAddPerPress = 25f;
-    public float struggleDecay = 15f;
+    public float dragRange = 2f;
 
-    public bool isBeingDragged { get; private set; }
+    DragPlayer currentTarget;
 
-    PlayerHealthController health;
-    PlayerController controller;
+    public float dragHoldTime = 1f;
 
-    void Awake()
-    {
-        health = GetComponent<PlayerHealthController>();
-        controller = GetComponent<PlayerController>();
-    }
+    public float dragDistance = 1.2f;
+    public float dragFollowSpeed = 8f;
+
+    float dragHoldTimer = 0f;
+    bool isHoldingDrag = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,46 +26,90 @@ public class PlayerDrag : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            dragHoldTimer = 0f;
+            isHoldingDrag = true;
+        }
+
+        if (Input.GetMouseButton(0) && isHoldingDrag && currentTarget == null)
+        {
+            dragHoldTimer += Time.deltaTime;
+
+            if (dragHoldTimer >= dragHoldTime)
+            {
+                TryStartDrag();
+                isHoldingDrag = false;
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isHoldingDrag = false;
+            dragHoldTimer = 0f;
+
+            if (currentTarget != null)
+            {
+                StopDrag();
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
         if (!photonView.IsMine) return;
-        if (!isBeingDragged) return;
+        if (currentTarget == null) return;
 
-        if (health.IsIncapacitated)
-            return;
+        Transform targetTransform = currentTarget.transform;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            struggleValue += struggleAddPerPress;
-            Debug.Log("Struggle: " + struggleValue);
-        }
+        Vector3 desiredPos =
+            transform.position - transform.forward * dragDistance;
 
-        struggleValue = Mathf.Max(
-            0f,
-            struggleValue - struggleDecay * Time.deltaTime
+        targetTransform.position = Vector3.Lerp(
+            targetTransform.position,
+            desiredPos,
+            Time.fixedDeltaTime * dragFollowSpeed
         );
+    }
 
-        if (struggleValue >= struggleMax)
+
+    void TryStartDrag()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up,transform.forward,out RaycastHit hit,dragRange))
         {
-            photonView.RPC("RPC_BreakFree",RpcTarget.All);
+            DragPlayer target = hit.collider.GetComponent<DragPlayer>();
+            Debug.Log("found");
+            if (target == null) return;
+
+            StartDrag(target);
         }
     }
 
-    //[PunRPC]
-    public void RPC_SetDragged(bool dragged)
-    {
-        isBeingDragged = dragged;
-        struggleValue = 0f;
 
-        if (controller != null)
-            controller.enabled = !dragged;
+    void StartDrag(DragPlayer target)
+    {
+        currentTarget = target;
+
+        //target.photonView.RPC("RPC_SetDragged",RpcTarget.All,true);
+        target.RPC_SetDragged(true);
     }
 
-    //[PunRPC]
-    void RPC_BreakFree()
+    void StopDrag()
     {
-        isBeingDragged = false;
-        struggleValue = 0f;
+        if (currentTarget == null) return;
 
-        if (controller != null)
-            controller.enabled = true;
+        //currentTarget.photonView.RPC("RPC_SetDragged", RpcTarget.All, false);
+        currentTarget.RPC_SetDragged(false);
+        currentTarget = null;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Vector3 origin = transform.position + Vector3.up;
+        Vector3 dir = transform.forward * dragRange;
+
+        Gizmos.DrawLine(origin, origin + dir);
     }
 }

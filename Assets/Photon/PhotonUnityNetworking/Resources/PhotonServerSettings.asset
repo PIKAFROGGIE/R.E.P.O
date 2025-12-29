@@ -52,6 +52,7 @@ MonoBehaviour:
   - RPC_RequestFinish
   - RPC_RequestRespawn
   - RPC_Respawn
+  - RPC_StartEndCountdown
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
