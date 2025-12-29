@@ -52453,7 +52453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9bd94b95ad245746a430dca9c7a9a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usePhotonSync: 0
+  usePhotonSync: 1
   endCountdownDuration: 30
   timeText: {fileID: 2084521985}
   winText: {fileID: 642703722}
@@ -75171,7 +75171,7 @@ Transform:
   m_GameObject: {fileID: 5817355497268685597}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.6, y: -12.82, z: 572.4}
+  m_LocalPosition: {x: 73.6, y: -12.82, z: 69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
