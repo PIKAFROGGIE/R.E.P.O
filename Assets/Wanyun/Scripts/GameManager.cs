@@ -2,22 +2,22 @@
 using Photon.Pun;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     [Header("Mode")]
-    [Tooltip("勾选：使用 Photon 同步；不勾选：本地倒数")]
     public bool usePhotonSync = false;
 
     [Header("Countdown")]
     public float prepareTime = 5f;
 
-    [Header("UI")]
-    public CanvasGroup countdownCanvas;
-    public Text countdownText;
+    [Header("UI - Countdown (Support 1 or Multiple)")]
+    public List<CanvasGroup> countdownCanvases = new List<CanvasGroup>();
+    public List<Text> countdownTexts = new List<Text>();
 
-    [Header("Barrier")]
-    public GameObject startBarrier;
+    [Header("Barriers")]
+    public List<GameObject> startBarriers = new List<GameObject>();
 
     private double startTime;
     private bool countdownStarted = false;
@@ -25,10 +25,21 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        startBarrier.SetActive(true);
-        countdownCanvas.alpha = 1;
+        // 打开所有 Barrier
+        foreach (var barrier in startBarriers)
+        {
+            if (barrier != null)
+                barrier.SetActive(true);
+        }
 
-        // 👉 本地模式：直接开始倒数
+        // 显示所有倒数 UI
+        foreach (var canvas in countdownCanvases)
+        {
+            if (canvas != null)
+                canvas.alpha = 1;
+        }
+
+        // 本地模式直接倒数
         if (!usePhotonSync)
         {
             startTime = Time.time + prepareTime;
@@ -38,7 +49,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        // 👉 如果没开 Photon，同步逻辑直接跳过
         if (!usePhotonSync) return;
 
         if (PhotonNetwork.IsMasterClient)
@@ -62,39 +72,53 @@ public class GameManager : MonoBehaviourPunCallbacks
         double currentTime = usePhotonSync ? PhotonNetwork.Time : Time.time;
         double timeLeft = startTime - currentTime;
 
+        string textToShow;
+
         if (timeLeft > 3)
-        {
-            countdownText.text = "Ready?";
-        }
+            textToShow = "Ready?";
         else if (timeLeft > 2)
-        {
-            countdownText.text = "3";
-        }
+            textToShow = "3";
         else if (timeLeft > 1)
-        {
-            countdownText.text = "2";
-        }
+            textToShow = "2";
         else if (timeLeft > 0)
-        {
-            countdownText.text = "1";
-        }
+            textToShow = "1";
         else
         {
             StartGame();
+            return;
+        }
+
+        // 同步更新所有倒数文本
+        foreach (var txt in countdownTexts)
+        {
+            if (txt != null)
+                txt.text = textToShow;
         }
     }
 
     void StartGame()
     {
+        if (gameStarted) return;
         gameStarted = true;
 
-        countdownText.text = "GO!";
-        startBarrier.SetActive(false);
+        // 显示 GO!
+        foreach (var txt in countdownTexts)
+        {
+            if (txt != null)
+                txt.text = "GO!";
+        }
 
-        StartCoroutine(HideUI());
+        // 关闭所有 Barrier
+        foreach (var barrier in startBarriers)
+        {
+            if (barrier != null)
+                barrier.SetActive(false);
+        }
+
+        StartCoroutine(HideAllUI());
     }
 
-    IEnumerator HideUI()
+    IEnumerator HideAllUI()
     {
         yield return new WaitForSeconds(0.8f);
 
@@ -102,10 +126,21 @@ public class GameManager : MonoBehaviourPunCallbacks
         while (t < 0.5f)
         {
             t += Time.deltaTime;
-            countdownCanvas.alpha = Mathf.Lerp(1, 0, t / 0.5f);
+            float alpha = Mathf.Lerp(1, 0, t / 0.5f);
+
+            foreach (var canvas in countdownCanvases)
+            {
+                if (canvas != null)
+                    canvas.alpha = alpha;
+            }
+
             yield return null;
         }
 
-        countdownCanvas.alpha = 0;
+        foreach (var canvas in countdownCanvases)
+        {
+            if (canvas != null)
+                canvas.alpha = 0;
+        }
     }
 }
