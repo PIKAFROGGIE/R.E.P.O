@@ -55,6 +55,7 @@ MonoBehaviour:
   - RPC_StartEndCountdown
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   - RPC_StartGame
   - RPC_TimeFailed
   - RPC_TimeUp
@@ -62,6 +63,9 @@ MonoBehaviour:
   - RPC_OnGameStarted
   - RPC_PickupItem
   - RPC_UseItem
+=======
+  - RPC_BecomeSpectator
+>>>>>>> Stashed changes
 =======
   - RPC_BecomeSpectator
 >>>>>>> Stashed changes
