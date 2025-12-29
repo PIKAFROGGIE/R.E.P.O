@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: asia
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -52,6 +52,11 @@ MonoBehaviour:
   - RPC_RequestFinish
   - RPC_RequestRespawn
   - RPC_Respawn
+  - RPC_StartGame
+  - RPC_TimeFailed
+  - RPC_TimeUp
+  - RPC_StartEndCountdown
+  - RPC_OnGameStarted
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 0
+  DevRegionSetOnce: 1

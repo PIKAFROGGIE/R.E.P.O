@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private double startTime;
     private bool countdownStarted = false;
-    private bool gameStarted = false;
+    public bool gameStarted = false;
 
     void Start()
     {
@@ -49,6 +49,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        gameStarted = false;
+        countdownStarted = false;
+
         if (!usePhotonSync) return;
 
         if (PhotonNetwork.IsMasterClient)
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         startTime = serverStartTime;
         countdownStarted = true;
+        gameStarted = false;
     }
 
     void Update()
@@ -115,6 +119,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                 barrier.SetActive(false);
         }
 
+        if (usePhotonSync)
+        {
+            photonView.RPC(nameof(RPC_OnGameStarted), RpcTarget.MasterClient);
+        }
+        else
+        {
+            StartBossLocal();
+        }
+
         StartCoroutine(HideAllUI());
     }
 
@@ -143,4 +156,24 @@ public class GameManager : MonoBehaviourPunCallbacks
                 canvas.alpha = 0;
         }
     }
+
+    [PunRPC]
+    void RPC_OnGameStarted()
+    {
+        StartBossLocal();
+    }
+
+    void StartBossLocal()
+    {
+        BossController boss = FindObjectOfType<BossController>();
+        if (boss != null)
+        {
+            boss.StartBoss();
+        }
+        else
+        {
+            Debug.LogError("BossController not found!");
+        }
+    }
+
 }
