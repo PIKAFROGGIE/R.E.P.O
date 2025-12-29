@@ -52,15 +52,12 @@ MonoBehaviour:
   - RPC_RequestFinish
   - RPC_RequestRespawn
   - RPC_Respawn
-<<<<<<< HEAD
   - RPC_StartEndCountdown
-=======
   - RPC_StartGame
   - RPC_TimeFailed
   - RPC_TimeUp
   - RPC_StartEndCountdown
   - RPC_OnGameStarted
->>>>>>> 01eb0c37b63ccd8ac83168c61dcf98b6016d0990
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
