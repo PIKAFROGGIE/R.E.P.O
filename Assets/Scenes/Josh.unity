@@ -1037,6 +1037,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2647797325673147619, guid: 1d19f4796f3889042ad11d56258ddd0b,
         type: 3}
+      propertyPath: moveSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647797325673147619, guid: 1d19f4796f3889042ad11d56258ddd0b,
+        type: 3}
+      propertyPath: sprintSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647797325673147619, guid: 1d19f4796f3889042ad11d56258ddd0b,
+        type: 3}
       propertyPath: punchStun.Array.size
       value: 2
       objectReference: {fileID: 0}
