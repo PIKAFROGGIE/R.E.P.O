@@ -6,17 +6,22 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 {
     public static GameEndManager Instance;
 
+    [Header("Mode")]
+    [Tooltip("勾选：Photon 网络模式；不勾选：本地模式")]
+    public bool usePhotonSync = false;
+
     [Header("End Countdown Settings")]
     public float endCountdownDuration = 20f; // ⏱ 可自定义（秒）
 
     [Header("UI")]
-    public Text timeText; // 普通 Text (Legacy)
+    public Text timeText; // Text (Legacy)
+    public Text winText;   // 显示 "YOU WIN!"
 
     private double endTime;
     private bool countdownStarted = false;
     private bool gameEnded = false;
 
-    private void Awake()
+    void Awake()
     {
         if (Instance != null)
         {
@@ -24,17 +29,21 @@ public class GameEndManager : MonoBehaviourPunCallbacks
             return;
         }
         Instance = this;
+
+        if (winText != null)
+            winText.gameObject.SetActive(false);
     }
 
     void Update()
     {
         if (!countdownStarted || gameEnded) return;
 
-        double timeLeft = endTime - PhotonNetwork.Time;
+        double currentTime = usePhotonSync ? PhotonNetwork.Time : Time.time;
+        double timeLeft = endTime - currentTime;
 
         if (timeLeft > 0)
         {
-            timeText.text = $"Game Ends In: {Mathf.CeilToInt((float)timeLeft)}";
+            timeText.text = $"{Mathf.CeilToInt((float)timeLeft)}";
         }
         else
         {
@@ -47,13 +56,21 @@ public class GameEndManager : MonoBehaviourPunCallbacks
     /// </summary>
     public void OnPlayerReachedFinish()
     {
+        if (countdownStarted) return;
+
+        // 🔹 本地模式：直接开始
+        if (!usePhotonSync)
+        {
+            endTime = Time.time + endCountdownDuration;
+            countdownStarted = true;
+            return;
+        }
+
+        // 🔹 网络模式：只有 MasterClient 决定
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (!countdownStarted)
-        {
-            endTime = PhotonNetwork.Time + endCountdownDuration;
-            photonView.RPC(nameof(RPC_StartEndCountdown), RpcTarget.All, endTime);
-        }
+        endTime = PhotonNetwork.Time + endCountdownDuration;
+        photonView.RPC(nameof(RPC_StartEndCountdown), RpcTarget.All, endTime);
     }
 
     [PunRPC]
@@ -63,15 +80,24 @@ public class GameEndManager : MonoBehaviourPunCallbacks
         countdownStarted = true;
     }
 
+    public void ShowWinText()
+    {
+        if (winText == null) return;
+
+        winText.text = "YOU WIN!";
+        winText.gameObject.SetActive(true);
+    }
+
     void EndGame()
     {
         gameEnded = true;
         timeText.text = "GAME OVER";
 
-        // 👉 这里你可以做：
-        // - 禁止玩家移动
-        // - 显示结算 UI
-        // - 切换场景
         Debug.Log("Game Ended");
+
+        // 👉 你可以在这里做：
+        // - 禁止玩家操作
+        // - 打开结算界面
+        // - 延迟切换场景
     }
 }

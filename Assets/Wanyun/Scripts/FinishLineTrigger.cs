@@ -17,6 +17,8 @@ public class FinishLineTrigger : MonoBehaviour
 
         // ֪ͨ GameEndManager
         GameEndManager.Instance.OnPlayerReachedFinish();
+        GameEndManager.Instance.ShowWinText();
+
         Debug.Log("Player reached the finish line!");
 
     }
