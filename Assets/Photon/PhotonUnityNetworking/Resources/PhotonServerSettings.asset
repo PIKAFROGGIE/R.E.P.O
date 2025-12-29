@@ -53,9 +53,6 @@ MonoBehaviour:
   - RPC_RequestRespawn
   - RPC_Respawn
   - RPC_StartEndCountdown
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   - RPC_StartGame
   - RPC_TimeFailed
   - RPC_TimeUp
