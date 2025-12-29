@@ -60,15 +60,7 @@ MonoBehaviour:
   - RPC_OnGameStarted
   - RPC_PickupItem
   - RPC_UseItem
-=======
   - RPC_BecomeSpectator
->>>>>>> Stashed changes
-=======
-  - RPC_BecomeSpectator
->>>>>>> Stashed changes
-=======
-  - RPC_BecomeSpectator
->>>>>>> Stashed changes
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
