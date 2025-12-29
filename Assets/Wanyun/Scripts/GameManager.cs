@@ -115,6 +115,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                 barrier.SetActive(false);
         }
 
+        if (usePhotonSync)
+        {
+            photonView.RPC(nameof(RPC_OnGameStarted), RpcTarget.MasterClient);
+        }
+        else
+        {
+            StartBossLocal();
+        }
+
         StartCoroutine(HideAllUI());
     }
 
@@ -143,4 +152,24 @@ public class GameManager : MonoBehaviourPunCallbacks
                 canvas.alpha = 0;
         }
     }
+
+    [PunRPC]
+    void RPC_OnGameStarted()
+    {
+        StartBossLocal();
+    }
+
+    void StartBossLocal()
+    {
+        BossController boss = FindObjectOfType<BossController>();
+        if (boss != null)
+        {
+            boss.StartBoss();
+        }
+        else
+        {
+            Debug.LogError("BossController not found!");
+        }
+    }
+
 }

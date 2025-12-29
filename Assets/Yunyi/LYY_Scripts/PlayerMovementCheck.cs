@@ -85,4 +85,28 @@ public class PlayerMovementCheck : MonoBehaviourPun
         // 切换观战相机
         // 显示完成 UI
     }
+    public void OnTimeUp()
+    {
+        if (isSpectator) return; // 已完成的不受影响
+
+        photonView.RPC(nameof(RPC_TimeFailed), RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_TimeFailed()
+    {
+        if (isSpectator) return;
+
+        isSpectator = true;
+
+        if (controller != null)
+            controller.enabled = false;
+
+        Debug.Log($"{photonView.Owner.NickName} failed: Time Up");
+
+        // TODO：
+        // UI 显示失败
+        // 切换观战相机
+    }
+
 }
