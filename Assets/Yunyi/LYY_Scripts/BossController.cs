@@ -26,18 +26,21 @@ public class BossController : MonoBehaviourPunCallbacks
     [Header("Animator")]
     public Animator animator;
 
+    [Header("Game State")]
+    public GameManager gameManager;
+
     [Header("Sound")]
     public AudioSource audioSource;
     public AudioClip bossClip;
     public AudioClip warningSFX;
 
-    private void Start()
+    public void StartBoss()
     {
-        // ÷ª»√ Master øÿ÷∆ Boss
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(BossLoop());
-        }
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        Debug.Log("BossLoop Started on Master");
+        StopAllCoroutines();
+        StartCoroutine(BossLoop());
     }
 
     IEnumerator BossLoop()
