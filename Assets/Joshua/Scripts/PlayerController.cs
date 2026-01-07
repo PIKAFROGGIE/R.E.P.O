@@ -50,6 +50,9 @@ public class PlayerController : MonoBehaviour
     private bool isAttacking = false;
     private bool inputBuffered = false;
 
+    public float fallDelay = 1f;
+    float airTimer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -62,6 +65,26 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (!PV.IsMine) return;
+
+        if (CC.isGrounded)
+        {
+            airTimer = 0f;
+            anim.SetBool("IsGrounded", true);
+        }
+        else
+        {
+            airTimer += Time.deltaTime;
+
+            anim.SetBool("IsGrounded", false);
+
+            if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Jumping"))
+            {
+                if (airTimer >= fallDelay)
+                {
+                    anim.CrossFade("Falling", 0.15f);
+                }
+            }
+        }
 
         if (Isstunned)
         {
