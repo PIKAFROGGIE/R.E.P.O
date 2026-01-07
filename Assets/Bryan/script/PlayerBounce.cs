@@ -1,8 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerBounce : MonoBehaviour
 {
-    public float bounceStrength = 6f;
+    public float bounceStrength = 50f;
+
+    private CharacterController controller;
     private Vector3 bounceVelocity;
 
     void OnControllerColliderHit(ControllerColliderHit hit)
