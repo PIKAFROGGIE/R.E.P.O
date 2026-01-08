@@ -2,6 +2,8 @@
 using Photon.Pun;
 using System.Collections;
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PhotonView))]
 public class FallRespawn : MonoBehaviour
 {
     [Header("Respawn")]
@@ -18,16 +20,33 @@ public class FallRespawn : MonoBehaviour
     public float respawnDelay = 0.2f;
     public float invincibleAfterRespawn = 0.4f;
 
-    PhotonView pv;
-    CharacterController cc;
+    private PhotonView pv;
+    private CharacterController cc;
 
-    bool isRespawning = false;
-    bool canDie = true;
+    private bool isRespawning = false;
+    private bool canDie = true;
 
-    void Start()
+    void Awake()
     {
         pv = GetComponent<PhotonView>();
         cc = GetComponent<CharacterController>();
+    }
+
+    void Start()
+    {
+        // 🔍 Prefab 无法拖引用 → 运行时查找 RespawnArea
+        if (respawnArea == null)
+        {
+            GameObject area = GameObject.FindWithTag("RespawnArea");
+            if (area != null)
+            {
+                respawnArea = area.GetComponent<BoxCollider>();
+            }
+            else
+            {
+                Debug.LogWarning("[FallRespawn] RespawnArea not found in scene!");
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,10 +57,6 @@ public class FallRespawn : MonoBehaviour
         if (other.CompareTag("KillZone"))
         {
             StartCoroutine(RespawnRoutine());
-            Debug.Log("Trigger Enter: " + other.name);
-            Debug.Log(
-        $"Trigger by: {other.name}, My Collider: {GetComponent<Collider>()?.name}"
-    );
         }
     }
 
@@ -50,24 +65,36 @@ public class FallRespawn : MonoBehaviour
         isRespawning = true;
         canDie = false;
 
-        yield return StartCoroutine(Fade(1f));
+        // Fade In（黑屏）
+        if (fadeCanvas != null)
+            yield return StartCoroutine(Fade(1f));
+
         yield return new WaitForSeconds(respawnDelay);
 
-        Vector3 safePos = FindSafeRespawnPoint_Tag();
+        // 🧭 计算安全复活点
+        Vector3 safePos = FindSafeRespawnPoint();
         cc.enabled = false;
         transform.position = safePos;
-        transform.rotation = Quaternion.identity; // 需要保留朝向就删掉这一行
         cc.enabled = true;
 
         yield return new WaitForSeconds(invincibleAfterRespawn);
-        yield return StartCoroutine(Fade(0f));
+
+        // Fade Out（恢复画面）
+        if (fadeCanvas != null)
+            yield return StartCoroutine(Fade(0f));
 
         canDie = true;
         isRespawning = false;
     }
 
-    Vector3 FindSafeRespawnPoint_Tag()
+    Vector3 FindSafeRespawnPoint()
     {
+        // 兜底：没有 RespawnArea 就原地上移
+        if (respawnArea == null)
+        {
+            return transform.position + Vector3.up * 2f;
+        }
+
         Bounds b = respawnArea.bounds;
 
         for (int i = 0; i < maxTryCount; i++)
@@ -78,26 +105,33 @@ public class FallRespawn : MonoBehaviour
 
             Vector3 candidate = new Vector3(x, y, z);
 
-            Collider[] hits = Physics.OverlapSphere(candidate, checkRadius, ~0, QueryTriggerInteraction.Ignore);
-            bool hasPlayer = false;
+            // 🔒 防止刷到其他玩家
+            Collider[] hits = Physics.OverlapSphere(
+                candidate,
+                checkRadius,
+                ~0,
+                QueryTriggerInteraction.Ignore
+            );
 
+            bool overlapPlayer = false;
             foreach (var hit in hits)
             {
-                // 避免刷到其他玩家（也排除自己）
-                if (hit.CompareTag("Player") && hit.gameObject != gameObject)
+                if (hit.CompareTag("Player") && hit.transform.root != transform)
                 {
-                    hasPlayer = true;
+                    overlapPlayer = true;
                     break;
                 }
             }
 
-            if (!hasPlayer) return candidate;
+            if (!overlapPlayer)
+                return candidate;
         }
 
+        // 实在找不到 → 中心点兜底
         return respawnArea.bounds.center + Vector3.up * groundOffset;
     }
 
-    IEnumerator Fade(float target)
+    IEnumerator Fade(float targetAlpha)
     {
         float start = fadeCanvas.alpha;
         float t = 0f;
@@ -105,11 +139,16 @@ public class FallRespawn : MonoBehaviour
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            fadeCanvas.alpha = Mathf.Lerp(start, target, t / fadeDuration);
+            fadeCanvas.alpha = Mathf.Lerp(start, targetAlpha, t / fadeDuration);
             yield return null;
         }
-        fadeCanvas.alpha = target;
+
+        fadeCanvas.alpha = targetAlpha;
     }
+
+    /// <summary>
+    /// 给外部（Boss / Trap / Debug）强制重生用
+    /// </summary>
     public void ForceRespawn()
     {
         if (!pv.IsMine) return;
@@ -117,5 +156,4 @@ public class FallRespawn : MonoBehaviour
 
         StartCoroutine(RespawnRoutine());
     }
-
 }

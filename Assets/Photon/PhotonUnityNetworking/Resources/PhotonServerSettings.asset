@@ -68,6 +68,7 @@ MonoBehaviour:
   - RPC_ApplyKnockback
   - RPC_ClearItem
   - RPC_Thunder
+  - RPC_ForceViolation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
