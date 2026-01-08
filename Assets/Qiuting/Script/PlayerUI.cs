@@ -73,14 +73,17 @@ public class PlayerUI : MonoBehaviour
         timerText.text = $"{minutes:0}:{seconds:00}";
     }
 
-    private IEnumerator DelayedRankingAndEnd()
-    {
-        // 延迟一帧或 0.2 秒确保所有玩家分数同步完成
-        yield return new WaitForSeconds(0.2f);
+
+
     public float GetCurrentTime()
     {
         return currentTime;
     }
+
+    private IEnumerator DelayedRankingAndEnd()
+    {
+        // 延迟一帧或 0.2 秒确保所有玩家分数同步完成
+        yield return new WaitForSeconds(0.2f);
 
         var rankingManager = FindObjectOfType<SceneRankingManager>();
         if (rankingManager != null)
@@ -93,5 +96,5 @@ public class PlayerUI : MonoBehaviour
         }
 
         GameOverManager.Instance.EndGame();
-    }
+    }   
 }
