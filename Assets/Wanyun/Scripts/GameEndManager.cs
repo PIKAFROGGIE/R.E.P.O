@@ -119,16 +119,7 @@ public class GameEndManager : MonoBehaviourPunCallbacks
         if (ui != null)
             ui.ShowGameOver();
 
-        void EndGame(PlayerUIManager ui)
-        {
-            if (gameEnded) return;
-            gameEnded = true;
-
-            if (ui != null)
-                ui.ShowGameOver();
-
-            GameOverManager.Instance.EndGame();
-        }
+        GameOverManager.Instance.EndGame();
     }
 
 
