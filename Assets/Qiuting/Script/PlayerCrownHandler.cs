@@ -4,10 +4,20 @@ public class PlayerCrownHandler : MonoBehaviour
 {
     private Crown crown;
 
-    // ===== 新增：计分相关（不新增脚本）=====
+    // ===== 计分相关 =====
     public int score = 0;
     private float scoreTimer = 0f;
     private bool isKing = false;
+
+    // ===== 距离检测 =====
+    public float pickUpDistance = 1.5f;
+    public float stealDistance = 1.5f;
+
+    // ===== 抢夺冷却 =====
+    // ===== 抢夺冷却（全局）=====
+    public float stealCooldown = 1.0f;
+    private static float stealCooldownTimer = 0f;
+
 
     private void Start()
     {
@@ -22,7 +32,22 @@ public class PlayerCrownHandler : MonoBehaviour
     {
         if (crown == null) return;
 
-        // 如果我是国王
+        // 冷却计时
+        if (stealCooldownTimer > 0f)
+        {
+            stealCooldownTimer -= Time.deltaTime;
+        }
+
+        HandleKingScore();
+        HandleCrownPickUp();
+        HandleCrownSteal();
+    }
+
+    // =========================
+    // 国王每秒加分
+    // =========================
+    private void HandleKingScore()
+    {
         if (crown.currentOwner == transform)
         {
             if (!isKing)
@@ -38,48 +63,58 @@ public class PlayerCrownHandler : MonoBehaviour
             {
                 score += 1;
                 scoreTimer = 0f;
-
                 Debug.Log($"{name} +1 score → Current score: {score}");
             }
         }
-        else
+        else if (isKing)
         {
-            if (isKing)
-            {
-                isKing = false;
-                scoreTimer = 0f;
-                Debug.Log($"{name} is no longer king.");
-            }
+            isKing = false;
+            scoreTimer = 0f;
+            Debug.Log($"{name} is no longer king.");
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    // =========================
+    // 捡地上皇冠
+    // =========================
+    private void HandleCrownPickUp()
     {
-        // 从地上捡皇冠
-        if (other.CompareTag("Crown") && crown.currentOwner == null)
+        if (crown.currentOwner != null) return;
+
+        float distance = Vector3.Distance(transform.position, crown.transform.position);
+
+        if (distance <= pickUpDistance)
         {
             crown.AttachToPlayer(transform);
+            stealCooldownTimer = stealCooldown;
             Debug.Log($"{name} picked up the crown from the ground.");
-            return;
-        }
-
-        if (!other.CompareTag("Player")) return;
-        if (other.transform == transform) return; // 避免自己
-
-        if (crown == null)
-        {
-            Debug.LogWarning("Crown is null!");
-            return;
-        }
-
-        string currentOwnerName = crown.currentOwner ? crown.currentOwner.name : "None";
-        Debug.Log($"{name} collided with {other.name}. Current crown owner: {currentOwnerName}");
-
-        // 抢皇冠
-        if (crown.currentOwner == other.transform && crown.currentOwner != transform)
-        {
-            crown.AttachToPlayer(transform);
-            Debug.Log($"{name} stole the crown from {other.name}!");
         }
     }
+
+    // =========================
+    // 抢皇冠（关键修复在这里）
+    // =========================
+    private void HandleCrownSteal()
+    {
+        // 全局冷却
+        if (stealCooldownTimer > 0f) return;
+
+        if (crown.currentOwner == null) return;
+        if (crown.currentOwner == transform) return; // 国王本人禁止抢
+
+        float distance = Vector3.Distance(
+            transform.position,
+            crown.currentOwner.position
+        );
+
+        if (distance <= stealDistance)
+        {
+            Debug.Log($"{name} stole the crown from {crown.currentOwner.name}");
+            crown.AttachToPlayer(transform);
+
+            // 🔒 全局锁
+            stealCooldownTimer = stealCooldown;
+        }
+    }
+
 }
