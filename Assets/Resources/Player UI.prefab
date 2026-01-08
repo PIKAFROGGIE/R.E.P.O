@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3107649297026673431}
   - component: {fileID: 8810423998312610439}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: winText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 5318846792455698604}
   - component: {fileID: 3076775771599242947}
   - component: {fileID: 909568010184359726}
+  - component: {fileID: 3592083637973573402}
   m_Layer: 5
   m_Name: Player UI
   m_TagString: Untagged
@@ -240,6 +241,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3592083637973573402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3371973813944403233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2805ab3e74873404982fd2f6f6ddc146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winText: {fileID: 8810423998312610439}
+  timeText: {fileID: 8620179269039302604}
+  winTextShowDuration: 3
 --- !u!1 &3783040627411170175
 GameObject:
   m_ObjectHideFlags: 0

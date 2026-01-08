@@ -1,4 +1,4 @@
-ï»¿using UnityEngine;
+using UnityEngine;
 using Photon.Pun;
 
 public enum ItemType
@@ -9,75 +9,54 @@ public enum ItemType
 
 public class PlayerItemHandler : MonoBehaviourPun
 {
-    [Header("Item State")]
     public ItemType currentItem = ItemType.None;
 
-    [Header("Item Models (On Player)")]
-    public GameObject thunderModel;
-
-    [Header("Item Skills")]
-    public ThunderSkill thunderSkill;
-
-    void Start()
-    {
-        UpdateItemModel();
-    }
+    [Header("Thunder")]
+    public ThunderItem thunderPrefab;
+    public Transform thunderSpawnPoint;
 
     void Update()
     {
         if (!photonView.IsMine) return;
 
-        // ğŸ‘‰ å³é”®ä½¿ç”¨é“å…·
-        if (currentItem != ItemType.None && Input.GetMouseButtonDown(1))
+        // ÓÒ¼üÊ¹ÓÃ
+        if (Input.GetMouseButtonDown(1))
         {
             UseItem();
         }
     }
 
-    // ======================
-    // æ‹¾å–é“å…·
-    // ======================
-    public void PickupItem(ItemType type)
+    public void PickupItem(ItemType item)
     {
         if (currentItem != ItemType.None) return;
-
-        photonView.RPC(nameof(RPC_PickupItem), RpcTarget.All, type);
+        currentItem = item;
     }
 
-    [PunRPC]
-    void RPC_PickupItem(ItemType type)
-    {
-        currentItem = type;
-        UpdateItemModel();
-    }
-
-    void UpdateItemModel()
-    {
-        if (thunderModel != null)
-            thunderModel.SetActive(currentItem == ItemType.Thunder);
-    }
-
-    // ======================
-    // ä½¿ç”¨é“å…·
-    // ======================
     void UseItem()
     {
+        if (currentItem == ItemType.None) return;
+
         switch (currentItem)
         {
             case ItemType.Thunder:
-                if (thunderSkill != null)
-                    thunderSkill.Activate();
+                photonView.RPC(nameof(RPC_UseThunder), RpcTarget.All);
                 break;
         }
 
-        // ä½¿ç”¨åæ¸…ç©º
-        photonView.RPC(nameof(RPC_ClearItem), RpcTarget.All);
+        currentItem = ItemType.None;
     }
 
     [PunRPC]
-    void RPC_ClearItem()
+    void RPC_UseThunder()
     {
-        currentItem = ItemType.None;
-        UpdateItemModel();
+        ThunderItem thunder = Instantiate(
+            thunderPrefab,
+            thunderSpawnPoint.position,
+            Quaternion.identity
+        );
+
+        // °Ñ¡°Ê¹ÓÃÕß ActorNumber¡±´«½øÈ¥
+        thunder.Activate(photonView.OwnerActorNr);
     }
 }
+
