@@ -119,13 +119,16 @@ public class GameEndManager : MonoBehaviourPunCallbacks
         if (ui != null)
             ui.ShowGameOver();
 
-        // 通知房间：当前关卡结束
-        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
-        props["CurrentScene"] = "";
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+        void EndGame(PlayerUIManager ui)
+        {
+            if (gameEnded) return;
+            gameEnded = true;
 
-        // 返回 LoadingScene
-        PhotonNetwork.LoadLevel("LoadingScene");
+            if (ui != null)
+                ui.ShowGameOver();
+
+            GameOverManager.Instance.EndGame();
+        }
     }
 
 
