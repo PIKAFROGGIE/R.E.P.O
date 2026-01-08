@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: 406274ce148864e42a77567e30ef70d9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Yunyi.unity
     guid: 414816cb5bd24aa4da7683092241ed60
   - enabled: 1
     path: Assets/Scenes/Wanyun.unity
     guid: 19ac0465bbecba64881f9401854812a5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Qiuting.unity
     guid: fd615f0f25af96841a27663e8424dbca
   m_configObjects: {}
