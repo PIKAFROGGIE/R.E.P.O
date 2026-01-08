@@ -77,6 +77,10 @@ public class PlayerUI : MonoBehaviour
     {
         // 延迟一帧或 0.2 秒确保所有玩家分数同步完成
         yield return new WaitForSeconds(0.2f);
+    public float GetCurrentTime()
+    {
+        return currentTime;
+    }
 
         var rankingManager = FindObjectOfType<SceneRankingManager>();
         if (rankingManager != null)

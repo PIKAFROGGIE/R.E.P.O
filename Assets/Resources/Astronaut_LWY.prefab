@@ -387,12 +387,10 @@ GameObject:
   - component: {fileID: 7749787020969453577}
   - component: {fileID: 8703494296104695465}
   - component: {fileID: 8234253907284991340}
-  - component: {fileID: 1066906470972003974}
   - component: {fileID: 563037959345786593}
   - component: {fileID: 297352180414029855}
   - component: {fileID: 833554939617483928}
   - component: {fileID: 2002640062271050040}
-  - component: {fileID: 3764535849002914731}
   - component: {fileID: 430527875002377028}
   - component: {fileID: 8761753972287542211}
   - component: {fileID: 6894000620027969238}
@@ -516,22 +514,6 @@ MonoBehaviour:
   punchStun: []
   fallDelay: 1
   floating: 1
---- !u!114 &1066906470972003974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686771815633203412}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c58191076b5d34482e3dcb3c36630a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BodyRenderer: {fileID: 0}
-  playerUIPrefab: {fileID: 3371973813944403233, guid: 58b3550e152f732449595638fddf6c8f,
-    type: 3}
-  FPSCamera: {fileID: 933522746433326265}
 --- !u!114 &563037959345786593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,26 +585,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounceStrength: 50
---- !u!114 &3764535849002914731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686771815633203412}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f58767402c8f1fd4884bc12b2a6de251, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 0
-  pickUpDistance: 1.5
-  stealDistance: 1.5
-  stealCooldown: 1
-  scoreTMP: {fileID: 0}
-  scoreBackground: {fileID: 0}
-  uiOffset: {x: 0, y: 2, z: 0}
-  targetCamera: {fileID: 0}
 --- !u!114 &430527875002377028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,8 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d8f720132938464086b239918c64381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerUIPrefab: {fileID: 3371973813944403233, guid: 58b3550e152f732449595638fddf6c8f,
-    type: 3}
+  playerUIPrefab: {fileID: 0}
   vcam: {fileID: 4727428542918961421}
   followTarget: {fileID: 389288971156844421}
   lookAtTarget: {fileID: 389288971156844421}

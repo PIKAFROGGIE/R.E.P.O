@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using System.Collections;
 
 public class FinishLineTrigger : MonoBehaviour
 {
+    [Header("Local Barrier")]
+    public GameObject localBarrier;
+    public float barrierDelay = 3f;
+
     private bool triggered = false;
+
+    private void Start()
+    {
+        if (localBarrier != null)
+            localBarrier.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,8 +26,19 @@ public class FinishLineTrigger : MonoBehaviour
 
         triggered = true;
 
-        GameEndManager.Instance.OnPlayerReachedFinish();
+        PlayerUIManager.Instance.ShowWinText();
 
-        Debug.Log("Local player reached the finish line!");
+        if (localBarrier != null)
+            StartCoroutine(EnableBarrierAfterDelay());
+
+        Debug.Log("Local player reached the finish line");
+    }
+
+    IEnumerator EnableBarrierAfterDelay()
+    {
+        yield return new WaitForSeconds(barrierDelay);
+
+        if (localBarrier != null)
+            localBarrier.SetActive(true);
     }
 }
