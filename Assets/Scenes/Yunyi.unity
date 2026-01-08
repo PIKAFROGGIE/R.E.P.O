@@ -2372,6 +2372,7 @@ MonoBehaviour:
   - {fileID: 1157212161}
   startBarriers:
   - {fileID: 527234094}
+  enableBoss: 1
 --- !u!4 &938519715
 Transform:
   m_ObjectHideFlags: 0
@@ -6447,6 +6448,7 @@ MonoBehaviour:
   comboInputWindow: 0.5
   totalComboCount: 2
   punchStun: []
+  fallDelay: 1
 --- !u!4 &2653561714709714689
 Transform:
   m_ObjectHideFlags: 0
@@ -7832,8 +7834,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1316920153}
-  fallRespawn: {fileID: 0}
-  controller: {fileID: 0}
+  fallRespawn: {fileID: 7289375600316190909}
+  controller: {fileID: 5210313430592754707}
   moveThreshold: 0.02
   rotationThreshold: 2
 --- !u!114 &7289375600316190909
