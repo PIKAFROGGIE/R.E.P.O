@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
+using ExitGames.Client.Photon;
+using Photon.Pun;
 
-public class PlayerCrownHandler : MonoBehaviour
+public class PlayerCrownHandler : MonoBehaviourPun
 {
     private Crown crown;
 
@@ -19,12 +21,11 @@ public class PlayerCrownHandler : MonoBehaviour
     private static float stealCooldownTimer = 0f;
 
     // ===== TMP 3D 分数 =====
-    public TextMeshPro scoreTMP;          // 在 Inspector 绑定 TMP 3D
-    public Transform scoreBackground;     // 在 Inspector 绑定 Quad / Image 背景
-    public Vector3 uiOffset = new Vector3(0, 2f, 0);
+    public TextMeshPro scoreTMP;
+    public Transform scoreBackground;
 
     [Header("指定分数面向的摄像机")]
-    public Camera targetCamera;           // 可以在 Inspector 指定摄像机
+    public Camera targetCamera;
 
     private void Start()
     {
@@ -37,13 +38,16 @@ public class PlayerCrownHandler : MonoBehaviour
 
         if (targetCamera == null)
             Debug.LogWarning("Target Camera not assigned. Defaulting to Camera.main");
+
+        // 初始化分数并同步到自己的 Photon Player
+        score = 0;
+        SyncScoreToPhoton();
     }
 
     private void Update()
     {
         if (crown == null) return;
 
-        // 冷却计时
         if (stealCooldownTimer > 0f)
             stealCooldownTimer -= Time.deltaTime;
 
@@ -72,6 +76,9 @@ public class PlayerCrownHandler : MonoBehaviour
             {
                 score += 1;
                 scoreTimer = 0f;
+
+                SyncScoreToPhoton(); // ✅ 每秒同步自己的分数
+
                 Debug.Log($"{name} +1 score → Current score: {score}");
             }
         }
@@ -110,14 +117,12 @@ public class PlayerCrownHandler : MonoBehaviour
         }
     }
 
-    // ===== 刷新分数文本 =====
     private void UpdateScoreUI()
     {
         if (scoreTMP != null)
             scoreTMP.text = score.ToString();
     }
 
-    // ===== 分数和背景朝向指定摄像机 =====
     private void UpdateUIRotation()
     {
         Camera cam = targetCamera != null ? targetCamera : Camera.main;
@@ -127,5 +132,21 @@ public class PlayerCrownHandler : MonoBehaviour
             if (scoreBackground != null)
                 scoreBackground.forward = cam.transform.forward;
         }
+    }
+
+    public void SyncScoreToPhoton()
+    {
+        if (photonView == null) return;
+
+        Hashtable props = new Hashtable
+        {
+            { "score", score }
+        };
+
+        // ⚡ 关键改动：使用 photonView.Owner 而不是 LocalPlayer
+        photonView.Owner.SetCustomProperties(props);
+
+        // TagObject 绑定到自己的 GameObject
+        photonView.Owner.TagObject = this.gameObject;
     }
 }
