@@ -68,6 +68,21 @@ public class PlayerMovementCheck : MonoBehaviourPun
         }
     }
 
+    public void ForceViolation()
+    {
+        if (boss != null && boss.isDetecting)
+        {
+            TriggerRespawn(); // 或 Die / Eliminate
+        }
+    }
+
+    [PunRPC]
+    public void RPC_ForceViolation()
+    {
+        if (!photonView.IsMine) return; // 只处理自己的违规
+        ForceViolation();
+    }
+
     void TriggerRespawn()
     {
         if (fallRespawn != null)

@@ -13,7 +13,15 @@ public class ItemPickup : MonoBehaviourPun
         if (handler != null && pv != null && pv.IsMine)
         {
             handler.PickupItem(itemType);
-            PhotonNetwork.Destroy(gameObject); // 所有人消失
+
+            // 所有人看到消失
+            photonView.RPC(nameof(RPC_Disable), RpcTarget.All);
         }
+    }
+
+    [PunRPC]
+    void RPC_Disable()
+    {
+        gameObject.SetActive(false);
     }
 }

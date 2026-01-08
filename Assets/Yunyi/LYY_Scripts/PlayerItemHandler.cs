@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Photon.Pun;
 
 public enum ItemType
@@ -15,22 +15,31 @@ public class PlayerItemHandler : MonoBehaviourPun
     [Header("Item Models (On Player)")]
     public GameObject thunderModel;
 
+    [Header("Item Skills")]
+    public ThunderSkill thunderSkill;
+
+    void Start()
+    {
+        UpdateItemModel();
+    }
+
     void Update()
     {
         if (!photonView.IsMine) return;
 
-        if (currentItem != ItemType.None && Input.GetMouseButtonDown(0))
+        // ğŸ‘‰ å³é”®ä½¿ç”¨é“å…·
+        if (currentItem != ItemType.None && Input.GetMouseButtonDown(1))
         {
             UseItem();
         }
     }
 
     // ======================
-    // ¼ñµÀ¾ß
+    // æ‹¾å–é“å…·
     // ======================
     public void PickupItem(ItemType type)
     {
-        if (currentItem != ItemType.None) return; // ÒÑÓĞµÀ¾ß£¬²»ÄÜÔÙ¼ñ
+        if (currentItem != ItemType.None) return;
 
         photonView.RPC(nameof(RPC_PickupItem), RpcTarget.All, type);
     }
@@ -44,27 +53,30 @@ public class PlayerItemHandler : MonoBehaviourPun
 
     void UpdateItemModel()
     {
-        thunderModel.SetActive(currentItem == ItemType.Thunder);
+        if (thunderModel != null)
+            thunderModel.SetActive(currentItem == ItemType.Thunder);
     }
 
     // ======================
-    // Ê¹ÓÃµÀ¾ß
+    // ä½¿ç”¨é“å…·
     // ======================
     void UseItem()
     {
-        photonView.RPC(nameof(RPC_UseItem), RpcTarget.All, currentItem);
-    }
-
-    [PunRPC]
-    void RPC_UseItem(ItemType type)
-    {
-        switch (type)
+        switch (currentItem)
         {
             case ItemType.Thunder:
-                Debug.Log("Use Thunder");
+                if (thunderSkill != null)
+                    thunderSkill.Activate();
                 break;
         }
 
+        // ä½¿ç”¨åæ¸…ç©º
+        photonView.RPC(nameof(RPC_ClearItem), RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_ClearItem()
+    {
         currentItem = ItemType.None;
         UpdateItemModel();
     }
