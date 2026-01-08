@@ -117,6 +117,14 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
         if (ui != null)
             ui.ShowGameOver();
+
+        // 通知房间：当前关卡结束
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
+        props["CurrentScene"] = "";
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
+        // 返回 LoadingScene
+        PhotonNetwork.LoadLevel("LoadingScene");
     }
 
 
