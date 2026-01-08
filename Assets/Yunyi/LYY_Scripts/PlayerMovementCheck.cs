@@ -28,6 +28,17 @@ public class PlayerMovementCheck : MonoBehaviourPun
             return;
         }
 
+        // ⭐ 关键：运行时查找 BossController
+        if (boss == null)
+        {
+            boss = FindObjectOfType<BossController>();
+
+            if (boss == null)
+            {
+                Debug.LogError("BossController not found in scene!");
+            }
+        }
+
         lastPosition = transform.position;
         lastRotation = transform.rotation;
     }

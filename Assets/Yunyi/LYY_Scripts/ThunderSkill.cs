@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using Unity.Burst.CompilerServices;
 
 public class ThunderSkill : MonoBehaviourPun
 {
@@ -24,6 +23,19 @@ public class ThunderSkill : MonoBehaviourPun
     {
         Debug.Log("⚡ Thunder triggered");
 
+        // ========= 1. 生成光罩 =========
+        if (thunderVFXPrefab != null)
+        {
+            GameObject vfx = Instantiate(thunderVFXPrefab, center, Quaternion.identity);
+
+            // ⭐ 核心：用同一个 radius 控制特效大小
+            float diameter = radius * 2f;
+            vfx.transform.localScale = new Vector3(diameter, diameter, diameter);
+
+            Destroy(vfx, vfxDuration);
+        }
+
+        // ========= 2. 震飞逻辑 =========
         Collider[] hits = Physics.OverlapSphere(center, radius);
 
         foreach (Collider hit in hits)
@@ -32,9 +44,8 @@ public class ThunderSkill : MonoBehaviourPun
             PlayerKnockback1 knockback = hit.GetComponentInParent<PlayerKnockback1>();
 
             if (targetPV == null || knockback == null) continue;
-            if (targetPV == photonView) continue; // 不影响自己
+            if (targetPV == photonView) continue;
 
-            // ===== 1. 震飞（你原本就 OK 的逻辑）=====
             Vector3 dir = targetPV.transform.position - center;
 
             targetPV.RPC(
@@ -43,21 +54,8 @@ public class ThunderSkill : MonoBehaviourPun
                 dir,
                 force
             );
-
-            // ===== 2. 规则级违规（只针对被击中的玩家）=====
-            PlayerMovementCheck movementCheck =
-                targetPV.GetComponent<PlayerMovementCheck>();
-
-            if (movementCheck != null)
-            {
-                targetPV.RPC(
-                    nameof(PlayerMovementCheck.RPC_ForceViolation),
-                    RpcTarget.All
-                );
-            }
         }
     }
-
 
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()
