@@ -70,6 +70,12 @@ MonoBehaviour:
   - RPC_Thunder
   - RPC_ForceViolation
   - RPC_RequestEndGame
+  - RPC_SyncScores
+  - RPC_StartEndPhase
+  - RPC_RequestStartEndPhase
+  - RPC_RequestStartCountdown
+  - RPC_StartCountdown
+  - RPC_StartGlobalTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

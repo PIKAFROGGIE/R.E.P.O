@@ -1,25 +1,19 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using System.Collections;
 
 public class GameEndManager : MonoBehaviourPunCallbacks
 {
     public static GameEndManager Instance;
 
     [Header("Mode")]
-    [Tooltip("勾选：Photon 网络模式；不勾选：本地模式")]
-    public bool usePhotonSync = false;
+    public bool usePhotonSync = true;
 
-    [Header("End Countdown Settings")]
-    public float endCountdownDuration = 20f;
-
-    [Header("Local Win Barrier (Local Only)")]
-    public GameObject localWinBarrier;
-    public float localBarrierDelay = 5f;
+    [Header("Global Timer")]
+    public float totalGameTime = 120f; // 2 分钟
 
     private double endTime;
-    private bool countdownStarted = false;
-    private bool gameEnded = false;
+    private bool timerStarted;
+    private bool gameEnded;
 
     void Awake()
     {
@@ -29,109 +23,47 @@ public class GameEndManager : MonoBehaviourPunCallbacks
             return;
         }
         Instance = this;
+    }
 
-        if (localWinBarrier != null)
-            localWinBarrier.SetActive(false);
+    void Start()
+    {
+        if (!usePhotonSync)
+        {
+            endTime = Time.time + totalGameTime;
+            timerStarted = true;
+            return;
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            endTime = PhotonNetwork.Time + totalGameTime;
+            photonView.RPC(nameof(RPC_StartGlobalTimer), RpcTarget.All, endTime);
+        }
     }
 
     void Update()
     {
-        if (!countdownStarted || gameEnded) return;
+        if (!timerStarted || gameEnded) return;
 
-        double currentTime = usePhotonSync ? PhotonNetwork.Time : Time.time;
-        double timeLeft = endTime - currentTime;
-
-        PlayerUIManager ui = FindObjectOfType<PlayerUIManager>(true);
-        if (ui == null) return;
+        double now = usePhotonSync ? PhotonNetwork.Time : Time.time;
+        double timeLeft = endTime - now;
 
         if (timeLeft > 0)
-            ui.UpdateCountdown(Mathf.CeilToInt((float)timeLeft));
-        else
-            EndGame(ui);
-    }
-
-
-
-    public void OnPlayerReachedFinish()
-    {
-        if (countdownStarted) return;
-
-        AudioManager.Instance.PlaySFX(SFXType.Win);
-
-        PlayerUIManager ui = FindObjectOfType<PlayerUIManager>(true);
-        if (ui != null)
-            ui.ShowWinText();
-        else
-            Debug.LogWarning("PlayerUIManager not found in scene!");
-
-        EnableLocalWinBarrier();
-
-        if (!usePhotonSync)
         {
-            endTime = Time.time + endCountdownDuration;
-            countdownStarted = true;
-            return;
+            PlayerUIManager.Instance.UpdateCountdown(Mathf.CeilToInt((float)timeLeft));
         }
-
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        endTime = PhotonNetwork.Time + endCountdownDuration;
-        photonView.RPC(nameof(RPC_StartEndCountdown), RpcTarget.All, endTime);
+        else
+        {
+            gameEnded = true;
+            PlayerUIManager.Instance.ShowGameOver();
+            GameOverManager.Instance.EndGame();
+        }
     }
-
 
     [PunRPC]
-    void RPC_StartEndCountdown(double syncedEndTime)
+    void RPC_StartGlobalTimer(double syncedEndTime)
     {
         endTime = syncedEndTime;
-        countdownStarted = true;
-    }
-
-    // =========================
-    // Local Barrier
-    // =========================
-
-    void EnableLocalWinBarrier()
-    {
-        if (localWinBarrier == null) return;
-
-        StopCoroutine(nameof(EnableLocalBarrierAfterDelay));
-        StartCoroutine(EnableLocalBarrierAfterDelay());
-    }
-
-    IEnumerator EnableLocalBarrierAfterDelay()
-    {
-        yield return new WaitForSeconds(localBarrierDelay);
-
-        if (localWinBarrier != null)
-            localWinBarrier.SetActive(true);
-    }
-
-    // =========================
-    // End Game
-    // =========================
-
-    void EndGame(PlayerUIManager ui)
-    {
-        if (gameEnded) return;
-        gameEnded = true;
-
-        if (ui != null)
-            ui.ShowGameOver();
-
-        GameOverManager.Instance.EndGame();
-    }
-
-
-
-    PlayerUIManager GetLocalPlayerUI()
-    {
-        if (PhotonNetwork.LocalPlayer?.TagObject == null)
-            return null;
-
-        GameObject player = PhotonNetwork.LocalPlayer.TagObject as GameObject;
-        if (player == null) return null;
-
-        return player.GetComponent<PlayerUIManager>();
+        timerStarted = true;
     }
 }

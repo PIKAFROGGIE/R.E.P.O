@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchVelocity: 40
-  launchDuration: 1
+  launchDuration: 2
 --- !u!1001 &4096786959501167643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 01a20545ff0070f46aab8ea59240050a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.430237
+      value: 11.765137
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01a20545ff0070f46aab8ea59240050a,
         type: 3}
