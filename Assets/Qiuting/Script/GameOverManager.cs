@@ -1,4 +1,4 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ public class GameOverManager : MonoBehaviourPun
     }
 
     // ===============================
-    // ËùÓĞ¹Ø¿¨Ö»µ÷ÓÃÕâ¸ö
+    // æ‰€æœ‰å…³å¡åªè°ƒç”¨è¿™ä¸ª
     // ===============================
     public void EndGame()
     {
@@ -36,10 +36,10 @@ public class GameOverManager : MonoBehaviourPun
         MasterEndGame();
     }
 
-    // ÕæÕı½áÊøÓÎÏ·£¨Ö»ÔÚ Master£©
+    // çœŸæ­£ç»“æŸæ¸¸æˆï¼ˆåªåœ¨ Masterï¼‰
     void MasterEndGame()
     {
-        Debug.Log("Game Over ¡ú LoadingScene");
+        Debug.Log("Game Over â†’ LoadingScene");
 
         Hashtable props = new Hashtable
         {

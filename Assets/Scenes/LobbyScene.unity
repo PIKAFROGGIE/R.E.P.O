@@ -890,9 +890,11 @@ MonoBehaviour:
   hotkey1: 49
   hotkey2: 50
   hotkey3: 51
+  hotkey4: 52
   targetSceneName1: Yunyi
   targetSceneName2: Wanyun
   targetSceneName3: Qiuting
+  targetSceneName4: Bryan
 --- !u!1 &274552716
 GameObject:
   m_ObjectHideFlags: 0
