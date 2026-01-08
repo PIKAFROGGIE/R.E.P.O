@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
 
     public AudioSource walking, running, jumping;
-    public bool canWalk = true, canRun = true, canJump = true, stopSound = false, isPause = false;
+    public bool canWalk = true, canRun = true, canJump = true, stopSound = false, isPause = false, cross = false;
 
     Coroutine attackCheckRoutine;
 
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private bool inputBuffered = false;
 
     public float fallDelay = 0.5f;
+    public bool floating = true;
     float airTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -71,6 +73,7 @@ public class PlayerController : MonoBehaviour
         if (CC.isGrounded)
         {
             airTimer = 0f;
+            floating = false;
             anim.SetBool("IsGrounded", true);
         }
         else
@@ -81,10 +84,12 @@ public class PlayerController : MonoBehaviour
 
             if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Jumping"))
             {
-                if (airTimer >= fallDelay)
+                if (!isAttacking && airTimer >= fallDelay)
                 {
+                    floating = true;
                     anim.CrossFade("Falling", 0.15f);
                     anim.CrossFade("Falling", 0.15f, upperBodyLayer);
+                    cross = false;
                 }
             }
         }
@@ -138,10 +143,11 @@ public class PlayerController : MonoBehaviour
             if (!canJump)
             {
                 canJump = true;
-                if (!isAttacking)
+                if (!isAttacking && !cross)
                 {
                     anim.CrossFade("MovementTree", 0.15f);
                     anim.CrossFade("MovementTree", 0.15f, upperBodyLayer);
+                    cross = true;
                 }
             }
             moveInput.y = 0f;
@@ -153,6 +159,7 @@ public class PlayerController : MonoBehaviour
                 moveInput.y = jumpForce;
                 anim.CrossFade("Jumping", 0.1f);
                 anim.CrossFade("Jumping", 0.1f, upperBodyLayer);
+                cross = false;
             }
         }
 
@@ -268,10 +275,17 @@ public class PlayerController : MonoBehaviour
         }
 
         comboIndex = 0;
+        comboIndex = 0;
+
         if (CC.isGrounded)
         {
             anim.CrossFade("MovementTree", 0.15f);
             anim.CrossFade("MovementTree", 0.15f, upperBodyLayer);
+        }
+        else if(floating)
+        {
+            anim.CrossFade("Falling", 0.1f);
+            anim.CrossFade("Falling", 0.1f, upperBodyLayer);
         }
         if (CC != null)
             CC.enabled = true;
