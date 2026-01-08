@@ -67,7 +67,10 @@ public class PlayerUI : MonoBehaviour
         timerText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
     }
 
-    
+    public float GetCurrentTime()
+    {
+        return currentTime;
+    }
 
 
 }
