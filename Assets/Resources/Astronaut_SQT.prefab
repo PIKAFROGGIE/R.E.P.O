@@ -112,7 +112,7 @@ MonoBehaviour:
   moveSpeed: 12
   sprintSpeed: 15
   gravityForce: 2
-  jumpForce: 6
+  jumpForce: 15
   mouseSensitivity: 2
   CC: {fileID: 4908475319481528930}
   anim: {fileID: 8929089647687400451}

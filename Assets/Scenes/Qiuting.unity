@@ -3555,7 +3555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &117239181
 GameObject:
@@ -7163,7 +7163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &219674659
 GameObject:
@@ -7511,7 +7511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &230143658
 GameObject:
@@ -9768,7 +9768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &290366515
 GameObject:
@@ -12582,7 +12582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &348979823
 GameObject:
@@ -19246,7 +19246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &568534345
 GameObject:
@@ -21951,7 +21951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1001 &631078471
 PrefabInstance:
@@ -23194,7 +23194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &673951565
 GameObject:
@@ -24915,7 +24915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &747718248
 GameObject:
@@ -25264,7 +25264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1001 &775052164
 PrefabInstance:
@@ -25473,7 +25473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &778333949
 GameObject:
@@ -29325,7 +29325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!4 &880656173 stripped
 Transform:
@@ -31093,7 +31093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &940149602
 GameObject:
@@ -31445,7 +31445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &948368706
 GameObject:
@@ -32533,7 +32533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &975626842
 GameObject:
@@ -36515,7 +36515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1102992420
 GameObject:
@@ -39670,7 +39670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1170482223
 GameObject:
@@ -40231,7 +40231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1193111460
 GameObject:
@@ -40768,7 +40768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1204399138
 GameObject:
@@ -43218,7 +43218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1292729657
 GameObject:
@@ -45635,7 +45635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1365566088
 GameObject:
@@ -46268,7 +46268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1389323152
 GameObject:
@@ -47629,7 +47629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1420631667
 GameObject:
@@ -55528,7 +55528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1665521651
 GameObject:
@@ -58840,7 +58840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1761623602
 GameObject:
@@ -61010,7 +61010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1809540921
 GameObject:
@@ -62404,7 +62404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1836399287
 GameObject:
@@ -63112,7 +63112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1852051119
 GameObject:
@@ -64297,7 +64297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1879510501
 GameObject:
@@ -65138,7 +65138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1895703261
 GameObject:
@@ -66042,7 +66042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1909826182
 GameObject:
@@ -67454,7 +67454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1939183628
 GameObject:
@@ -68152,7 +68152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &1964478194
 GameObject:
@@ -72123,7 +72123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &2108418625 stripped
 GameObject:
@@ -72149,7 +72149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &2109911691
 GameObject:
@@ -72394,7 +72394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1001 &2112403918
 PrefabInstance:
@@ -73080,7 +73080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &2126057878
 GameObject:
@@ -91824,7 +91824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bdfe0647ea7f4459a28ceebc1845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchVelocity: 20
+  launchVelocity: 25
   launchDuration: 1
 --- !u!1 &6265388225566097695
 GameObject:
