@@ -77,6 +77,7 @@ MonoBehaviour:
   - RPC_RequestStartCountdown
   - RPC_StartCountdown
   - RPC_StartGlobalTimer
+  - RPC_PlayerReachedFinish
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

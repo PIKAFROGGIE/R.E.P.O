@@ -32,6 +32,13 @@ public class FinishLineTrigger : MonoBehaviour
             StartCoroutine(EnableBarrierAfterDelay());
 
         Debug.Log("Local player reached the finish line");
+
+        RaceRankingManager.Instance.photonView.RPC(
+    nameof(RaceRankingManager.RPC_PlayerReachedFinish),
+    RpcTarget.MasterClient,
+    PhotonNetwork.LocalPlayer
+);
+
     }
 
     IEnumerator EnableBarrierAfterDelay()
