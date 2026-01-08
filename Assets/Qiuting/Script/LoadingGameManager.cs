@@ -31,16 +31,26 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
 
     private const string USED_SCENES_KEY = "UsedScenes";
     private const string CURRENT_SCENE_KEY = "CurrentScene";
-
     private const int TOTAL_ROUNDS = 3; // 玩三轮
 
     void Start()
     {
-        StartCoroutine(StartGameSequence());
+        // 开启自动场景同步（Photon 会自动让客户端加载 Master Client 的场景）
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(StartGameSequence());
+        }
+        else
+        {
+            // 客户端等待 Master Client 设置 CURRENT_SCENE_KEY
+            StartCoroutine(WaitForSceneSelection());
+        }
     }
 
     // ===============================
-    // 主流程协程
+    // Master Client 主流程协程
     // ===============================
     IEnumerator StartGameSequence()
     {
@@ -53,33 +63,53 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
                 yield break;
             }
 
+            // 显示 UI
             ShowSceneInfo(selectedScene);
 
-            yield return new WaitForSeconds(3f); // 等待3秒
+            // 等待 3 秒显示 loading 信息
+            yield return new WaitForSeconds(3f);
 
+            // PhotonNetwork.LoadLevel 会同步给所有客户端
             PhotonNetwork.LoadLevel(selectedScene);
 
-            // 等待关卡结束并返回 LoadingScene
+            // 等待关卡结束并返回 LoadingScene（通过 CustomProperties 判断）
             yield return new WaitUntil(() =>
             {
-                if (!PhotonNetwork.InRoom) return true; // 已退出房间也视为结束
+                if (!PhotonNetwork.InRoom) return true;
                 if (!PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY)) return true;
                 string current = PhotonNetwork.CurrentRoom.CustomProperties[CURRENT_SCENE_KEY] as string;
                 return current != selectedScene;
             });
-
         }
 
-        // 三轮结束
         Debug.Log("三轮游戏结束，退出游戏");
         // Application.Quit(); // 或返回主菜单
     }
 
     // ===============================
-    // 随机选择关卡并更新已用关卡
+    // 客户端等待 Master Client 设置关卡
+    // ===============================
+    IEnumerator WaitForSceneSelection()
+    {
+        while (true)
+        {
+            if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY))
+            {
+                string sceneName = PhotonNetwork.CurrentRoom.CustomProperties[CURRENT_SCENE_KEY] as string;
+                ShowSceneInfo(sceneName);
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    // ===============================
+    // 随机选择关卡（仅 Master Client）
     // ===============================
     string PickRandomScene()
     {
+        if (!PhotonNetwork.IsMasterClient) return null; // 仅 Master Client 选场景
+
         List<string> usedScenes = GetUsedScenes();
 
         List<SceneInfo> available = new List<SceneInfo>();
@@ -95,18 +125,17 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
         SceneInfo selected = available[Random.Range(0, available.Count)];
         usedScenes.Add(selected.sceneName);
 
-        // 使用 Photon Hashtable 更新 CustomProperties
+        // 更新 Photon Room CustomProperties
         ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
         props[USED_SCENES_KEY] = string.Join(",", usedScenes);
         props[CURRENT_SCENE_KEY] = selected.sceneName;
-
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
         return selected.sceneName;
     }
 
     // ===============================
-    // 显示UI
+    // 显示 UI 信息
     // ===============================
     void ShowSceneInfo(string sceneName)
     {
@@ -135,5 +164,17 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
 
         string data = PhotonNetwork.CurrentRoom.CustomProperties[USED_SCENES_KEY] as string;
         return new List<string>(data.Split(','));
+    }
+
+    // ===============================
+    // 监听 Room CustomProperties 更新（保证客户端 UI 同步）
+    // ===============================
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey(CURRENT_SCENE_KEY))
+        {
+            string sceneName = propertiesThatChanged[CURRENT_SCENE_KEY] as string;
+            ShowSceneInfo(sceneName);
+        }
     }
 }
