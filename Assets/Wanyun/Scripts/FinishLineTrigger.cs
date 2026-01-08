@@ -10,16 +10,13 @@ public class FinishLineTrigger : MonoBehaviour
         if (triggered) return;
         if (!other.CompareTag("Player")) return;
 
-        PhotonView pv = other.GetComponent<PhotonView>();
-        if (pv != null && !pv.IsMine) return;
+        PhotonView pv = other.GetComponentInParent<PhotonView>();
+        if (pv == null || !pv.IsMine) return;
 
         triggered = true;
 
-        // ֪ͨ GameEndManager
         GameEndManager.Instance.OnPlayerReachedFinish();
-        GameEndManager.Instance.ShowWinText();
 
-        Debug.Log("Player reached the finish line!");
-
+        Debug.Log("Local player reached the finish line!");
     }
 }
