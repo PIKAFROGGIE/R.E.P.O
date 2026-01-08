@@ -1503,6 +1503,7 @@ MonoBehaviour:
   canJump: 1
   stopSound: 0
   isPause: 0
+  cross: 0
   layerIndex: 0
   longPressDuration: 1
   comboInputWindow: 0.5
@@ -1511,6 +1512,7 @@ MonoBehaviour:
   - {fileID: 5267766904926116754}
   - {fileID: 7160667492697686134}
   fallDelay: 1
+  floating: 1
 --- !u!114 &9145140722471372800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1523,8 +1525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c58191076b5d34482e3dcb3c36630a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FPS_Hands_ChildGameobjects: []
-  Soldier_ChildGameobjects: []
   BodyRenderer: {fileID: 0}
   playerUIPrefab: {fileID: 3371973813944403233, guid: 58b3550e152f732449595638fddf6c8f,
     type: 3}

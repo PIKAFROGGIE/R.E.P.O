@@ -19,6 +19,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
 
         if (photonView.IsMine)
@@ -35,9 +36,11 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         {
             foreach (Camera cam in playerController.GetComponentsInChildren<Camera>())
             {
-                cam.enabled = false;
+                if(cam != null)
+                    cam.gameObject.SetActive(false);
             }
             playerController.enabled = false;
+            animator.enabled = false;
         }
     }
 
