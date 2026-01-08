@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool isAttacking = false;
     private bool inputBuffered = false;
 
-    public float fallDelay = 1f;
+    public float fallDelay = 0.5f;
     float airTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
