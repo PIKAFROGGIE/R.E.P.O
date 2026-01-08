@@ -1014,16 +1014,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.0000000068192128
       objectReference: {fileID: 0}
-    - target: {fileID: 8866844096914773211, guid: 1d19f4796f3889042ad11d56258ddd0b,
-        type: 3}
-      propertyPath: m_Height
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8866844096914773211, guid: 1d19f4796f3889042ad11d56258ddd0b,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0.375
-      objectReference: {fileID: 0}
     - target: {fileID: 9145140722471372800, guid: 1d19f4796f3889042ad11d56258ddd0b,
         type: 3}
       propertyPath: FPSCamera
