@@ -10,6 +10,7 @@ public class BouncePad : MonoBehaviour
         PlayerKnockback player = other.GetComponentInParent<PlayerKnockback>();
         if (player == null) return;
 
+        AudioManager.Instance.PlaySFX(SFXType.Spring);
         // 弹开方向：从垫子中心往外
         Vector3 dir = (other.transform.position - transform.position);
         dir.y = 0f;

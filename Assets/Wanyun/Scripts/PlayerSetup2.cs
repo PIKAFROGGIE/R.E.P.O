@@ -1,20 +1,21 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using Cinemachine;
 
 public class PlayerSetup2 : MonoBehaviourPunCallbacks
 {
-    [Header("Model Parts")]
-    public GameObject[] FPS_Hands_ChildGameobjects;
-    public GameObject[] Soldier_ChildGameobjects;
-
-    [Header("UI / Camera")]
+    [Header("UI")]
     public GameObject playerUIPrefab;
-    public Camera FPSCamera;
+
+    [Header("Cinemachine (FreeLook)")]
+    public CinemachineVirtualCameraBase vcam;   // ✅ 兼容 FreeLook / VirtualCamera
+    public Transform followTarget;              // FreeLook 的 Follow
+    public Transform lookAtTarget;              // FreeLook 的 LookAt
 
     private PlayerController playerController;
-    private Animator animator;
     private CharacterController characterController;
     private Rigidbody rb;
+    private Animator animator;
 
     void Start()
     {
@@ -23,37 +24,23 @@ public class PlayerSetup2 : MonoBehaviourPunCallbacks
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
 
-        if (photonView.IsMine)
-        {
-            SetupLocalPlayer();
-        }
-        else
-        {
-            SetupRemotePlayer();
-        }
+        if (vcam == null)
+            vcam = GetComponentInChildren<CinemachineVirtualCameraBase>(true);
+
+        if (photonView.IsMine) SetupLocalPlayer();
+        else SetupRemotePlayer();
     }
 
-    // =========================
-    // 本地玩家
-    // =========================
     void SetupLocalPlayer()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        // 隐藏第三人称模型（只显示手）
-        foreach (GameObject go in Soldier_ChildGameobjects)
-            go.SetActive(false);
+        // 本地允许控制
+        if (playerController != null) playerController.enabled = true;
+        if (characterController != null) characterController.enabled = true;
 
-        // 启用本地控制
-        if (playerController != null)
-            playerController.enabled = true;
-
-        // 启用 CharacterController（本地才算物理）
-        if (characterController != null)
-            characterController.enabled = true;
-
-        // Rigidbody 只作为占位，防止双物理
+        // 防双物理
         if (rb != null)
         {
             rb.velocity = Vector3.zero;
@@ -62,38 +49,30 @@ public class PlayerSetup2 : MonoBehaviourPunCallbacks
             rb.useGravity = false;
         }
 
-        // Camera 只给本地玩家
-        if (FPSCamera != null)
-            FPSCamera.enabled = true;
-
-        // UI 只生成一次（本地）
-        if (playerUIPrefab != null)
-            Instantiate(playerUIPrefab);
-
-        // Animator 设置
-        if (animator != null)
+        // ✅ 本地启用 FreeLook（提高优先级）
+        if (vcam != null)
         {
-            animator.applyRootMotion = false;
-            animator.SetBool("IsSoldier", false);
+            vcam.Priority = 20;
+            vcam.gameObject.SetActive(true);
+
+            // FreeLook 需要 Follow/LookAt（可拖，也可自动设）
+            if (vcam is CinemachineFreeLook freeLook)
+            {
+                if (followTarget != null) freeLook.Follow = followTarget;
+                if (lookAtTarget != null) freeLook.LookAt = lookAtTarget;
+            }
         }
+
+        if (playerUIPrefab != null) Instantiate(playerUIPrefab);
+
+        if (animator != null) animator.applyRootMotion = false;
     }
 
-    // =========================
-    // 远端玩家
-    // =========================
     void SetupRemotePlayer()
     {
-        // 显示第三人称模型
-        foreach (GameObject go in Soldier_ChildGameobjects)
-            go.SetActive(true);
-
-        // 禁用输入 & 控制
-        if (playerController != null)
-            playerController.enabled = false;
-
-        // ❌ 远端玩家不算物理
-        if (characterController != null)
-            characterController.enabled = false;
+        // 远端禁用控制
+        if (playerController != null) playerController.enabled = false;
+        if (characterController != null) characterController.enabled = false;
 
         if (rb != null)
         {
@@ -103,12 +82,13 @@ public class PlayerSetup2 : MonoBehaviourPunCallbacks
             rb.useGravity = false;
         }
 
-        // 关闭所有 Camera
-        foreach (Camera cam in GetComponentsInChildren<Camera>())
-            cam.enabled = false;
+        // ✅ 远端 FreeLook 必须失效（否则抢镜头）
+        if (vcam != null)
+        {
+            vcam.Priority = 0;
+            vcam.gameObject.SetActive(false);
+        }
 
-        // Animator 不允许写位移
-        if (animator != null)
-            animator.applyRootMotion = false;
+        if (animator != null) animator.applyRootMotion = false;
     }
 }

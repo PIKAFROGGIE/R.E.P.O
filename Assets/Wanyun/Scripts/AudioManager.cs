@@ -1,18 +1,22 @@
 using UnityEngine;
+using System.Collections.Generic;
+
+public enum SFXType { Count, Win, Spring, Hit }
+public enum UIAudioType { Win, Click }
+public enum BGMType { Menu, Race }
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [Header("Audio Sources")]
-    public AudioSource bgmSource;
     public AudioSource sfxSource;
     public AudioSource uiSource;
 
-    [Header("Volume")]
-    [Range(0f, 1f)] public float bgmVolume = 0.8f;
-    [Range(0f, 1f)] public float sfxVolume = 1f;
-    [Range(0f, 1f)] public float uiVolume = 1f;
+    public List<SFXEntry> sfxClips;
+    public List<UIEntry> uiClips;
+
+    Dictionary<SFXType, AudioClip> sfxDict;
+    Dictionary<UIAudioType, AudioClip> uiDict;
 
     void Awake()
     {
@@ -21,49 +25,39 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        ApplyVolume();
+        sfxDict = new Dictionary<SFXType, AudioClip>();
+        uiDict = new Dictionary<UIAudioType, AudioClip>();
+
+        foreach (var e in sfxClips) sfxDict[e.type] = e.clip;
+        foreach (var e in uiClips) uiDict[e.type] = e.clip;
     }
 
-    void ApplyVolume()
+    public void PlaySFX(SFXType type)
     {
-        if (bgmSource) bgmSource.volume = bgmVolume;
-        if (sfxSource) sfxSource.volume = sfxVolume;
-        if (uiSource) uiSource.volume = uiVolume;
+        if (sfxDict.ContainsKey(type))
+            sfxSource.PlayOneShot(sfxDict[type]);
     }
 
-    public void PlayBGM(AudioClip clip)
+    public void PlayUI(UIAudioType type)
     {
-        if (clip == null || bgmSource == null) return;
-
-        if (bgmSource.clip == clip && bgmSource.isPlaying)
-            return;
-
-        bgmSource.clip = clip;
-        bgmSource.loop = true;
-        bgmSource.Play();
+        if (uiDict.ContainsKey(type))
+            uiSource.PlayOneShot(uiDict[type]);
     }
+}
 
-    public void StopBGM()
-    {
-        if (bgmSource)
-            bgmSource.Stop();
-    }
+[System.Serializable]
+public class SFXEntry
+{
+    public SFXType type;
+    public AudioClip clip;
+}
 
-    public void PlaySFX(AudioClip clip)
-    {
-        if (clip == null || sfxSource == null) return;
-
-        sfxSource.PlayOneShot(clip, sfxVolume);
-    }
-
-    public void PlayUI(AudioClip clip)
-    {
-        if (clip == null || uiSource == null) return;
-
-        uiSource.PlayOneShot(clip, uiVolume);
-    }
+[System.Serializable]
+public class UIEntry
+{
+    public UIAudioType type;
+    public AudioClip clip;
 }

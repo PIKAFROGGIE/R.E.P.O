@@ -35,5 +35,6 @@ public class JumpPad : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+        AudioManager.Instance.PlaySFX(SFXType.Spring);
     }
 }
