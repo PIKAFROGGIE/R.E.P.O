@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -8,15 +8,15 @@ using TMPro;
 using UnityEngine.UI;
 
 // ===============================
-// ¿ÉĞòÁĞ»¯Àà£¬ÓÃÓÚ Inspector ¹ÜÀíÃ¿¸ö¹Ø¿¨
+// å¯åºåˆ—åŒ–ç±»ï¼Œç”¨äº Inspector ç®¡ç†æ¯ä¸ªå…³å¡
 // ===============================
 [System.Serializable]
 public class SceneInfo
 {
-    public string sceneName;      // ³¡¾°ÎÄ¼şÃû£¬ÀıÈç "GameScene_A"
-    public string displayName;    // UIÉÏÏÔÊ¾µÄÃû×Ö£¬ÀıÈç "Map1 - Pulse Corridor"
-    public string rule;           // ³¡¾°¹æÔò£¬ÀıÈç "¹æÔò A£º´æ»îµ½×îºó"
-    public Sprite image;          // ¶ÔÓ¦Í¼Æ¬£¨Ö±½ÓÍÏÈëInspector£©
+    public string sceneName;      // åœºæ™¯æ–‡ä»¶åï¼Œä¾‹å¦‚ "GameScene_A"
+    public string displayName;    // UIä¸Šæ˜¾ç¤ºçš„åå­—ï¼Œä¾‹å¦‚ "Map1 - Pulse Corridor"
+    public string rule;           // åœºæ™¯è§„åˆ™ï¼Œä¾‹å¦‚ "è§„åˆ™ Aï¼šå­˜æ´»åˆ°æœ€å"
+    public Sprite image;          // å¯¹åº”å›¾ç‰‡ï¼ˆç›´æ¥æ‹–å…¥Inspectorï¼‰
 }
 
 public class LoadingGameManager : MonoBehaviourPunCallbacks
@@ -26,16 +26,16 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     public TMP_Text sceneRuleText;
     public Image sceneImage;
 
-    [Header("³¡¾°ÅäÖÃ")]
+    [Header("åœºæ™¯é…ç½®")]
     public List<SceneInfo> scenes = new List<SceneInfo>();
 
     private const string USED_SCENES_KEY = "UsedScenes";
     private const string CURRENT_SCENE_KEY = "CurrentScene";
-    private const int TOTAL_ROUNDS = 3; // ÍæÈıÂÖ
+    private const int TOTAL_ROUNDS = 3; // ç©ä¸‰è½®
 
     void Start()
     {
-        // ¿ªÆô×Ô¶¯³¡¾°Í¬²½£¨Photon »á×Ô¶¯ÈÃ¿Í»§¶Ë¼ÓÔØ Master Client µÄ³¡¾°£©
+        // å¼€å¯è‡ªåŠ¨åœºæ™¯åŒæ­¥ï¼ˆPhoton ä¼šè‡ªåŠ¨è®©å®¢æˆ·ç«¯åŠ è½½ Master Client çš„åœºæ™¯ï¼‰
         PhotonNetwork.AutomaticallySyncScene = true;
 
         if (PhotonNetwork.IsMasterClient)
@@ -44,13 +44,13 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            // ¿Í»§¶ËµÈ´ı Master Client ÉèÖÃ CURRENT_SCENE_KEY
+            // å®¢æˆ·ç«¯ç­‰å¾… Master Client è®¾ç½® CURRENT_SCENE_KEY
             StartCoroutine(WaitForSceneSelection());
         }
     }
 
     // ===============================
-    // Master Client Ö÷Á÷³ÌĞ­³Ì
+    // Master Client ä¸»æµç¨‹åç¨‹
     // ===============================
     IEnumerator StartGameSequence()
     {
@@ -58,36 +58,38 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
         {
             string selectedScene = PickRandomScene();
             if (string.IsNullOrEmpty(selectedScene))
-            {
-                Debug.LogWarning("Ã»ÓĞÊ£Óà¹Ø¿¨¿ÉÑ¡");
                 yield break;
-            }
 
-            // ÏÔÊ¾ UI
             ShowSceneInfo(selectedScene);
 
-            // µÈ´ı 3 ÃëÏÔÊ¾ loading ĞÅÏ¢
             yield return new WaitForSeconds(3f);
 
-            // PhotonNetwork.LoadLevel »áÍ¬²½¸øËùÓĞ¿Í»§¶Ë
+            // âœ… Master æ˜ç¡®æ ‡è®°â€œå½“å‰æ­£åœ¨ç©çš„å…³å¡â€
+            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+{
+    { CURRENT_SCENE_KEY, selectedScene }
+};
+
+            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
             PhotonNetwork.LoadLevel(selectedScene);
 
-            // µÈ´ı¹Ø¿¨½áÊø²¢·µ»Ø LoadingScene£¨Í¨¹ı CustomProperties ÅĞ¶Ï£©
+            // âœ… ç­‰å¾… GameOverManager æŠŠ CURRENT_SCENE_KEY æ¸…ç©º
             yield return new WaitUntil(() =>
             {
                 if (!PhotonNetwork.InRoom) return true;
-                if (!PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY)) return true;
+                if (!PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY)) return false;
+
                 string current = PhotonNetwork.CurrentRoom.CustomProperties[CURRENT_SCENE_KEY] as string;
-                return current != selectedScene;
+                return string.IsNullOrEmpty(current);
             });
         }
 
-        Debug.Log("ÈıÂÖÓÎÏ·½áÊø£¬ÍË³öÓÎÏ·");
-        // Application.Quit(); // »ò·µ»ØÖ÷²Ëµ¥
+        Debug.Log("ä¸‰è½®æ¸¸æˆç»“æŸ");
     }
 
     // ===============================
-    // ¿Í»§¶ËµÈ´ı Master Client ÉèÖÃ¹Ø¿¨
+    // å®¢æˆ·ç«¯ç­‰å¾… Master Client è®¾ç½®å…³å¡
     // ===============================
     IEnumerator WaitForSceneSelection()
     {
@@ -104,11 +106,11 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     }
 
     // ===============================
-    // Ëæ»úÑ¡Ôñ¹Ø¿¨£¨½ö Master Client£©
+    // éšæœºé€‰æ‹©å…³å¡ï¼ˆä»… Master Clientï¼‰
     // ===============================
     string PickRandomScene()
     {
-        if (!PhotonNetwork.IsMasterClient) return null; // ½ö Master Client Ñ¡³¡¾°
+        if (!PhotonNetwork.IsMasterClient) return null; // ä»… Master Client é€‰åœºæ™¯
 
         List<string> usedScenes = GetUsedScenes();
 
@@ -125,7 +127,7 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
         SceneInfo selected = available[Random.Range(0, available.Count)];
         usedScenes.Add(selected.sceneName);
 
-        // ¸üĞÂ Photon Room CustomProperties
+        // æ›´æ–° Photon Room CustomProperties
         ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
         props[USED_SCENES_KEY] = string.Join(",", usedScenes);
         props[CURRENT_SCENE_KEY] = selected.sceneName;
@@ -135,7 +137,7 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     }
 
     // ===============================
-    // ÏÔÊ¾ UI ĞÅÏ¢
+    // æ˜¾ç¤º UI ä¿¡æ¯
     // ===============================
     void ShowSceneInfo(string sceneName)
     {
@@ -155,7 +157,7 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     }
 
     // ===============================
-    // »ñÈ¡ÒÑÓÃ¹Ø¿¨
+    // è·å–å·²ç”¨å…³å¡
     // ===============================
     List<string> GetUsedScenes()
     {
@@ -167,7 +169,7 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     }
 
     // ===============================
-    // ¼àÌı Room CustomProperties ¸üĞÂ£¨±£Ö¤¿Í»§¶Ë UI Í¬²½£©
+    // ç›‘å¬ Room CustomProperties æ›´æ–°ï¼ˆä¿è¯å®¢æˆ·ç«¯ UI åŒæ­¥ï¼‰
     // ===============================
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {

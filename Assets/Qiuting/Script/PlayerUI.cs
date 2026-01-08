@@ -52,18 +52,9 @@ public class PlayerUI : MonoBehaviour
         }
         else
         {
-            currentTime = 0f;
-            if (timerText != null) timerText.text = "0:00";
+            hasEnded = true;
+            GameOverManager.Instance.EndGame();
 
-            hasEnded = true; // ✅ 防止重复触发
-
-            // 通知房间：当前关卡结束
-            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
-            props["CurrentScene"] = "";
-            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-
-            // 返回 LoadingScene
-            PhotonNetwork.LoadLevel("LoadingScene");
         }
     }
   

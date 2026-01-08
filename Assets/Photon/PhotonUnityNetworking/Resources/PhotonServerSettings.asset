@@ -69,6 +69,7 @@ MonoBehaviour:
   - RPC_ClearItem
   - RPC_Thunder
   - RPC_ForceViolation
+  - RPC_RequestEndGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
