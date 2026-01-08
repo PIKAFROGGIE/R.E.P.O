@@ -1697,7 +1697,7 @@ MonoBehaviour:
   checkRadius: 0.6
   maxTryCount: 15
   fadeCanvas: {fileID: 616825524}
-  fadeDuration: 0.5
+  fadeDuration: 0
   respawnDelay: 0.2
   invincibleAfterRespawn: 0.4
 --- !u!114 &407756158
