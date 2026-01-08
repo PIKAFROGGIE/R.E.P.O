@@ -1678,8 +1678,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentItem: 0
-  thunderModel: {fileID: 1716009272}
-  thunderSkill: {fileID: 407756166}
+  thunderPrefab: {fileID: 0}
+  thunderSpawnPoint: {fileID: 0}
 --- !u!114 &407756157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1768,8 +1768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c58191076b5d34482e3dcb3c36630a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FPS_Hands_ChildGameobjects: []
-  Soldier_ChildGameobjects: []
   BodyRenderer: {fileID: 0}
   playerUIPrefab: {fileID: 0}
   FPSCamera: {fileID: 0}
@@ -4629,6 +4627,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2834919670540172690, guid: 45c152303e3ce424c8e7a2f21bce067d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99983543
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834919670540172690, guid: 45c152303e3ce424c8e7a2f21bce067d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.018141404
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834919670540172690, guid: 45c152303e3ce424c8e7a2f21bce067d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000021814774
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834919670540172690, guid: 45c152303e3ce424c8e7a2f21bce067d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0000000068497537
+      objectReference: {fileID: 0}
     - target: {fileID: 4480363245140443057, guid: 45c152303e3ce424c8e7a2f21bce067d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9853,8 +9871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c58191076b5d34482e3dcb3c36630a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FPS_Hands_ChildGameobjects: []
-  Soldier_ChildGameobjects: []
   BodyRenderer: {fileID: 0}
   playerUIPrefab: {fileID: 0}
   FPSCamera: {fileID: 0}
@@ -11031,8 +11047,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentItem: 0
-  thunderModel: {fileID: 8151934735070883787}
-  thunderSkill: {fileID: 7289375600316190912}
+  thunderPrefab: {fileID: 0}
+  thunderSpawnPoint: {fileID: 0}
 --- !u!114 &7289375600316190911
 MonoBehaviour:
   m_ObjectHideFlags: 0
