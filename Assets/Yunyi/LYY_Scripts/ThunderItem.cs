@@ -39,7 +39,7 @@ public class ThunderItem : MonoBehaviour
                 PlayerKnockback kb = hit.GetComponent<PlayerKnockback>();
                 if (kb != null)
                 {
-                    kb.ApplyKnockback(dir * force);
+                    //kb.ApplyKnockback(dir * force);
                 }
             }
         }
