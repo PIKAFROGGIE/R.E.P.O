@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [Header("Combo Settings")]
     public float comboInputWindow = 0.5f;
     public int totalComboCount = 2;
+    int upperBodyLayer;
 
     [Header("References")]
     public DamageObject[] punchStun;
@@ -59,6 +60,7 @@ public class PlayerController : MonoBehaviour
         CC = GetComponent<CharacterController>();
         PV = GetComponent<PhotonView>();
         anim = GetComponentInChildren<Animator>();
+        upperBodyLayer = anim.GetLayerIndex("PunchingLayer");
     }
 
     // Update is called once per frame
@@ -82,6 +84,7 @@ public class PlayerController : MonoBehaviour
                 if (airTimer >= fallDelay)
                 {
                     anim.CrossFade("Falling", 0.15f);
+                    anim.CrossFade("Falling", 0.15f, upperBodyLayer);
                 }
             }
         }
@@ -138,6 +141,7 @@ public class PlayerController : MonoBehaviour
                 if (!isAttacking)
                 {
                     anim.CrossFade("MovementTree", 0.15f);
+                    anim.CrossFade("MovementTree", 0.15f, upperBodyLayer);
                 }
             }
             moveInput.y = 0f;
@@ -148,6 +152,7 @@ public class PlayerController : MonoBehaviour
                     jumping.Play();
                 moveInput.y = jumpForce;
                 anim.CrossFade("Jumping", 0.1f);
+                anim.CrossFade("Jumping", 0.1f, upperBodyLayer);
             }
         }
 
@@ -229,22 +234,23 @@ public class PlayerController : MonoBehaviour
 
         anim.SetInteger("comboIndex", comboIndex);
         anim.CrossFade(animName, 0.1f);
+        anim.CrossFade(animName, 0.1f, upperBodyLayer);
 
         if (CC != null)
             //CC.enabled = false;
 
-        while (!anim.GetCurrentAnimatorStateInfo(0).IsName(animName))
+        while (!anim.GetCurrentAnimatorStateInfo(0).IsName(animName) && !anim.GetCurrentAnimatorStateInfo(1).IsName(animName))
             yield return null;
 
         float hitStart = 0.25f;
         float hitEnd = 0.45f;
 
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < hitStart)
+        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < hitStart && anim.GetCurrentAnimatorStateInfo(1).normalizedTime < hitStart)
             yield return null;
 
         EnableDamage(comboIndex, true);
 
-        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < hitEnd)
+        while (anim.GetCurrentAnimatorStateInfo(0).normalizedTime < hitEnd && anim.GetCurrentAnimatorStateInfo(1).normalizedTime < hitEnd)
             yield return null;
 
         EnableDamage(comboIndex, false);
@@ -265,6 +271,7 @@ public class PlayerController : MonoBehaviour
         if (CC.isGrounded)
         {
             anim.CrossFade("MovementTree", 0.15f);
+            anim.CrossFade("MovementTree", 0.15f, upperBodyLayer);
         }
         if (CC != null)
             CC.enabled = true;
