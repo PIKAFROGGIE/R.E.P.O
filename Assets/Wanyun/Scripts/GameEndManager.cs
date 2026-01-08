@@ -56,7 +56,8 @@ public class GameEndManager : MonoBehaviourPunCallbacks
     {
         if (countdownStarted) return;
 
-        // ✅ 找到场景里的 PlayerUIManager（挂在 Canvas 上）
+        AudioManager.Instance.PlaySFX(SFXType.Win);
+
         PlayerUIManager ui = FindObjectOfType<PlayerUIManager>(true);
         if (ui != null)
             ui.ShowWinText();

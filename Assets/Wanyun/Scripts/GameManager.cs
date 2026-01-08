@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [Header("Countdown")]
     public float prepareTime = 5f;
+    private bool countSoundPlayed = false;
+
 
     [Header("UI - Countdown (Support 1 or Multiple)")]
     public List<CanvasGroup> countdownCanvases = new List<CanvasGroup>();
@@ -81,7 +83,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (timeLeft > 3)
             textToShow = "Ready?";
         else if (timeLeft > 2)
+        {
             textToShow = "3";
+
+            if (!countSoundPlayed)
+            {
+                AudioManager.Instance.PlaySFX(SFXType.Count);
+                countSoundPlayed = true;
+            }
+        }
         else if (timeLeft > 1)
             textToShow = "2";
         else if (timeLeft > 0)

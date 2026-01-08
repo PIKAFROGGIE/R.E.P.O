@@ -17,5 +17,6 @@ public class PendulumKnockback : MonoBehaviour
         dir.y = 0f; // 不要往地面推
 
         player.ApplyKnockback(dir, force, upwardForce);
+        AudioManager.Instance.PlaySFX(SFXType.Hit);
     }
 }
