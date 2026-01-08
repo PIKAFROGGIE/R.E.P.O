@@ -1522,7 +1522,7 @@ MonoBehaviour:
   Soldier_ChildGameobjects: []
   BodyRenderer: {fileID: 0}
   playerUIPrefab: {fileID: 0}
-  FPSCamera: {fileID: 0}
+  FPSCamera: {fileID: 9181943508022449230}
 --- !u!114 &7303722166854987233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1543,7 +1543,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 235765022096334569}
-  sceneViewId: 4
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &235765022096334569

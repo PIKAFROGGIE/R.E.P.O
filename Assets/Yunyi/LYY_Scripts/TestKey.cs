@@ -7,8 +7,10 @@ public class TestKey : MonoBehaviourPunCallbacks
     [Header("Hotkey Settings")]
     public KeyCode hotkey1 = KeyCode.Alpha1;
     public KeyCode hotkey2 = KeyCode.Alpha2;
+    public KeyCode hotkey3 = KeyCode.Alpha3;
     public string targetSceneName1 = "Yunyi";
     public string targetSceneName2 = "Wanyun";
+    public string targetSceneName3 = "Qiuting";
 
     void Start()
     {
@@ -29,6 +31,11 @@ public class TestKey : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(hotkey2))
         {
             PhotonNetwork.LoadLevel(targetSceneName2);
+        }
+
+        if (Input.GetKeyDown(hotkey3))
+        {
+            PhotonNetwork.LoadLevel(targetSceneName3);
         }
     }
 }

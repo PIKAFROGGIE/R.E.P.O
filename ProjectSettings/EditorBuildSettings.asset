@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Wanyun.unity
     guid: 19ac0465bbecba64881f9401854812a5
+  - enabled: 1
+    path: Assets/Scenes/Qiuting.unity
+    guid: fd615f0f25af96841a27663e8424dbca
   m_configObjects: {}
