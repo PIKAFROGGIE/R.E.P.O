@@ -13,6 +13,7 @@ public class PlayerUI : MonoBehaviour
     private float currentTime;
 
     public bool debugJumpTo10 = true;
+    private bool hasEnded = false;
 
     void Awake()
     {
@@ -39,6 +40,7 @@ public class PlayerUI : MonoBehaviour
             Debug.Log("⚡ Debug：直接跳到倒计时 5 秒！");
         }
 
+        if (hasEnded) return;
         if (currentTime > 0f)
         {
             currentTime -= Time.deltaTime;
@@ -52,7 +54,16 @@ public class PlayerUI : MonoBehaviour
         {
             currentTime = 0f;
             if (timerText != null) timerText.text = "0:00";
-            SceneManager.LoadScene("EndScene");
+
+            hasEnded = true; // ✅ 防止重复触发
+
+            // 通知房间：当前关卡结束
+            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
+            props["CurrentScene"] = "";
+            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
+            // 返回 LoadingScene
+            PhotonNetwork.LoadLevel("LoadingScene");
         }
     }
   

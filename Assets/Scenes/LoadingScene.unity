@@ -165,18 +165,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 144922432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa9dffb59c9bb44db9ee1d907a742f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 401edc25558a3a74bb0b6aa4278e57fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pvCache: {fileID: 0}
   sceneNameText: {fileID: 935804084}
   sceneRuleText: {fileID: 1516851914}
   sceneImage: {fileID: 1785584815}
-  allScenes:
-  - Wanyun
-  - Qiuting
-  - Josh
-  - Yunyi
+  scenes:
+  - sceneName: Wanyun
+    displayName: Map1 - Pulse Corridor
+    rule: Race against other players online with parkour-based movement to reach
+      the finish line as fast as possible.
+    image: {fileID: 21300000, guid: 334cbe956c2d98741a6b6d50e53d670d, type: 3}
+  - sceneName: Qiuting
+    displayName: 'Map2 - Hold the Crown '
+    rule: "Touch the crown to become king, hold it to earn points, but beware\u2014other
+      players can steal it by touching you."
+    image: {fileID: 21300000, guid: a31154677d5641e46bea5ae89b6db518, type: 3}
+  - sceneName: Bryan
+    displayName: Map3 - UFO Battle
+    rule: Be the last player standing by throwing others off the UFO and surviving
+      against online opponents.
+    image: {fileID: 21300000, guid: 0fdc925a10fea274288db238cc325145, type: 3}
+  - sceneName: Yunyi
+    displayName: Map4 - Red Light, Green Light
+    rule: "Move only when the Boss isn\u2019t watching, interfere with other players,
+      and beware\u2014mistakes make you respawn."
+    image: {fileID: 21300000, guid: 7d194c5ab6be30141a4ce803b832e0fb, type: 3}
 --- !u!1 &935804082
 GameObject:
   m_ObjectHideFlags: 0

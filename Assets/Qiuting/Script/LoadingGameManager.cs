@@ -7,6 +7,18 @@ using ExitGames.Client.Photon; // Photon Hashtable
 using TMPro;
 using UnityEngine.UI;
 
+// ===============================
+// 可序列化类，用于 Inspector 管理每个关卡
+// ===============================
+[System.Serializable]
+public class SceneInfo
+{
+    public string sceneName;      // 场景文件名，例如 "GameScene_A"
+    public string displayName;    // UI上显示的名字，例如 "Map1 - Pulse Corridor"
+    public string rule;           // 场景规则，例如 "规则 A：存活到最后"
+    public Sprite image;          // 对应图片（直接拖入Inspector）
+}
+
 public class LoadingGameManager : MonoBehaviourPunCallbacks
 {
     [Header("UI")]
@@ -14,32 +26,8 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     public TMP_Text sceneRuleText;
     public Image sceneImage;
 
-    [Header("Scene Data")]
-    public List<string> allScenes = new List<string>()
-    {
-        "GameScene_A",
-        "GameScene_B",
-        "GameScene_C",
-        "GameScene_D"
-    };
-
-    // 自定义显示名
-    private Dictionary<string, string> sceneDisplayNames = new Dictionary<string, string>()
-    {
-        {"GameScene_A", "Map1 - Pulse Corridor"},
-        {"GameScene_B", "Map2 - Hold the Crown "},
-        {"GameScene_C", "Map3 - UFO Battle"},
-        {"GameScene_D", "Map4 - Red Light, Green Light"}
-    };
-
-    // 自定义规则
-    private Dictionary<string, string> sceneRules = new Dictionary<string, string>()
-    {
-        {"GameScene_A", "规则 A：存活到最后"},
-        {"GameScene_B", "规则 B：积分最高获胜"},
-        {"GameScene_C", "规则 C：团队对抗"},
-        {"GameScene_D", "规则 D：限时挑战"}
-    };
+    [Header("场景配置")]
+    public List<SceneInfo> scenes = new List<SceneInfo>();
 
     private const string USED_SCENES_KEY = "UsedScenes";
     private const string CURRENT_SCENE_KEY = "CurrentScene";
@@ -67,15 +55,19 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
 
             ShowSceneInfo(selectedScene);
 
-            yield return new WaitForSeconds(5f); // 等待5秒
+            yield return new WaitForSeconds(3f); // 等待3秒
 
             PhotonNetwork.LoadLevel(selectedScene);
 
             // 等待关卡结束并返回 LoadingScene
             yield return new WaitUntil(() =>
-                PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY) &&
-                (PhotonNetwork.CurrentRoom.CustomProperties[CURRENT_SCENE_KEY] as string) != selectedScene
-            );
+            {
+                if (!PhotonNetwork.InRoom) return true; // 已退出房间也视为结束
+                if (!PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY)) return true;
+                string current = PhotonNetwork.CurrentRoom.CustomProperties[CURRENT_SCENE_KEY] as string;
+                return current != selectedScene;
+            });
+
         }
 
         // 三轮结束
@@ -90,27 +82,27 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     {
         List<string> usedScenes = GetUsedScenes();
 
-        List<string> available = new List<string>();
-        foreach (string s in allScenes)
+        List<SceneInfo> available = new List<SceneInfo>();
+        foreach (SceneInfo s in scenes)
         {
-            if (!usedScenes.Contains(s))
+            if (!usedScenes.Contains(s.sceneName))
                 available.Add(s);
         }
 
         if (available.Count == 0)
             return null;
 
-        string selectedScene = available[Random.Range(0, available.Count)];
-        usedScenes.Add(selectedScene);
+        SceneInfo selected = available[Random.Range(0, available.Count)];
+        usedScenes.Add(selected.sceneName);
 
-        // ← 使用 Photon Hashtable 避免报错
+        // 使用 Photon Hashtable 更新 CustomProperties
         ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
         props[USED_SCENES_KEY] = string.Join(",", usedScenes);
-        props[CURRENT_SCENE_KEY] = selectedScene;
+        props[CURRENT_SCENE_KEY] = selected.sceneName;
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
-        return selectedScene;
+        return selected.sceneName;
     }
 
     // ===============================
@@ -118,9 +110,19 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     // ===============================
     void ShowSceneInfo(string sceneName)
     {
-        sceneNameText.text = sceneDisplayNames.ContainsKey(sceneName) ? sceneDisplayNames[sceneName] : sceneName;
-        sceneRuleText.text = sceneRules.ContainsKey(sceneName) ? sceneRules[sceneName] : "";
-        sceneImage.sprite = Resources.Load<Sprite>("SceneImages/" + sceneName);
+        SceneInfo info = scenes.Find(s => s.sceneName == sceneName);
+        if (info != null)
+        {
+            sceneNameText.text = info.displayName;
+            sceneRuleText.text = info.rule;
+            sceneImage.sprite = info.image;
+        }
+        else
+        {
+            sceneNameText.text = sceneName;
+            sceneRuleText.text = "";
+            sceneImage.sprite = null;
+        }
     }
 
     // ===============================
