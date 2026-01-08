@@ -13,16 +13,9 @@ public class FinishLineTrigger : MonoBehaviour
         PhotonView pv = other.GetComponentInParent<PhotonView>();
         if (pv == null || !pv.IsMine) return;
 
-        PlayerUIManager ui = pv.GetComponent<PlayerUIManager>();
-        if (ui == null)
-        {
-            Debug.LogError("PlayerUIManager not found on local player!");
-            return;
-        }
-
         triggered = true;
 
-        GameEndManager.Instance.OnPlayerReachedFinish(ui);
+        GameEndManager.Instance.OnPlayerReachedFinish();
 
         Debug.Log("Local player reached the finish line!");
     }

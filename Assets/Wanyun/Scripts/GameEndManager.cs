@@ -41,27 +41,27 @@ public class GameEndManager : MonoBehaviourPunCallbacks
         double currentTime = usePhotonSync ? PhotonNetwork.Time : Time.time;
         double timeLeft = endTime - currentTime;
 
-        PlayerUIManager ui = GetLocalPlayerUI();
-        if (ui != null)
-        {
-            if (timeLeft > 0)
-            {
-                ui.UpdateCountdown(Mathf.CeilToInt((float)timeLeft));
-            }
-            else
-            {
-                EndGame(ui);
-            }
-        }
+        PlayerUIManager ui = FindObjectOfType<PlayerUIManager>(true);
+        if (ui == null) return;
+
+        if (timeLeft > 0)
+            ui.UpdateCountdown(Mathf.CeilToInt((float)timeLeft));
+        else
+            EndGame(ui);
     }
 
 
-    public void OnPlayerReachedFinish(PlayerUIManager ui)
+
+    public void OnPlayerReachedFinish()
     {
         if (countdownStarted) return;
 
+        // ✅ 找到场景里的 PlayerUIManager（挂在 Canvas 上）
+        PlayerUIManager ui = FindObjectOfType<PlayerUIManager>(true);
         if (ui != null)
             ui.ShowWinText();
+        else
+            Debug.LogWarning("PlayerUIManager not found in scene!");
 
         EnableLocalWinBarrier();
 
@@ -77,6 +77,7 @@ public class GameEndManager : MonoBehaviourPunCallbacks
         endTime = PhotonNetwork.Time + endCountdownDuration;
         photonView.RPC(nameof(RPC_StartEndCountdown), RpcTarget.All, endTime);
     }
+
 
     [PunRPC]
     void RPC_StartEndCountdown(double syncedEndTime)
@@ -116,10 +117,8 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
         if (ui != null)
             ui.ShowGameOver();
-
-        Debug.Log("Game Ended");
-
     }
+
 
 
     PlayerUIManager GetLocalPlayerUI()
