@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using System.Collections;
 
 public class GameEndManager : MonoBehaviourPunCallbacks
 {
@@ -9,7 +10,11 @@ public class GameEndManager : MonoBehaviourPunCallbacks
     public bool usePhotonSync = true;
 
     [Header("Global Timer")]
-    public float totalGameTime = 120f; // 2 分钟
+    public float totalGameTime = 120f;
+
+    [Header("Scene")]
+    public string rankingSceneName = "RankingScene";
+    public float delayBeforeRankingScene = 10f;
 
     private double endTime;
     private bool timerStarted;
@@ -50,14 +55,29 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
         if (timeLeft > 0)
         {
-            PlayerUIManager.Instance.UpdateCountdown(Mathf.CeilToInt((float)timeLeft));
+            PlayerUIManager.Instance.UpdateCountdown(
+                Mathf.CeilToInt((float)timeLeft)
+            );
         }
         else
         {
             gameEnded = true;
+
             PlayerUIManager.Instance.ShowGameOver();
-            GameOverManager.Instance.EndGame();
+
+            // 🔥 只让 MasterClient 切场景
+            if (PhotonNetwork.IsMasterClient)
+            {
+                StartCoroutine(LoadRankingSceneAfterDelay());
+            }
         }
+    }
+
+    IEnumerator LoadRankingSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(delayBeforeRankingScene);
+
+        PhotonNetwork.LoadLevel(rankingSceneName);
     }
 
     [PunRPC]

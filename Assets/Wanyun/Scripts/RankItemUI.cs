@@ -9,7 +9,6 @@ public class RankItemUI : MonoBehaviour
     public TMP_Text scoreText;
 
     public Image highlightBG;
-    public GameObject starIcon;
 
     public Color firstColor;
     public Color secondColor;
@@ -24,23 +23,19 @@ public class RankItemUI : MonoBehaviour
 
         // 默认
         highlightBG.color = normalColor;
-        starIcon.SetActive(false);
 
         // 前三名样式
         if (rank == 1)
         {
             highlightBG.color = firstColor;
-            starIcon.SetActive(true);
         }
         else if (rank == 2)
         {
             highlightBG.color = secondColor;
-            starIcon.SetActive(true);
         }
         else if (rank == 3)
         {
             highlightBG.color = thirdColor;
-            starIcon.SetActive(true);
         }
     }
 }

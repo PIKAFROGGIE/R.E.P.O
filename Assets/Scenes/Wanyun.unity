@@ -52412,6 +52412,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usePhotonSync: 0
   totalGameTime: 20
+  rankingSceneName: RankingScene
+  delayBeforeRankingScene: 10
 --- !u!114 &1577176683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65693,6 +65695,7 @@ GameObject:
   - component: {fileID: 1919528234}
   - component: {fileID: 1919528233}
   - component: {fileID: 1919528235}
+  - component: {fileID: 1919528236}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -65773,6 +65776,20 @@ MonoBehaviour:
   playerPrefab: {fileID: 1686771815633203412, guid: 2460aceb33b718f4d9bf78f5e00df6b4,
     type: 3}
   respawnArea: {fileID: 862340882}
+--- !u!114 &1919528236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919528230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada39113d0ef8ee46bea89cd4e3635d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishPoint: {fileID: 1485273831}
+  raceDuration: 120
 --- !u!1001 &1921618433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75517,7 +75534,7 @@ PrefabInstance:
     - target: {fileID: 1686771815633203412, guid: 2460aceb33b718f4d9bf78f5e00df6b4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2226592464071099283, guid: 2460aceb33b718f4d9bf78f5e00df6b4,
         type: 3}

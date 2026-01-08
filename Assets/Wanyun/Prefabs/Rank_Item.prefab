@@ -412,8 +412,7 @@ MonoBehaviour:
   rankText: {fileID: 552722288925446339}
   nameText: {fileID: 2353614098824300551}
   scoreText: {fileID: 412699667054107695}
-  highlightBG: {fileID: 0}
-  starIcon: {fileID: 0}
+  highlightBG: {fileID: 2430268342806360702}
   firstColor: {r: 0.97647065, g: 0.90196085, b: 0.62352943, a: 0}
   secondColor: {r: 0.67058825, g: 0.8588236, b: 0.9568628, a: 0}
   thirdColor: {r: 0.97647065, g: 0.6784314, b: 0.8235295, a: 0}
