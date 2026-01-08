@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4908475319481528930}
   - component: {fileID: 4523952670278374221}
   - component: {fileID: 2554734671310171979}
-  - component: {fileID: 2166832043772153847}
   - component: {fileID: 8242305677568139048}
   - component: {fileID: 1634074826711979504}
   - component: {fileID: 5259365676902864927}
@@ -140,21 +139,6 @@ MonoBehaviour:
   punchStun: []
   fallDelay: 1
   floating: 1
---- !u!114 &2166832043772153847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290581949567474155}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c58191076b5d34482e3dcb3c36630a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BodyRenderer: {fileID: 0}
-  playerUIPrefab: {fileID: 0}
-  FPSCamera: {fileID: 3286262063068467754}
 --- !u!114 &8242305677568139048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,7 +169,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 290581949567474155}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
