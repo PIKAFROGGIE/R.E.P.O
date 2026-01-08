@@ -499,7 +499,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679598489055518659}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.036324948, y: 0.000000041972154, z: -0.0000000068192128,
+    w: 0.9993401}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1382,7 +1383,7 @@ GameObject:
   - component: {fileID: 8866844096914773211}
   - component: {fileID: 4538275534219481133}
   - component: {fileID: 2647797325673147619}
-  - component: {fileID: 9145140722471372800}
+  - component: {fileID: 6513405473538592140}
   - component: {fileID: 7303722166854987233}
   - component: {fileID: 235765022096334569}
   - component: {fileID: 6709938501751158115}
@@ -1513,7 +1514,7 @@ MonoBehaviour:
   - {fileID: 7160667492697686134}
   fallDelay: 1
   floating: 1
---- !u!114 &9145140722471372800
+--- !u!114 &6513405473538592140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1522,13 +1523,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4767010686573849210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c58191076b5d34482e3dcb3c36630a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d8f720132938464086b239918c64381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BodyRenderer: {fileID: 0}
   playerUIPrefab: {fileID: 3371973813944403233, guid: 58b3550e152f732449595638fddf6c8f,
     type: 3}
-  FPSCamera: {fileID: 0}
+  vcam: {fileID: 6394269230247119676}
+  followTarget: {fileID: 1350513128743471558}
+  lookAtTarget: {fileID: 1350513128743471558}
 --- !u!114 &7303722166854987233
 MonoBehaviour:
   m_ObjectHideFlags: 0
