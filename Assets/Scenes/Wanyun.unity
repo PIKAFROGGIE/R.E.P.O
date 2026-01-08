@@ -39901,12 +39901,12 @@ Transform:
   - {fileID: 2119434494}
   - {fileID: 2129449655}
   - {fileID: 1889715850}
-  - {fileID: 1496352316}
   - {fileID: 1749651879}
   - {fileID: 335308284}
   - {fileID: 1665754205}
   - {fileID: 1822221197}
   - {fileID: 1583828951}
+  - {fileID: 1496352316}
   - {fileID: 1098951260}
   - {fileID: 1993145848}
   - {fileID: 862340883}
@@ -49737,7 +49737,7 @@ Transform:
   m_GameObject: {fileID: 1496352315}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.549042, y: -37.3, z: -115.972374}
+  m_LocalPosition: {x: 182.6, y: -79, z: -115.972374}
   m_LocalScale: {x: 6.143878, y: 4.6682525, z: 6.143878}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -65812,6 +65812,7 @@ MonoBehaviour:
   - {fileID: 1409770533}
   startBarriers:
   - {fileID: 1098951259}
+  enableBoss: 0
 --- !u!114 &1919528234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75171,7 +75172,7 @@ Transform:
   m_GameObject: {fileID: 5817355497268685597}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.6, y: -12.82, z: 69}
+  m_LocalPosition: {x: 75.89, y: -23.98, z: 132.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -76668,6 +76669,7 @@ MonoBehaviour:
   comboInputWindow: 0.5
   totalComboCount: 2
   punchStun: []
+  fallDelay: 1
 --- !u!4 &5225061514740230277
 Transform:
   m_ObjectHideFlags: 0

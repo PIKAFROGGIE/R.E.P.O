@@ -38,6 +38,10 @@ public class FallRespawn : MonoBehaviour
         if (other.CompareTag("KillZone"))
         {
             StartCoroutine(RespawnRoutine());
+            Debug.Log("Trigger Enter: " + other.name);
+            Debug.Log(
+        $"Trigger by: {other.name}, My Collider: {GetComponent<Collider>()?.name}"
+    );
         }
     }
 

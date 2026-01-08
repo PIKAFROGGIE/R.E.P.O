@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool countdownStarted = false;
     private bool gameStarted = false;
 
+    [Header("Boss")]
+    public bool enableBoss = false;
+
+
     void Start()
     {
         // 打开所有 Barrier
@@ -161,15 +165,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void StartBossLocal()
     {
+        if (!enableBoss) return;
+
         BossController boss = FindObjectOfType<BossController>();
         if (boss != null)
         {
             boss.StartBoss();
         }
-        else
-        {
-            Debug.LogError("BossController not found!");
-        }
     }
+
 
 }
