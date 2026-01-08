@@ -1391,6 +1391,7 @@ GameObject:
   - component: {fileID: 3041241483599549160}
   - component: {fileID: 8633602381845244524}
   - component: {fileID: 7130808054690961982}
+  - component: {fileID: 174424739692581102}
   m_Layer: 0
   m_Name: Astronaut
   m_TagString: Player
@@ -1435,13 +1436,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2.5
+  m_Height: 2.2
   m_Radius: 0.75
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.22, z: 0}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!54 &4538275534219481133
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1481,7 +1482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a57a6344df7bc24784aba6f241f4bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 12
+  moveSpeed: 8
   sprintSpeed: 12
   gravityForce: 2
   jumpForce: 12
@@ -1507,7 +1508,9 @@ MonoBehaviour:
   longPressDuration: 1
   comboInputWindow: 0.5
   totalComboCount: 2
-  punchStun: []
+  punchStun:
+  - {fileID: 5267766904926116754}
+  - {fileID: 7160667492697686134}
   fallDelay: 1
 --- !u!114 &9145140722471372800
 MonoBehaviour:
@@ -1526,7 +1529,7 @@ MonoBehaviour:
   BodyRenderer: {fileID: 0}
   playerUIPrefab: {fileID: 3371973813944403233, guid: 58b3550e152f732449595638fddf6c8f,
     type: 3}
-  FPSCamera: {fileID: 9181943508022449230}
+  FPSCamera: {fileID: 0}
 --- !u!114 &7303722166854987233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1547,7 +1550,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 235765022096334569}
-  sceneViewId: 0
+  sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &235765022096334569
@@ -1580,7 +1583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunCount: 0
   maxStun: 100
-  stunTime: 2.5
+  stunTime: 10
   stunDecayRate: 15
   health: 100
   controller: {fileID: 0}
@@ -1652,6 +1655,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackDuration: 1
   gravity: -20
+--- !u!114 &174424739692581102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4767010686573849210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce60d5ae9a1b4b248bed91727e12837d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragRange: 2
+  dragHoldTime: 1
+  dragDistance: 1.2
+  dragFollowSpeed: 8
 --- !u!1 &4932462607245409934
 GameObject:
   m_ObjectHideFlags: 0
