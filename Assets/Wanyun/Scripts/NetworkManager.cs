@@ -129,7 +129,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("Wanyun");
+            PhotonNetwork.LoadLevel("LoadingScene");
         }
     }
     #endregion
