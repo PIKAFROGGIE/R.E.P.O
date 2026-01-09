@@ -3,6 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 
 public class RaceRankingManager : MonoBehaviourPunCallbacks
 {
@@ -10,12 +11,12 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
 
     [Header("Race Settings")]
     public Transform finishPoint;
-    public float raceDuration = 120f;
+    public string rankingSceneName = "RankingScene";
+    public float delayBeforeLoadRankingScene = 3f; 
 
-    private float raceEndTime;
     private bool raceEnded = false;
 
-    // 记录已到终点玩家及到达时间
+    // 记录已到终点玩家及到达时间（Master 侧）
     private Dictionary<Player, float> finishTimeDict = new Dictionary<Player, float>();
 
     void Awake()
@@ -28,37 +29,29 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         Instance = this;
     }
 
-    void Start()
+    // 由 GameEndManager 在“时间到”时调用（Master only）
+    public void OnRaceTimeUp()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            raceEndTime = Time.time + raceDuration;
-        }
-    }
-
-    void Update()
-    {
-        if (!PhotonNetwork.IsMasterClient || raceEnded)
+        if (!PhotonNetwork.IsMasterClient)
             return;
 
-        // 时间到，强制结算（包含未到终点玩家）
-        if (Time.time >= raceEndTime)
-        {
-            EndRace();
-        }
+        EndRace();
     }
 
-    // RPC：由 FinishLineTrigger 调用，仅发送到 MasterClient
+    // RPC：由 FinishLineTrigger 发送到 Master
     [PunRPC]
     public void RPC_PlayerReachedFinish(Player player)
     {
         PlayerReachedFinish(player);
     }
 
-    // 记录玩家到达终点
+    // 记录玩家到达终点（Master only）
     public void PlayerReachedFinish(Player player)
     {
         if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        if (raceEnded)
             return;
 
         if (finishTimeDict.ContainsKey(player))
@@ -67,35 +60,55 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         finishTimeDict[player] = Time.time;
         Debug.Log(player.NickName + " reached finish");
 
-        // 所有人都到达，提前结束比赛
+        // 若所有玩家都到达，提前结束
         if (finishTimeDict.Count == PhotonNetwork.PlayerList.Length)
         {
             EndRace();
         }
     }
 
-    // 统一结束比赛入口
+    // 统一结束比赛入口（只会执行一次）
     void EndRace()
     {
         if (raceEnded)
             return;
 
         raceEnded = true;
-        CalculateFinalRanking();
+
+        List<Player> finalRanking = CalculateFinalRanking();
+
+        RaceResultCache.FinalRanking = finalRanking;
+
+        foreach (var p in PhotonNetwork.PlayerList)
+        {
+            p.TagObject = null;
+        }
+
+        StartCoroutine(LoadRankingSceneAfterDelay());
     }
 
-    // 计算最终排名
-    void CalculateFinalRanking()
+    IEnumerator LoadRankingSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(delayBeforeLoadRankingScene);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(rankingSceneName);
+        }
+    }
+
+    // 计算最终排名（到达优先，其次按距离）
+    List<Player> CalculateFinalRanking()
     {
         List<Player> allPlayers = PhotonNetwork.PlayerList.ToList();
 
-        // 已到终点：按到达时间排序
+        // 已到终点：按到达时间
         var finishedPlayers = finishTimeDict
             .OrderBy(kv => kv.Value)
             .Select(kv => kv.Key)
             .ToList();
 
-        // 未到终点：按距离终点排序
+        // 未到终点：按距离终点
         var unfinishedPlayers = allPlayers
             .Where(p => !finishTimeDict.ContainsKey(p))
             .OrderBy(p => GetDistanceToFinish(p))
@@ -111,17 +124,16 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
             Debug.Log((i + 1) + ". " + finalRanking[i].NickName);
         }
 
-        // 保存结果，给 RankingScene 用
-        RaceResultCache.FinalRanking = finalRanking;
+        return finalRanking;
     }
 
     float GetDistanceToFinish(Player player)
     {
-        if (player.TagObject == null)
+        if (player == null || player.TagObject == null)
             return float.MaxValue;
 
         GameObject playerObj = player.TagObject as GameObject;
-        if (playerObj == null)
+        if (playerObj == null || finishPoint == null)
             return float.MaxValue;
 
         return Vector3.Distance(playerObj.transform.position, finishPoint.position);

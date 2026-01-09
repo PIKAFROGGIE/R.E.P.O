@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using System.Collections;
 
 public class GameEndManager : MonoBehaviourPunCallbacks
 {
@@ -11,10 +10,6 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
     [Header("Global Timer")]
     public float totalGameTime = 120f;
-
-    [Header("Scene")]
-    public string rankingSceneName = "RankingScene";
-    public float delayBeforeRankingScene = 10f;
 
     private double endTime;
     private bool timerStarted;
@@ -32,6 +27,7 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        // 本地模式
         if (!usePhotonSync)
         {
             endTime = Time.time + totalGameTime;
@@ -39,6 +35,7 @@ public class GameEndManager : MonoBehaviourPunCallbacks
             return;
         }
 
+        // 网络模式：由 Master 同步开始时间
         if (PhotonNetwork.IsMasterClient)
         {
             endTime = PhotonNetwork.Time + totalGameTime;
@@ -48,36 +45,38 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!timerStarted || gameEnded) return;
+        if (!timerStarted || gameEnded)
+            return;
 
         double now = usePhotonSync ? PhotonNetwork.Time : Time.time;
         double timeLeft = endTime - now;
 
         if (timeLeft > 0)
         {
-            PlayerUIManager.Instance.UpdateCountdown(
-                Mathf.CeilToInt((float)timeLeft)
-            );
+            // 更新倒计时 UI（本地）
+            if (PlayerUIManager.Instance != null)
+            {
+                PlayerUIManager.Instance.UpdateCountdown(
+                    Mathf.CeilToInt((float)timeLeft)
+                );
+            }
         }
         else
         {
             gameEnded = true;
 
-            PlayerUIManager.Instance.ShowGameOver();
-
-            // 🔥 只让 MasterClient 切场景
-            if (PhotonNetwork.IsMasterClient)
+            // 显示 Game Over（本地）
+            if (PlayerUIManager.Instance != null)
             {
-                StartCoroutine(LoadRankingSceneAfterDelay());
+                PlayerUIManager.Instance.ShowGameOver();
+            }
+
+            // 只通知排名系统“时间到”，不切场景
+            if (PhotonNetwork.IsMasterClient && RaceRankingManager.Instance != null)
+            {
+                RaceRankingManager.Instance.OnRaceTimeUp();
             }
         }
-    }
-
-    IEnumerator LoadRankingSceneAfterDelay()
-    {
-        yield return new WaitForSeconds(delayBeforeRankingScene);
-
-        PhotonNetwork.LoadLevel(rankingSceneName);
     }
 
     [PunRPC]

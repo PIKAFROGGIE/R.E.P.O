@@ -798,7 +798,8 @@ GameObject:
   m_Component:
   - component: {fileID: 146053679}
   - component: {fileID: 146053678}
-  - component: {fileID: 146053677}
+  - component: {fileID: 146053681}
+  - component: {fileID: 146053682}
   - component: {fileID: 146053680}
   m_Layer: 0
   m_Name: RoundScoreManager
@@ -807,23 +808,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &146053677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146053676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8dda51a881684347b199413cc2770f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roundTitleText: {fileID: 113565736}
-  contentParent: {fileID: 278232032}
-  rankItemPrefab: {fileID: 4156513230607712263, guid: 941f961f72fa9b2438cbaf9e88a1a841,
-    type: 3}
-  maxShowCount: 10
 --- !u!114 &146053678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,6 +859,30 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &146053681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146053676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99ba00b14b1c214ca398887fdf1e0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &146053682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146053676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f16b040bcbbe7c34a97f3008f1018093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &156852787
 GameObject:
   m_ObjectHideFlags: 0
@@ -3115,6 +3123,7 @@ GameObject:
   - component: {fileID: 1231883795}
   - component: {fileID: 1231883794}
   - component: {fileID: 1231883793}
+  - component: {fileID: 1231883797}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3209,6 +3218,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1231883797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231883792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8dda51a881684347b199413cc2770f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roundTitleText: {fileID: 113565736}
+  contentParent: {fileID: 278232032}
+  rankItemPrefab: {fileID: 4156513230607712263, guid: 941f961f72fa9b2438cbaf9e88a1a841,
+    type: 3}
+  maxShowCount: 10
 --- !u!1 &1319982416
 GameObject:
   m_ObjectHideFlags: 0

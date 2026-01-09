@@ -2,6 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using TMPro;
 
 public class LeaderboardUIManager : MonoBehaviour
