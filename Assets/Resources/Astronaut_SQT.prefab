@@ -140,7 +140,6 @@ MonoBehaviour:
   punchStun: []
   fallDelay: 1
   floating: 1
-  isControlLocked: 0
 --- !u!114 &8242305677568139048
 MonoBehaviour:
   m_ObjectHideFlags: 0
