@@ -10,16 +10,21 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
 
     [Header("Race Settings")]
     public Transform finishPoint;
-    public float raceDuration = 120f; // 2 minutes
+    public float raceDuration = 120f;
 
-    float raceEndTime;
-    bool raceEnded = false;
+    private float raceEndTime;
+    private bool raceEnded = false;
 
-    // 到达终点的顺序
-    Dictionary<Player, float> finishTimeDict = new Dictionary<Player, float>();
+    // 记录已到终点玩家及到达时间
+    private Dictionary<Player, float> finishTimeDict = new Dictionary<Player, float>();
 
     void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
 
@@ -36,13 +41,21 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient || raceEnded)
             return;
 
+        // 时间到，强制结算（包含未到终点玩家）
         if (Time.time >= raceEndTime)
         {
-            raceEnded = true;
-            CalculateFinalRanking();
+            EndRace();
         }
     }
 
+    // RPC：由 FinishLineTrigger 调用，仅发送到 MasterClient
+    [PunRPC]
+    public void RPC_PlayerReachedFinish(Player player)
+    {
+        PlayerReachedFinish(player);
+    }
+
+    // 记录玩家到达终点
     public void PlayerReachedFinish(Player player)
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -52,33 +65,42 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
             return;
 
         finishTimeDict[player] = Time.time;
-        Debug.Log($"{player.NickName} reached finish");
+        Debug.Log(player.NickName + " reached finish");
 
-        // 如果所有人都到了，提前结算?????这里逻辑有问题，可能会导致未到终点的玩家无法排名
-        if (finishTimeDict.Count == PhotonNetwork.PlayerList.Length) 
+        // 所有人都到达，提前结束比赛
+        if (finishTimeDict.Count == PhotonNetwork.PlayerList.Length)
         {
-            raceEnded = true;
-            CalculateFinalRanking();
+            EndRace();
         }
     }
 
+    // 统一结束比赛入口
+    void EndRace()
+    {
+        if (raceEnded)
+            return;
+
+        raceEnded = true;
+        CalculateFinalRanking();
+    }
+
+    // 计算最终排名
     void CalculateFinalRanking()
     {
         List<Player> allPlayers = PhotonNetwork.PlayerList.ToList();
 
-        // 已到终点的
+        // 已到终点：按到达时间排序
         var finishedPlayers = finishTimeDict
             .OrderBy(kv => kv.Value)
             .Select(kv => kv.Key)
             .ToList();
 
-        // 未到终点的
+        // 未到终点：按距离终点排序
         var unfinishedPlayers = allPlayers
             .Where(p => !finishTimeDict.ContainsKey(p))
             .OrderBy(p => GetDistanceToFinish(p))
             .ToList();
 
-        // 合并最终排名
         List<Player> finalRanking = new List<Player>();
         finalRanking.AddRange(finishedPlayers);
         finalRanking.AddRange(unfinishedPlayers);
@@ -86,11 +108,11 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         Debug.Log("Final Ranking:");
         for (int i = 0; i < finalRanking.Count; i++)
         {
-            Debug.Log($"{i + 1}. {finalRanking[i].NickName}");
+            Debug.Log((i + 1) + ". " + finalRanking[i].NickName);
         }
 
-        // 🔥 把排名交给积分系统
-        //RoundScoreManager.Instance.EndRound(finalRanking);
+        // 保存结果，给 RankingScene 用
+        RaceResultCache.FinalRanking = finalRanking;
     }
 
     float GetDistanceToFinish(Player player)
@@ -99,13 +121,9 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
             return float.MaxValue;
 
         GameObject playerObj = player.TagObject as GameObject;
+        if (playerObj == null)
+            return float.MaxValue;
+
         return Vector3.Distance(playerObj.transform.position, finishPoint.position);
     }
-
-    [PunRPC]
-    public void RPC_PlayerReachedFinish(Player player)
-    {
-        PlayerReachedFinish(player);
-    }
-
 }

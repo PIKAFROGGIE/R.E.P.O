@@ -16,6 +16,19 @@ public class LeaderboardUIManager : MonoBehaviour
 
     List<GameObject> spawnedItems = new List<GameObject>();
 
+    public static LeaderboardUIManager Instance;
+
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+
     void OnEnable()
     {
         RefreshLeaderboard();
@@ -26,7 +39,7 @@ public class LeaderboardUIManager : MonoBehaviour
         ClearItems();
 
         // Round БъЬт
-        roundTitleText.text = $"Round {RoundScoreManager.Instance.currentRound - 1}";
+        roundTitleText.text = $"Round {RoundScoreManager.Instance.currentRound}";
 
         List<Player> players =
             RoundScoreManager.Instance.GetSortedPlayersByScore();

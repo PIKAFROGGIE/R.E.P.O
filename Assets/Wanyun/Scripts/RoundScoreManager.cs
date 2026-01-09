@@ -9,37 +9,67 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
 {
     public static RoundScoreManager Instance;
 
+    [Header("Round Settings")]
     public int currentRound = 1;
     public int maxRound = 3;
 
+    // 第 1 / 2 / 3 名奖励
     private readonly int[] rankRewards = { 10000, 5000, 2000 };
 
     void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
 
-    public void EndRound(List<Player> rankedPlayers)
+    void Start()
     {
+        // RankingScene 进入时自动结算本轮
         if (!PhotonNetwork.IsMasterClient)
             return;
 
+        if (RaceResultCache.FinalRanking == null)
+        {
+            Debug.LogError("RaceResultCache.FinalRanking is null");
+            return;
+        }
+
+        EndRound(RaceResultCache.FinalRanking);
+    }
+
+    // 只由 MasterClient 调用
+    void EndRound(List<Player> rankedPlayers)
+    {
         Debug.Log($"Round {currentRound} End");
 
         for (int i = 0; i < rankedPlayers.Count; i++)
         {
             int reward = (i < rankRewards.Length) ? rankRewards[i] : 0;
-
             AddScore(rankedPlayers[i], reward);
         }
 
+        // 通知所有客户端分数已更新
         photonView.RPC(nameof(RPC_SyncScores), RpcTarget.All);
 
         currentRound++;
 
+        // 保存轮次，给下一场用
+        RaceResultCache.CurrentRound = currentRound;
+
         if (currentRound > maxRound)
         {
-            Debug.Log("Game Finished - Final Ranking");
+            Debug.Log("All rounds finished");
+            // 最终排名 Scene 或结算 Scene
+            // PhotonNetwork.LoadLevel("FinalResultScene");
+        }
+        else
+        {
+            // 等待 UI 按钮触发进入下一关
+            Debug.Log("Waiting for next round");
         }
     }
 
@@ -49,20 +79,30 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
             ? (int)player.CustomProperties["Score"]
             : 0;
 
-        Hashtable ht = new Hashtable();
-        ht["Score"] = oldScore + add;
+        Hashtable ht = new Hashtable
+        {
+            ["Score"] = oldScore + add
+        };
 
         player.SetCustomProperties(ht);
     }
 
-
     [PunRPC]
     void RPC_SyncScores()
     {
-        // 客户端刷新 UI
         Debug.Log("Scores synced");
+
+        if (LeaderboardUIManager.Instance == null)
+        {
+            Debug.LogError("LeaderboardUIManager.Instance is null");
+            return;
+        }
+
+        LeaderboardUIManager.Instance.RefreshLeaderboard();
     }
 
+
+    // 给排行榜 UI 用
     public List<Player> GetSortedPlayersByScore()
     {
         return PhotonNetwork.PlayerList

@@ -30507,8 +30507,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 18, y: 8, z: 18}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 18, y: 3.0313528, z: 18}
+  m_Center: {x: 0, y: -2.4843256, z: 0}
 --- !u!4 &862340883
 Transform:
   m_ObjectHideFlags: 0
@@ -30518,7 +30518,7 @@ Transform:
   m_GameObject: {fileID: 862340881}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 75.1, y: -22.77, z: 588.97}
+  m_LocalPosition: {x: 75.1, y: -23.43, z: 588.97}
   m_LocalScale: {x: 0.58017, y: 0.58017, z: 0.58017}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -52354,6 +52354,7 @@ GameObject:
   - component: {fileID: 1577176680}
   - component: {fileID: 1577176682}
   - component: {fileID: 1577176683}
+  - component: {fileID: 1577176684}
   m_Layer: 0
   m_Name: GameEndManager
   m_TagString: Untagged
@@ -52411,9 +52412,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usePhotonSync: 0
-  totalGameTime: 20
+  totalGameTime: 10
   rankingSceneName: RankingScene
-  delayBeforeRankingScene: 10
+  delayBeforeRankingScene: 3
 --- !u!114 &1577176683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52426,6 +52427,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a29c5e690781c4e89bf59d1c0d5a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1577176684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577176678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada39113d0ef8ee46bea89cd4e3635d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishPoint: {fileID: 1485273831}
+  raceDuration: 120
 --- !u!1 &1578398382
 GameObject:
   m_ObjectHideFlags: 0
@@ -65695,7 +65710,6 @@ GameObject:
   - component: {fileID: 1919528234}
   - component: {fileID: 1919528233}
   - component: {fileID: 1919528235}
-  - component: {fileID: 1919528236}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -65776,20 +65790,6 @@ MonoBehaviour:
   playerPrefab: {fileID: 1686771815633203412, guid: 2460aceb33b718f4d9bf78f5e00df6b4,
     type: 3}
   respawnArea: {fileID: 862340882}
---- !u!114 &1919528236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919528230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ada39113d0ef8ee46bea89cd4e3635d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  finishPoint: {fileID: 1485273831}
-  raceDuration: 120
 --- !u!1001 &1921618433
 PrefabInstance:
   m_ObjectHideFlags: 0
