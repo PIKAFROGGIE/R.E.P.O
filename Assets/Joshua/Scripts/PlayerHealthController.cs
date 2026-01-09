@@ -49,7 +49,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
     }
     public void TakeHit(float damage, float stunDamage, int attackerViewId)
     {
-        if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
+        if (!photonView.IsMine) return;
 
         lastHitTime = Time.time;
 
@@ -88,7 +88,6 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         isStunned = false;
         photonView.RPC("RPC_SetStunned", RpcTarget.All, false);
         //RPC_SetStunned(false);
-        anim.speed = 1f;
         photonView.RPC("RPC_CrossFade", RpcTarget.All, "Idle",0.1f);
     }
 
@@ -116,6 +115,10 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
             photonView.RPC("RPC_StunEffect", RpcTarget.All, false);
             vfx.RPC_StunEffect();
         }
+        if(!stunned)
+        {
+            anim.speed = 1f;
+        }
     }
 
     IEnumerator FreezeStunAnimation()
@@ -129,5 +132,11 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         );
 
         anim.speed = 0f;
+    }
+
+    [PunRPC]
+    public void RPC_TakeHit(float damage, float stunDamage, int attackerViewId)
+    {
+        TakeHit(damage, stunDamage, attackerViewId);
     }
 }

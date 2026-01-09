@@ -6,6 +6,7 @@ using UnityEngine;
 public class DamageObject : MonoBehaviour
 {
     PlayerHealthController health;
+    public PhotonView attackerPV;
     public float damage = 10f;
     public float stunDamage = 30f;
 
@@ -28,17 +29,22 @@ public class DamageObject : MonoBehaviour
     {
         if (!enable) return;
         if (!attackPlayer) return;
-        if (other.gameObject.CompareTag("Player") )return;
-        health = other.GetComponentInParent<PlayerHealthController>();
-        PhotonView targetPV = other.GetComponentInParent<PhotonView>();
+        if (!other.gameObject.CompareTag("Player") )return;
+        health = other.GetComponent<PlayerHealthController>();
+        PhotonView targetPV = other.GetComponent<PhotonView>();
 
         if (health == null && targetPV == null) return;
 
-        if (!targetPV.IsMine) return;
+        if (targetPV.ViewID == attackerPV.ViewID)
+            return;
+
+        if (!attackerPV.IsMine)
+            return;
 
         Debug.Log("Hit Player at " + transform.position);
 
-        health.TakeHit(0, stunDamage, -1);
+        targetPV.RPC("RPC_TakeHit",targetPV.Owner,damage,stunDamage,attackerPV.ViewID);
+
 
         enable = false;
     }

@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
 
             if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Jumping"))
             {
-                if (!isAttacking && airTimer >= fallDelay)
+                if (!Isstunned&&!isAttacking && airTimer >= fallDelay)
                 {
                     floating = true;
                     PV.RPC("RPC_CrossFade", RpcTarget.All, "Falling", 0.1f);

@@ -66,14 +66,17 @@ public class DragPlayer : MonoBehaviourPunCallbacks
         if (controller != null)
             controller.enabled = !dragged;
 
-        if (anim != null)
+        if (dragged)
         {
-            if (dragged)
-                anim.CrossFade("Floating", 0.1f);
-            else
-                anim.CrossFade("MovementTree", 0.1f);
+            DisablePhysics();
         }
+        else
+        {
+            StartCoroutine(ReEnablePhysicsSafely());
+        }
+
     }
+
 
     [PunRPC]
     void RPC_BreakFree()
@@ -84,4 +87,54 @@ public class DragPlayer : MonoBehaviourPunCallbacks
         if (controller != null)
             controller.enabled = true;
     }
+
+    void DisablePhysics()
+    {
+        if (controller != null)
+            controller.enabled = false;
+
+        CharacterController cc = GetComponent<CharacterController>();
+        if (cc != null)
+            cc.enabled = false;
+
+        Collider[] cols = GetComponentsInChildren<Collider>();
+        foreach (var col in cols)
+            col.enabled = false;
+    }
+
+    IEnumerator ReEnablePhysicsSafely()
+    {
+        yield return null;
+
+        yield return new WaitUntil(IsGroundedSafe);
+
+        SnapToGround();
+
+        CharacterController cc = GetComponent<CharacterController>();
+        if (cc != null)
+            cc.enabled = true;
+
+        Collider[] cols = GetComponentsInChildren<Collider>();
+        foreach (var col in cols)
+            col.enabled = true;
+
+        if (controller != null)
+            controller.enabled = true;
+    }
+
+    bool IsGroundedSafe()
+    {
+        Vector3 origin = transform.position + Vector3.up * 0.2f;
+        return Physics.Raycast(origin, Vector3.down, 0.5f);
+    }
+
+    void SnapToGround()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 2f))
+        {
+            transform.position = hit.point;
+        }
+    }
+
+
 }
