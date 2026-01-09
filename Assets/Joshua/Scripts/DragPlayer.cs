@@ -52,12 +52,12 @@ public class DragPlayer : MonoBehaviourPunCallbacks
 
         if (struggleValue >= struggleMax)
         {
-            RPC_BreakFree();
-            //photonView.RPC("RPC_BreakFree",RpcTarget.All);
+            //RPC_BreakFree();
+            photonView.RPC("RPC_BreakFree",RpcTarget.All);
         }
     }
 
-    //[PunRPC]
+    [PunRPC]
     public void RPC_SetDragged(bool dragged)
     {
         isBeingDragged = dragged;
@@ -75,7 +75,7 @@ public class DragPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    //[PunRPC]
+    [PunRPC]
     void RPC_BreakFree()
     {
         isBeingDragged = false;

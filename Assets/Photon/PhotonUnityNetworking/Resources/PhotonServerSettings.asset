@@ -98,6 +98,8 @@ MonoBehaviour:
   - RPC_PlayBananaHitSFX
   - RPC_TempControlLock
   - RPC_ReportDeath
+  - RPC_BreakFree
+  - RPC_SetDragged
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

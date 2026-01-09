@@ -140,19 +140,6 @@ public class PlayerController : MonoBehaviour
         float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
         moveInput = direction * speed;
 
-        //moveInput = horizontalmove + verticalmove;
-        //moveInput.Normalize();
-        /*
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            moveInput = moveInput * sprintSpeed;
-        }
-        else
-        {
-            moveInput = moveInput * moveSpeed;
-        }
-        */
-
         moveInput.y = yVelocity;
         moveInput.y += Physics.gravity.y * gravityForce * Time.deltaTime;
 

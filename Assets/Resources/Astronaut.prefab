@@ -1512,7 +1512,7 @@ MonoBehaviour:
   punchStun:
   - {fileID: 5267766904926116754}
   - {fileID: 7160667492697686134}
-  fallDelay: 1
+  fallDelay: 0.3
   floating: 1
 --- !u!114 &6513405473538592140
 MonoBehaviour:
@@ -1551,6 +1551,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 235765022096334569}
+  - {fileID: 5652595548944553020}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1620,7 +1621,6 @@ MonoBehaviour:
   stealCooldown: 1
   scoreTMP: {fileID: 0}
   scoreBackground: {fileID: 0}
-  uiOffset: {x: 0, y: 2, z: 0}
   targetCamera: {fileID: 0}
 --- !u!114 &8633602381845244524
 MonoBehaviour:
@@ -1714,6 +1714,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1026011456257805960}
   - component: {fileID: 1448318920810694909}
+  - component: {fileID: 5652595548944553020}
   m_Layer: 0
   m_Name: Astronaut
   m_TagString: Untagged
@@ -1763,6 +1764,47 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5652595548944553020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972552929907811207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 2
+    Name: walk
+  - Type: 4
+    SynchronizeType: 2
+    Name: run
+  - Type: 1
+    SynchronizeType: 2
+    Name: Blend
+  - Type: 9
+    SynchronizeType: 2
+    Name: punch1
+  - Type: 9
+    SynchronizeType: 2
+    Name: punch2
+  - Type: 4
+    SynchronizeType: 2
+    Name: stun
+  - Type: 4
+    SynchronizeType: 2
+    Name: IsGrounded
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!1 &5387467127792976202
 GameObject:
   m_ObjectHideFlags: 0

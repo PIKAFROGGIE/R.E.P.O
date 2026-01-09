@@ -91,15 +91,15 @@ public class PlayerDrag : MonoBehaviourPunCallbacks
         currentTarget = target;
 
         //target.photonView.RPC("RPC_SetDragged",RpcTarget.All,true);
-        target.RPC_SetDragged(true);
+        //target.RPC_SetDragged(true);
     }
 
     void StopDrag()
     {
         if (currentTarget == null) return;
 
-        //currentTarget.photonView.RPC("RPC_SetDragged", RpcTarget.All, false);
-        currentTarget.RPC_SetDragged(false);
+        currentTarget.photonView.RPC("RPC_SetDragged", RpcTarget.All, false);
+        //currentTarget.RPC_SetDragged(false);
         currentTarget = null;
     }
 

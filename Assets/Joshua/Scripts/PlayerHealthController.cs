@@ -48,7 +48,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
     }
     public void TakeHit(float damage, float stunDamage, int attackerViewId)
     {
-        //if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
+        if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
 
         lastHitTime = Time.time;
 
@@ -56,8 +56,8 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         stunCount += stunDamage;
 
         Debug.Log($"[TakeHit] stunCount after hit = {stunCount}");
-        //photonView.RPC("RPC_SyncState", RpcTarget.All, health, stunCount);
-        RPC_SyncState(health, stunCount);
+        photonView.RPC("RPC_SyncState", RpcTarget.All, health, stunCount);
+        //RPC_SyncState(health, stunCount);
 
         if (!isStunned && stunCount >= maxStun)
         {
@@ -65,7 +65,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         }
     }
 
-    //[PunRPC]
+    [PunRPC]
     void RPC_SyncState(float newHealth, float newStunCount)
     {
         health = newHealth;
@@ -76,22 +76,22 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
     {
         isStunned = true;
 
-        //photonView.RPC("RPC_SetStunned", RpcTarget.All, true);
-        RPC_SetStunned(true);
+        photonView.RPC("RPC_SetStunned", RpcTarget.All, true);
+        //RPC_SetStunned(true);
         yield return new WaitForSeconds(stunTime);
 
         stunCount = 0f;
-        //photonView.RPC("RPC_SyncState", RpcTarget.All, health, stunCount);
-        RPC_SyncState(health, stunCount);
+        photonView.RPC("RPC_SyncState", RpcTarget.All, health, stunCount);
+        //RPC_SyncState(health, stunCount);
 
         isStunned = false;
-        //photonView.RPC("RPC_SetStunned", RpcTarget.All, false);
-        RPC_SetStunned(false);
+        photonView.RPC("RPC_SetStunned", RpcTarget.All, false);
+        //RPC_SetStunned(false);
         anim.speed = 1f;
         anim.CrossFade("Idle", 0.1f);
     }
 
-    //[PunRPC]
+    [PunRPC]
     void RPC_SetStunned(bool stunned)
     {
         isStunned = stunned;
@@ -111,7 +111,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
 
         if(vfx != null)
         {
-            //photonView.RPC("RPC_StunEffect", RpcTarget.All, false);
+            photonView.RPC("RPC_StunEffect", RpcTarget.All, false);
             VFXController.Instance.RPC_StunEffect();
         }
     }
