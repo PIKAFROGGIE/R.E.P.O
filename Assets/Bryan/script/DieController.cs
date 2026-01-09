@@ -29,6 +29,7 @@ public class DieController : MonoBehaviour
     {
         get
         {
+            pv = GetComponent<PhotonView>();
             // If offline, we are always the local player
             if (!PhotonNetwork.IsConnected) return true;
             // If online, check PhotonView
@@ -38,7 +39,6 @@ public class DieController : MonoBehaviour
 
     void Start()
     {
-        pv = GetComponent<PhotonView>();
         cc = GetComponent<CharacterController>();
         myColliders = GetComponents<Collider>();
     }
@@ -62,8 +62,6 @@ public class DieController : MonoBehaviour
 
     IEnumerator DieSequence()
     {
-        isDead = true;
-
         // 1. Fade Out
         yield return StartCoroutine(Fade(1f));
 
@@ -89,6 +87,8 @@ public class DieController : MonoBehaviour
     [PunRPC]
     void RPC_BecomeSpectator()
     {
+        isDead = true;
+
         // 1. Hide Visuals
         foreach (var obj in visualRoots)
         {
@@ -132,5 +132,10 @@ public class DieController : MonoBehaviour
             yield return null;
         }
         fadeCanvas.alpha = target;
+    }
+
+    public bool checkDead()
+    {
+        return isDead;
     }
 }

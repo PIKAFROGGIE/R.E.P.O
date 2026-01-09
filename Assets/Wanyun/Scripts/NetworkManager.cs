@@ -129,7 +129,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("LoadingScene");
+            PhotonNetwork.LoadLevel("Bryan");
         }
     }
     #endregion
