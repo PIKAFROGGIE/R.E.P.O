@@ -6815,8 +6815,8 @@ MonoBehaviour:
   - {fileID: 3927407591015120820, guid: 97898339c4751e14d9d0c97b609240e2, type: 3}
   - {fileID: 5251425495918420679, guid: 441cd33d54f489b4db958f8356d9c115, type: 3}
   - {fileID: 1352230522906823636, guid: 56def945ef0ac7e468f2079c3b3a40cf, type: 3}
-  spawnInterval: 1.5
-  maxItemsInScene: 15
+  spawnInterval: 1
+  maxItemsInScene: 30
 --- !u!4 &7659101378940104776
 Transform:
   m_ObjectHideFlags: 0

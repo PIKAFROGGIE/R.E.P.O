@@ -44471,6 +44471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8a48c64d8755442bcf3f7becd1d563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rankingSceneName: RankingScene
+  delayBeforeLoadRankingScene: 3
 --- !u!1 &1330861598
 GameObject:
   m_ObjectHideFlags: 0
@@ -88006,6 +88008,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5259528724040108039}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4943962806967213506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7598269927551477271}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 126.3, y: 27.1, z: 136.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4995310996254576179
 GameObject:
   m_ObjectHideFlags: 0
@@ -89763,6 +89780,26 @@ MonoBehaviour:
   useFixedDelay: 0
   fixedDelay: 0
   delayBetweenCycles: 0
+--- !u!114 &5237262270944849993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7598269927551477271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e6cade89de67a458d21e9f2c4cc3be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaSize: {x: 155, y: 5, z: 150}
+  itemPrefabs:
+  - {fileID: 8937733180136457931, guid: d1c199fd4129f5c42b7dcf2b0c0fc4c4, type: 3}
+  - {fileID: 3927407591015120820, guid: 97898339c4751e14d9d0c97b609240e2, type: 3}
+  - {fileID: 5251425495918420679, guid: 441cd33d54f489b4db958f8356d9c115, type: 3}
+  - {fileID: 1352230522906823636, guid: 56def945ef0ac7e468f2079c3b3a40cf, type: 3}
+  spawnInterval: 1
+  maxItemsInScene: 50
 --- !u!4 &5248418559421164470
 Transform:
   m_ObjectHideFlags: 0
@@ -96556,6 +96593,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a73a899f8d68b14b8c3e9db9b52e989, type: 3}
+--- !u!1 &7598269927551477271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4943962806967213506}
+  - component: {fileID: 5237262270944849993}
+  m_Layer: 0
+  m_Name: ItemSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &7626454907932058275
 GameObject:
   m_ObjectHideFlags: 0
@@ -100919,3 +100973,4 @@ SceneRoots:
   - {fileID: 230143660}
   - {fileID: 1467308354}
   - {fileID: 1005828607}
+  - {fileID: 4943962806967213506}

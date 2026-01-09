@@ -75568,8 +75568,8 @@ MonoBehaviour:
   - {fileID: 4876100162889294118, guid: 020951c7ba8fd5f49b5491c243c03e77, type: 3}
   - {fileID: 7590406096258769204, guid: 056f9fce4e930a4498ae3c33731896bc, type: 3}
   - {fileID: 2927500389516190432, guid: badbca820cbd61846bb48fc57a134e5b, type: 3}
-  spawnInterval: 1.5
-  maxItemsInScene: 15
+  spawnInterval: 1
+  maxItemsInScene: 50
 --- !u!4 &6534987637553275919
 Transform:
   m_ObjectHideFlags: 0
