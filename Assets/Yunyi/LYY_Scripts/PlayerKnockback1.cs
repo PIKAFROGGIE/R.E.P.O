@@ -17,7 +17,7 @@ public class PlayerKnockback1 : MonoBehaviourPun
             controller = GetComponent<CharacterController>();
     }
 
-    // ⚡ 被 Thunder 调用的 RPC
+    // ⚡ 通用击退（Thunder / Banana 等）
     [PunRPC]
     public void RPC_ApplyKnockback(Vector3 direction, float force)
     {
@@ -28,6 +28,17 @@ public class PlayerKnockback1 : MonoBehaviourPun
     IEnumerator KnockbackRoutine(Vector3 direction, float force)
     {
         isKnockbacking = true;
+
+        PlayerController pc = GetComponent<PlayerController>();
+        if (pc != null)
+        {
+            // ⭐ 使用“加锁”
+            PhotonView pv = GetComponent<PhotonView>();
+            if (pv != null)
+            {
+                pv.RPC(nameof(PlayerController.RPC_AddControlLock), RpcTarget.All);
+            }
+        }
 
         float timer = 0f;
         direction.y = 0f;
@@ -40,28 +51,42 @@ public class PlayerKnockback1 : MonoBehaviourPun
             yield return null;
         }
 
+        if (pc != null)
+        {
+            // ⭐ 使用“解锁”
+            PhotonView pv = GetComponent<PhotonView>();
+            if (pv != null)
+            {
+                pv.RPC(nameof(PlayerController.RPC_RemoveControlLock), RpcTarget.All);
+            }
+        }
+
         isKnockbacking = false;
     }
 
+    // 🪠 马桶塞拉人
     [PunRPC]
     public void RPC_PullToPosition(Vector3 targetPosition)
     {
-        PlayerController pc = GetComponent<PlayerController>();
-        if (pc != null)
-        {
-            pc.isControlLocked = true;
-        }
-
         StartCoroutine(PullRoutine(targetPosition));
     }
-
 
     IEnumerator PullRoutine(Vector3 targetPosition)
     {
         isKnockbacking = true;
 
+        PlayerController pc = GetComponent<PlayerController>();
+        if (pc != null)
+        {
+            PhotonView pv = GetComponent<PhotonView>();
+            if (pv != null)
+            {
+                pv.RPC(nameof(PlayerController.RPC_AddControlLock), RpcTarget.All);
+            }
+        }
+
         float t = 0f;
-        float duration = 0.15f; // 拉回速度（派对游戏推荐短）
+        float duration = 0.15f;
 
         Vector3 start = transform.position;
 
@@ -80,13 +105,15 @@ public class PlayerKnockback1 : MonoBehaviourPun
         transform.position = targetPosition;
         controller.enabled = true;
 
-        isKnockbacking = false;
-
-        PlayerController pc = GetComponent<PlayerController>();
         if (pc != null)
         {
-            pc.isControlLocked = false;
+            PhotonView pv = GetComponent<PhotonView>();
+            if (pv != null)
+            {
+                pv.RPC(nameof(PlayerController.RPC_RemoveControlLock), RpcTarget.All);
+            }
         }
-    }
 
+        isKnockbacking = false;
+    }
 }

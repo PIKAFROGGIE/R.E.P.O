@@ -58,7 +58,9 @@ public class PlayerController : MonoBehaviour
 
     //LYY update
     [Header("Control Lock")]
-    public bool isControlLocked = false;
+    int controlLockCount = 0;
+    public bool isControlLocked => controlLockCount > 0;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -357,9 +359,38 @@ public class PlayerController : MonoBehaviour
 
     //LYY update
     [PunRPC]
-    public void RPC_SetControlLocked(bool value)
+    public void RPC_AddControlLock()
     {
-        isControlLocked = value;
+        controlLockCount++;
+    }
+
+    [PunRPC]
+    public void RPC_RemoveControlLock()
+    {
+        controlLockCount = Mathf.Max(0, controlLockCount - 1);
+    }
+
+    [PunRPC]
+    public void RPC_DestroyAllBananaPeels()
+    {
+        BananaPeel[] peels = FindObjectsOfType<BananaPeel>();
+        foreach (var peel in peels)
+        {
+            Destroy(peel.gameObject);
+        }
+    }
+
+    [PunRPC]
+    public void RPC_TempControlLock(float duration)
+    {
+        StartCoroutine(TempControlLockRoutine(duration));
+    }
+
+    private IEnumerator TempControlLockRoutine(float duration)
+    {
+        controlLockCount++;
+        yield return new WaitForSeconds(duration);
+        controlLockCount = Mathf.Max(0, controlLockCount - 1);
     }
 
 }

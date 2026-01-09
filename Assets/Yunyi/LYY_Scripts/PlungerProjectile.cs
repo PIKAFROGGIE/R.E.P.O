@@ -14,6 +14,8 @@ public class PlungerProjectile : MonoBehaviour
 
     Vector3 moveDir;
 
+    bool hasHit = false;
+
     public void Init(PhotonView owner, float force, Vector3 fireDir)
     {
         ownerPV = owner;
@@ -25,8 +27,10 @@ public class PlungerProjectile : MonoBehaviour
 
     void Update()
     {
+        if (hasHit) return;
         transform.position += moveDir * speed * Time.deltaTime;
     }
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -61,9 +65,24 @@ public class PlungerProjectile : MonoBehaviour
             );
         }
 
+        hasHit = true;
+
         // 关闭 HitBox，防重复
         if (hitBox != null)
             hitBox.enabled = false;
+
+        // 关闭所有可见 Renderer（立刻视觉消失）
+        foreach (var r in GetComponentsInChildren<Renderer>())
+            r.enabled = false;
+
+        // （可选）如果有 Rigidbody，避免残余物理
+        var rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
 
         Destroy(gameObject);
     }

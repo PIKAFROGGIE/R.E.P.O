@@ -18,20 +18,28 @@ public class PlungerSkill : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
+        // ? 本地算好位置 & 方向
+        Vector3 firePos = handPoint.position;
+        Vector3 fireDir = handPoint.forward;
+
+        // 播放发射音效（所有人）
         photonView.RPC(
-        nameof(RPC_PlayShootSFX),
-        RpcTarget.All
+            nameof(RPC_PlayShootSFX),
+            RpcTarget.All
         );
 
+        // ? 把“结果”同步出去
         photonView.RPC(
             nameof(RPC_UsePlunger),
             RpcTarget.All,
-            photonView.ViewID
+            photonView.ViewID,
+            firePos,
+            fireDir
         );
     }
 
     [PunRPC]
-    void RPC_UsePlunger(int ownerViewID)
+    void RPC_UsePlunger(int ownerViewID, Vector3 firePos, Vector3 fireDir)
     {
         PhotonView ownerPV = PhotonView.Find(ownerViewID);
         if (ownerPV == null) return;
@@ -41,22 +49,23 @@ public class PlungerSkill : MonoBehaviourPun
 
         GameObject proj = Instantiate(
             skill.plungerAttackPrefab,
-            skill.handPoint.position,
-            skill.handPoint.rotation
+            firePos,
+            Quaternion.LookRotation(fireDir)
         );
-
-        Vector3 fireDir = skill.handPoint.forward;
 
         proj.GetComponent<PlungerProjectile>()
             .Init(ownerPV, skill.pullForce, fireDir);
-
     }
 
+    // =======================
+    // SFX
+    // =======================
     public void PlayShootSFX()
     {
         if (audioSource != null && shootSFX != null)
             audioSource.PlayOneShot(shootSFX);
     }
+
     public void PlayHitSFX()
     {
         if (audioSource != null && hitSFX != null)
@@ -74,6 +83,4 @@ public class PlungerSkill : MonoBehaviourPun
     {
         PlayHitSFX();
     }
-
-
 }

@@ -6,7 +6,8 @@ public enum ItemType
     None,
     Thunder,
     Plunger,
-    Egg
+    Egg,
+    Banana
 }
 
 public class PlayerItemHandler : MonoBehaviourPun
@@ -18,11 +19,13 @@ public class PlayerItemHandler : MonoBehaviourPun
     public GameObject thunderModel;
     public GameObject plungerModel;
     public GameObject eggModel;
+    public GameObject bananaModel;
 
     [Header("Item Skills")]
     public ThunderSkill thunderSkill;
     public PlungerSkill plungerSkill;
     public EggSkill eggSkill;
+    public BananaSkill bananaSkill;
 
     void Start()
     {
@@ -69,6 +72,10 @@ public class PlayerItemHandler : MonoBehaviourPun
 
         if (eggModel != null)
             eggModel.SetActive(currentItem == ItemType.Egg);
+
+        if (bananaModel != null)
+            bananaModel.SetActive(currentItem == ItemType.Banana);
+
     }
 
     // ======================
@@ -87,6 +94,9 @@ public class PlayerItemHandler : MonoBehaviourPun
                 break;
             case ItemType.Egg:
                 eggSkill.Activate();
+                break;
+            case ItemType.Banana:
+                bananaSkill.Activate();
                 break;
         }
 

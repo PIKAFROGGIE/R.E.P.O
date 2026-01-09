@@ -15,20 +15,28 @@ public class EggSkill : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
+        // ? 本地算好位置 & 方向
+        Vector3 firePos = handPoint.position;
+        Vector3 fireDir = handPoint.forward;
+
+        // 播放发射音效
         photonView.RPC(
-        nameof(RPC_PlayEggShootSFX),
-        RpcTarget.All
+            nameof(RPC_PlayEggShootSFX),
+            RpcTarget.All
         );
 
+        // ? 同步发射结果
         photonView.RPC(
             nameof(RPC_UseEgg),
             RpcTarget.All,
-            photonView.ViewID
+            photonView.ViewID,
+            firePos,
+            fireDir
         );
     }
 
     [PunRPC]
-    void RPC_UseEgg(int ownerViewID)
+    void RPC_UseEgg(int ownerViewID, Vector3 firePos, Vector3 fireDir)
     {
         PhotonView ownerPV = PhotonView.Find(ownerViewID);
         if (ownerPV == null) return;
@@ -38,20 +46,23 @@ public class EggSkill : MonoBehaviourPun
 
         GameObject proj = Instantiate(
             skill.eggProjectilePrefab,
-            skill.handPoint.position,
-            skill.handPoint.rotation
+            firePos,
+            Quaternion.LookRotation(fireDir)
         );
-
-        Vector3 fireDir = skill.handPoint.forward;
 
         proj.GetComponent<EggProjectile>()
             .Init(ownerPV, fireDir);
     }
+
+    // =======================
+    // SFX
+    // =======================
     public void PlayEggShootSFX()
     {
         if (audioSource != null && shootSFX != null)
             audioSource.PlayOneShot(shootSFX);
     }
+
     public void PlayEggHitSFX()
     {
         if (audioSource != null && hitSFX != null)

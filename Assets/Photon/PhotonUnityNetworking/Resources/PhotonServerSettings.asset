@@ -89,6 +89,14 @@ MonoBehaviour:
   - RPC_PlayEggHitSFX
   - RPC_PlayEggShootSFX
   - RPC_CleanupPlayer
+  - RPC_UseBanana
+  - RPC_PlaySlipSFX
+  - RPC_PlayThrowSFX
+  - RPC_AddControlLock
+  - RPC_DestroyAllBananaPeels
+  - RPC_RemoveControlLock
+  - RPC_PlayBananaHitSFX
+  - RPC_TempControlLock
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
