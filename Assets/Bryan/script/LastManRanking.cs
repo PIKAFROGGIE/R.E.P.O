@@ -15,9 +15,6 @@ public class LastManRanking : MonoBehaviourPunCallbacks
 
     private bool gameEnded = false;
 
-    // List to store players in the order they DIED.
-    // Index 0 = First person to die (Last Place)
-    // Last Index = Last person to die (Better Place)
     private List<Player> deadPlayersLog = new List<Player>();
 
     void Awake()
