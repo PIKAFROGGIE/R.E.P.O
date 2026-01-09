@@ -42,4 +42,38 @@ public class PlayerKnockback1 : MonoBehaviourPun
 
         isKnockbacking = false;
     }
+
+    [PunRPC]
+    public void RPC_PullToPosition(Vector3 targetPosition)
+    {
+        StartCoroutine(PullRoutine(targetPosition));
+    }
+
+    IEnumerator PullRoutine(Vector3 targetPosition)
+    {
+        isKnockbacking = true;
+
+        float t = 0f;
+        float duration = 0.15f; // 拉回速度（派对游戏推荐短）
+
+        Vector3 start = transform.position;
+
+        while (t < duration)
+        {
+            Vector3 pos = Vector3.Lerp(start, targetPosition, t / duration);
+            controller.enabled = false;
+            transform.position = pos;
+            controller.enabled = true;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        controller.enabled = false;
+        transform.position = targetPosition;
+        controller.enabled = true;
+
+        isKnockbacking = false;
+    }
+
 }

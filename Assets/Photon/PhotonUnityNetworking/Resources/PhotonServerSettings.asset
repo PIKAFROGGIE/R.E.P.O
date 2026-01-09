@@ -78,6 +78,11 @@ MonoBehaviour:
   - RPC_StartCountdown
   - RPC_StartGlobalTimer
   - RPC_PlayerReachedFinish
+  - RPC_UsePlunger
+  - RPC_PullToPosition
+  - RPC_PlayHitSFX
+  - RPC_PlayShootSFX
+  - RPC_PlaySkillSFX
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

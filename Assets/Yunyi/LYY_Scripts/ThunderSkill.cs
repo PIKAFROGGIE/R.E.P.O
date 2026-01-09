@@ -11,6 +11,10 @@ public class ThunderSkill : MonoBehaviourPun
     public GameObject thunderVFXPrefab;
     public float vfxDuration = 0.6f; // 光罩存在时间
 
+    [Header("Sound")]
+    public AudioSource audioSource;
+    public AudioClip skillSFX;
+
     public void Activate()
     {
         if (!photonView.IsMine) return;
@@ -22,6 +26,11 @@ public class ThunderSkill : MonoBehaviourPun
     void RPC_Thunder(Vector3 center)
     {
         Debug.Log("⚡ Thunder triggered");
+
+        photonView.RPC(
+        nameof(RPC_PlaySkillSFX),
+        RpcTarget.All
+        );
 
         // ========= 1. 生成光罩 =========
         if (thunderVFXPrefab != null)
@@ -55,6 +64,17 @@ public class ThunderSkill : MonoBehaviourPun
                 force
             );
         }
+    }
+    public void PlaySkillSFX()
+    {
+        if (audioSource != null && skillSFX != null)
+            audioSource.PlayOneShot(skillSFX);
+    }
+
+    [PunRPC]
+    void RPC_PlaySkillSFX()
+    {
+        PlaySkillSFX();
     }
 
 #if UNITY_EDITOR

@@ -4,7 +4,8 @@ using Photon.Pun;
 public enum ItemType
 {
     None,
-    Thunder
+    Thunder,
+    Plunger
 }
 
 public class PlayerItemHandler : MonoBehaviourPun
@@ -14,9 +15,11 @@ public class PlayerItemHandler : MonoBehaviourPun
 
     [Header("Item Models (On Player)")]
     public GameObject thunderModel;
+    public GameObject plungerModel;
 
     [Header("Item Skills")]
     public ThunderSkill thunderSkill;
+    public PlungerSkill plungerSkill;
 
     void Start()
     {
@@ -55,6 +58,9 @@ public class PlayerItemHandler : MonoBehaviourPun
     {
         if (thunderModel != null)
             thunderModel.SetActive(currentItem == ItemType.Thunder);
+
+        if (plungerModel != null)
+            plungerModel.SetActive(currentItem == ItemType.Plunger);
     }
 
     // ======================
@@ -67,6 +73,9 @@ public class PlayerItemHandler : MonoBehaviourPun
             case ItemType.Thunder:
                 if (thunderSkill != null)
                     thunderSkill.Activate();
+                break;
+            case ItemType.Plunger:
+                plungerSkill.Activate();
                 break;
         }
 
