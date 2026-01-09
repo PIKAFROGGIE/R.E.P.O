@@ -105,8 +105,7 @@ public class PlayerController : MonoBehaviour
                 if (!isAttacking && airTimer >= fallDelay)
                 {
                     floating = true;
-                    anim.CrossFade("Falling", 0.15f);
-                    anim.CrossFade("Falling", 0.15f, upperBodyLayer);
+                    PV.RPC("RPC_CrossFade", RpcTarget.All, "Falling", 0.1f);
                     cross = false;
                 }
             }
@@ -150,8 +149,7 @@ public class PlayerController : MonoBehaviour
                 canJump = true;
                 if (!isAttacking && !cross)
                 {
-                    anim.CrossFade("MovementTree", 0.15f);
-                    anim.CrossFade("MovementTree", 0.15f, upperBodyLayer);
+                    PV.RPC("RPC_CrossFade", RpcTarget.All, "MovementTree", 0.15f);
                     cross = true;
                 }
             }
@@ -162,8 +160,7 @@ public class PlayerController : MonoBehaviour
                 if (jumping != null)
                     jumping.Play();
                 moveInput.y = jumpForce;
-                anim.CrossFade("Jumping", 0.1f);
-                anim.CrossFade("Jumping", 0.1f, upperBodyLayer);
+                PV.RPC("RPC_CrossFade", RpcTarget.All, "Jumping", 0.1f);
                 cross = false;
             }
         }
@@ -245,8 +242,9 @@ public class PlayerController : MonoBehaviour
         string animName = "Box" + comboIndex;
 
         anim.SetInteger("comboIndex", comboIndex);
-        anim.CrossFade(animName, 0.1f);
-        anim.CrossFade(animName, 0.1f, upperBodyLayer);
+        PV.RPC("RPC_CrossFade", RpcTarget.All, animName, 0.1f);
+        /*anim.CrossFade(animName, 0.1f);
+        anim.CrossFade(animName, 0.1f, upperBodyLayer);*/
 
         if (CC != null)
             //CC.enabled = false;
@@ -284,13 +282,11 @@ public class PlayerController : MonoBehaviour
 
         if (CC.isGrounded)
         {
-            anim.CrossFade("MovementTree", 0.15f);
-            anim.CrossFade("MovementTree", 0.15f, upperBodyLayer);
+            PV.RPC("RPC_CrossFade", RpcTarget.All, "MovementTree", 0.1f);
         }
         else if(floating)
         {
-            anim.CrossFade("Falling", 0.1f);
-            anim.CrossFade("Falling", 0.1f, upperBodyLayer);
+            PV.RPC("RPC_CrossFade", RpcTarget.All, "Falling", 0.1f);
         }
         if (CC != null)
             CC.enabled = true;
@@ -380,4 +376,10 @@ public class PlayerController : MonoBehaviour
         controlLockCount = Mathf.Max(0, controlLockCount - 1);
     }
 
+    [PunRPC]
+    public void RPC_CrossFade(string name, float duration)
+    {
+        anim.CrossFade(name, duration);
+        anim.CrossFade(name, duration, upperBodyLayer);
+    }
 }

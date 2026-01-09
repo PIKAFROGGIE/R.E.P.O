@@ -100,6 +100,8 @@ MonoBehaviour:
   - RPC_ReportDeath
   - RPC_BreakFree
   - RPC_SetDragged
+  - RPC_PlayPunch
+  - RPC_CrossFade
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

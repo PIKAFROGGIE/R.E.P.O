@@ -1821,25 +1821,25 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: walk
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: run
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: Blend
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: punch1
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: punch2
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: stun
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: IsGrounded
   m_SynchronizeLayers:
   - SynchronizeType: 2
