@@ -62,6 +62,7 @@ public class DieController : MonoBehaviour
 
     IEnumerator DieSequence()
     {
+        isDead = true;
         // 1. Fade Out
         yield return StartCoroutine(Fade(1f));
 
@@ -70,6 +71,16 @@ public class DieController : MonoBehaviour
         {
             // ONLINE: Tell everyone else to hide our body
             pv.RPC("RPC_BecomeSpectator", RpcTarget.AllBuffered);
+
+            if (LastManRanking.Instance != null)
+            {
+                PhotonView managerPV = LastManRanking.Instance.GetComponent<PhotonView>();
+                if (managerPV != null)
+                {
+                    // Tell Master Client that 'I' (PhotonNetwork.LocalPlayer) died
+                    managerPV.RPC("RPC_ReportDeath", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer);
+                }
+            }
         }
         else
         {
