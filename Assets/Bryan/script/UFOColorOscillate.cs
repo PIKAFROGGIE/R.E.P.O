@@ -25,9 +25,9 @@ public class UFOColorOscillate : MonoBehaviour
     void Update()
     {
         float t = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f;
-        if(originalColor1 != null)
+        if(originalColor1 != null && rend.materials.Length == 1)
             rend.materials[0].color = Color.Lerp(originalColor1, targetColor, t);
-        if (originalColor2 != null)
+        if (originalColor2 != null && rend.materials.Length > 1)
             rend.materials[4].color = Color.Lerp(originalColor2, targetColor, t);
     }
 }
