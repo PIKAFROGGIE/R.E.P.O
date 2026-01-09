@@ -515,7 +515,6 @@ MonoBehaviour:
   punchStun: []
   fallDelay: 1
   floating: 1
-  isControlLocked: 0
 --- !u!114 &563037959345786593
 MonoBehaviour:
   m_ObjectHideFlags: 0

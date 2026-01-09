@@ -68,7 +68,8 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            // 等待 UI 按钮触发进入下一关
+            
+            RankingAutoNext.Instance.PrepareForNextRound();
             Debug.Log("Waiting for next round");
         }
     }
@@ -112,4 +113,5 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
                     : 0)
             .ToList();
     }
+
 }
