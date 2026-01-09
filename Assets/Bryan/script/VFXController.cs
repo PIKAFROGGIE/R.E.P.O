@@ -47,18 +47,18 @@ public class VFXController : MonoBehaviour
     {
         while(isRunning)
         {
-            //PhotonNetwork.Instantiate("runningSmoke", spawnPosition.position, Quaternion.identity);
-            Instantiate(runningSmoke, spawnPosition.position, Quaternion.identity);
+            PhotonNetwork.Instantiate("runningSmoke", spawnPosition.position, Quaternion.identity);
+            //Instantiate(runningSmoke, spawnPosition.position, Quaternion.identity);
             yield return new WaitForSeconds(0.25f);
         }
     }
 
-    //[PunRPC]
+    [PunRPC]
     public void RPC_StunEffect()
     {
-        //PhotonNetwork.Instantiate("hitEffect", spawnPosition.position, Quaternion.identity);
-        Instantiate(hitEffect, spawnPosition.position, Quaternion.identity);
-        //PhotonNetwork.Instantiate("stunEffect", stunPosition.position, Quaternion.identity);
-        Instantiate(stunEffect, stunPosition.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("hitEffect", spawnPosition.position, Quaternion.identity);
+        //Instantiate(hitEffect, spawnPosition.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("stunEffect", stunPosition.position, Quaternion.identity);
+        //Instantiate(stunEffect, stunPosition.position, Quaternion.identity);
     }
 }
