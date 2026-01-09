@@ -21,10 +21,8 @@ public class RankItemUI : MonoBehaviour
         nameText.text = playerName;
         scoreText.text = score.ToString("N0");
 
-        // 默认
         highlightBG.color = normalColor;
 
-        // 前三名样式
         if (rank == 1)
         {
             highlightBG.color = firstColor;

@@ -25,17 +25,12 @@ public class PlayerKnockback : MonoBehaviourPun
         {
             knockbackTimer -= Time.deltaTime;
 
-            // 受击位移
             cc.Move(knockbackVelocity * Time.deltaTime);
 
-            // 模拟重力
             knockbackVelocity.y += gravity * Time.deltaTime;
         }
     }
 
-    /// <summary>
-    /// 被弹飞
-    /// </summary>
     public void ApplyKnockback(Vector3 direction, float force, float upwardForce)
     {
         knockbackVelocity =
@@ -51,6 +46,6 @@ public class PlayerKnockback : MonoBehaviourPun
             direction.normalized * force +
             Vector3.up * upwardForce;
 
-        knockbackTimer = 0.15f; // 弹性物体更短
+        knockbackTimer = 0.15f; 
     }
 }

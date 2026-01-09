@@ -27,7 +27,6 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        // 本地模式
         if (!usePhotonSync)
         {
             endTime = Time.time + totalGameTime;
@@ -35,7 +34,6 @@ public class GameEndManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        // 网络模式：由 Master 同步开始时间
         if (PhotonNetwork.IsMasterClient)
         {
             endTime = PhotonNetwork.Time + totalGameTime;
@@ -53,7 +51,6 @@ public class GameEndManager : MonoBehaviourPunCallbacks
 
         if (timeLeft > 0)
         {
-            // 更新倒计时 UI（本地）
             if (PlayerUIManager.Instance != null)
             {
                 PlayerUIManager.Instance.UpdateCountdown(
@@ -65,13 +62,11 @@ public class GameEndManager : MonoBehaviourPunCallbacks
         {
             gameEnded = true;
 
-            // 显示 Game Over（本地）
             if (PlayerUIManager.Instance != null)
             {
                 PlayerUIManager.Instance.ShowGameOver();
             }
 
-            // 只通知排名系统“时间到”，不切场景
             if (PhotonNetwork.IsMasterClient && RaceRankingManager.Instance != null)
             {
                 RaceRankingManager.Instance.OnRaceTimeUp();
