@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 using Cinemachine;
+using System.Collections;
 
 public class PlayerSetup2 : MonoBehaviourPunCallbacks
 {
@@ -35,7 +36,7 @@ public class PlayerSetup2 : MonoBehaviourPunCallbacks
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        if (playerController != null) playerController.enabled = true;
+        StartCoroutine(DisableMovementInitial());
         if (characterController != null) characterController.enabled = true;
 
         if (rb != null)
@@ -83,5 +84,16 @@ public class PlayerSetup2 : MonoBehaviourPunCallbacks
         }
 
         if (animator != null) animator.applyRootMotion = false;
+    }
+
+    IEnumerator DisableMovementInitial()
+    {
+        while (playerController != null && !GameManager.Instance.CheckGameStart())
+        {
+            playerController.enabled = false;
+            yield return null;
+        }
+        if(playerController != null)
+            playerController.enabled = true;
     }
 }

@@ -16,8 +16,12 @@ public class PhotonSpectatorScript : MonoBehaviour
     private Transform currentTarget;
     private DieController currentDieController;
 
+    AudioListener listener;
+
     void Start()
     {
+        listener = GetComponent<AudioListener>();
+        listener.enabled = true;
         // Try to find someone immediately
         RefreshTargetList();
     }

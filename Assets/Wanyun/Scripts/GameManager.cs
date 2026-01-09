@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public static GameManager Instance;
     [Header("Mode")]
     public bool usePhotonSync = false;
 
@@ -13,8 +14,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float prepareTime = 5f;
     private bool countSoundPlayed = false;
 
-
-    [Header("UI - Countdown (Support 1 or Multiple)")]
+    [Header("UI - Countdown")]
     public List<CanvasGroup> countdownCanvases = new List<CanvasGroup>();
     public List<Text> countdownTexts = new List<Text>();
 
@@ -28,24 +28,28 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Boss")]
     public bool enableBoss = false;
 
+    void Awake()
+    {
+        // Set up Singleton
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     void Start()
     {
-        // 打开所有 Barrier
+        // Open Barriers
         foreach (var barrier in startBarriers)
         {
-            if (barrier != null)
-                barrier.SetActive(true);
+            if (barrier != null) barrier.SetActive(true);
         }
 
-        // 显示所有倒数 UI
+        // Show UI
         foreach (var canvas in countdownCanvases)
         {
-            if (canvas != null)
-                canvas.alpha = 1;
+            if (canvas != null) canvas.alpha = 1;
         }
 
-        // 本地模式直接倒数
+        // Local Mode
         if (!usePhotonSync)
         {
             startTime = Time.time + prepareTime;
@@ -80,33 +84,27 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         string textToShow;
 
-        if (timeLeft > 3)
-            textToShow = "Ready?";
+        if (timeLeft > 3) textToShow = "Ready?";
         else if (timeLeft > 2)
         {
             textToShow = "3";
-
             if (!countSoundPlayed)
             {
                 AudioManager.Instance.PlaySFX(SFXType.Count);
                 countSoundPlayed = true;
             }
         }
-        else if (timeLeft > 1)
-            textToShow = "2";
-        else if (timeLeft > 0)
-            textToShow = "1";
+        else if (timeLeft > 1) textToShow = "2";
+        else if (timeLeft > 0) textToShow = "1";
         else
         {
             StartGame();
             return;
         }
 
-        // 同步更新所有倒数文本
         foreach (var txt in countdownTexts)
         {
-            if (txt != null)
-                txt.text = textToShow;
+            if (txt != null) txt.text = textToShow;
         }
     }
 
@@ -115,18 +113,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (gameStarted) return;
         gameStarted = true;
 
-        // 显示 GO!
+        // Show GO!
         foreach (var txt in countdownTexts)
         {
-            if (txt != null)
-                txt.text = "GO!";
+            if (txt != null) txt.text = "GO!";
         }
 
-        // 关闭所有 Barrier
+        // Close Barriers
         foreach (var barrier in startBarriers)
         {
-            if (barrier != null)
-                barrier.SetActive(false);
+            if (barrier != null) barrier.SetActive(false);
         }
 
         if (usePhotonSync)
@@ -144,26 +140,20 @@ public class GameManager : MonoBehaviourPunCallbacks
     IEnumerator HideAllUI()
     {
         yield return new WaitForSeconds(0.8f);
-
         float t = 0f;
         while (t < 0.5f)
         {
             t += Time.deltaTime;
             float alpha = Mathf.Lerp(1, 0, t / 0.5f);
-
             foreach (var canvas in countdownCanvases)
             {
-                if (canvas != null)
-                    canvas.alpha = alpha;
+                if (canvas != null) canvas.alpha = alpha;
             }
-
             yield return null;
         }
-
         foreach (var canvas in countdownCanvases)
         {
-            if (canvas != null)
-                canvas.alpha = 0;
+            if (canvas != null) canvas.alpha = 0;
         }
     }
 
@@ -176,13 +166,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     void StartBossLocal()
     {
         if (!enableBoss) return;
-
         BossController boss = FindObjectOfType<BossController>();
-        if (boss != null)
-        {
-            boss.StartBoss();
-        }
+        if (boss != null) boss.StartBoss();
     }
 
-
+    public bool CheckGameStart()
+    {
+        return gameStarted;
+    }
 }

@@ -809,7 +809,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a06d209b3ade55748a8b59397a23aaee, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 147ef3dd0440a1e4299c053c069be4a4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.6
   m_Pitch: 1
@@ -5936,6 +5936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ddcefed1f3b14489a031fa85c196a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerScripts: []
   usePhotonSync: 0
   prepareTime: 5
   countdownCanvases:
@@ -38992,10 +38993,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7344822442474190065, guid: c3da566acae8bfa4e8e0b7bca683179e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344822442474190065, guid: c3da566acae8bfa4e8e0b7bca683179e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344822442474190065, guid: c3da566acae8bfa4e8e0b7bca683179e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344822442474190065, guid: c3da566acae8bfa4e8e0b7bca683179e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7543273444019867401, guid: c3da566acae8bfa4e8e0b7bca683179e,
         type: 3}
       propertyPath: m_Name
       value: Astronaut (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7543273444019867401, guid: c3da566acae8bfa4e8e0b7bca683179e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077376436199104111, guid: c3da566acae8bfa4e8e0b7bca683179e,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
