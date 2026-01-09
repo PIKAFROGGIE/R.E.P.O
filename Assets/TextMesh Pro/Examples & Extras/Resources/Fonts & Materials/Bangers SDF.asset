@@ -165,6 +165,30 @@ MonoBehaviour:
     m_Y: 0
     m_Width: 1023
     m_Height: 1023
+  - m_X: 0
+    m_Y: 262
+    m_Width: 1023
+    m_Height: 761
+  - m_X: 0
+    m_Y: 255
+    m_Width: 270
+    m_Height: 768
+  - m_X: 92
+    m_Y: 252
+    m_Width: 178
+    m_Height: 771
+  - m_X: 157
+    m_Y: 130
+    m_Width: 113
+    m_Height: 893
+  - m_X: 348
+    m_Y: 130
+    m_Width: 675
+    m_Height: 893
+  - m_X: 348
+    m_Y: 129
+    m_Width: 43
+    m_Height: 894
   m_fontInfo:
     Name: Bangers
     PointSize: 137
