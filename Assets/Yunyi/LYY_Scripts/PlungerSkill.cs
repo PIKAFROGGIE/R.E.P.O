@@ -18,17 +18,14 @@ public class PlungerSkill : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        // ? 本地算好位置 & 方向
         Vector3 firePos = handPoint.position;
         Vector3 fireDir = handPoint.forward;
 
-        // 播放发射音效（所有人）
         photonView.RPC(
             nameof(RPC_PlayShootSFX),
             RpcTarget.All
         );
 
-        // ? 把“结果”同步出去
         photonView.RPC(
             nameof(RPC_UsePlunger),
             RpcTarget.All,
@@ -56,10 +53,6 @@ public class PlungerSkill : MonoBehaviourPun
         proj.GetComponent<PlungerProjectile>()
             .Init(ownerPV, skill.pullForce, fireDir);
     }
-
-    // =======================
-    // SFX
-    // =======================
     public void PlayShootSFX()
     {
         if (audioSource != null && shootSFX != null)

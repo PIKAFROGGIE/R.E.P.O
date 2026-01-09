@@ -12,23 +12,19 @@ public class PlayerMovementCheck : MonoBehaviourPun
     public float moveThreshold = 0.02f;
     public float rotationThreshold = 2f;
 
-    // 上一帧记录
     private Vector3 lastPosition;
     private Quaternion lastRotation;
 
-    // 状态
     private bool isSpectator = false;
 
     void Start()
     {
-        // 只在本地玩家身上检测
         if (!photonView.IsMine)
         {
             enabled = false;
             return;
         }
 
-        // ⭐ 关键：运行时查找 BossController
         if (boss == null)
         {
             boss = FindObjectOfType<BossController>();
@@ -47,15 +43,12 @@ public class PlayerMovementCheck : MonoBehaviourPun
     {
         if (isSpectator) return;
 
-        // ⭐ 关键：先记录“上一帧最终位置”
         Vector3 prevPos = lastPosition;
         Quaternion prevRot = lastRotation;
 
-        // 更新 lastPosition，供下一帧使用
         lastPosition = transform.position;
         lastRotation = transform.rotation;
 
-        // Boss 正在判定时，用 prev 对比 current
         if (boss != null && boss.isDetecting)
         {
             CheckMovement(prevPos, prevRot);
@@ -80,14 +73,14 @@ public class PlayerMovementCheck : MonoBehaviourPun
     {
         if (boss != null && boss.isDetecting)
         {
-            TriggerRespawn(); // 或 Die / Eliminate
+            TriggerRespawn();
         }
     }
 
     [PunRPC]
     public void RPC_ForceViolation()
     {
-        if (!photonView.IsMine) return; // 只处理自己的违规
+        if (!photonView.IsMine) return;
         ForceViolation();
     }
 

@@ -82,7 +82,6 @@ public class PlayerUI : MonoBehaviour
 
     private IEnumerator DelayedRankingAndEnd()
     {
-        // 延迟一帧或 0.2 秒确保所有玩家分数同步完成
         yield return new WaitForSeconds(0.2f);
 
         var rankingManager = FindObjectOfType<SceneRankingManager>();

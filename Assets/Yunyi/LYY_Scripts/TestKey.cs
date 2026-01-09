@@ -16,13 +16,11 @@ public class TestKey : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        // 关键：开启场景同步
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     void Update()
     {
-        // 只有房主可以触发
         if (!PhotonNetwork.IsMasterClient) return;
 
         if (Input.GetKeyDown(hotkey1))

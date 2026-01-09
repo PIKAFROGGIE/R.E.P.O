@@ -17,7 +17,6 @@ public class PlayerKnockback1 : MonoBehaviourPun
             controller = GetComponent<CharacterController>();
     }
 
-    // ⚡ 通用击退（Thunder / Banana 等）
     [PunRPC]
     public void RPC_ApplyKnockback(Vector3 direction, float force)
     {
@@ -32,7 +31,6 @@ public class PlayerKnockback1 : MonoBehaviourPun
         PlayerController pc = GetComponent<PlayerController>();
         if (pc != null)
         {
-            // ⭐ 使用“加锁”
             PhotonView pv = GetComponent<PhotonView>();
             if (pv != null)
             {
@@ -53,7 +51,6 @@ public class PlayerKnockback1 : MonoBehaviourPun
 
         if (pc != null)
         {
-            // ⭐ 使用“解锁”
             PhotonView pv = GetComponent<PhotonView>();
             if (pv != null)
             {
@@ -64,7 +61,6 @@ public class PlayerKnockback1 : MonoBehaviourPun
         isKnockbacking = false;
     }
 
-    // 🪠 马桶塞拉人
     [PunRPC]
     public void RPC_PullToPosition(Vector3 targetPosition)
     {

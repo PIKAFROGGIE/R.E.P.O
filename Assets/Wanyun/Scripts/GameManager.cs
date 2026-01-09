@@ -30,26 +30,22 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        // Set up Singleton
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
     void Start()
     {
-        // Open Barriers
         foreach (var barrier in startBarriers)
         {
             if (barrier != null) barrier.SetActive(true);
         }
 
-        // Show UI
         foreach (var canvas in countdownCanvases)
         {
             if (canvas != null) canvas.alpha = 1;
         }
 
-        // Local Mode
         if (!usePhotonSync)
         {
             startTime = Time.time + prepareTime;
@@ -113,13 +109,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (gameStarted) return;
         gameStarted = true;
 
-        // Show GO!
         foreach (var txt in countdownTexts)
         {
             if (txt != null) txt.text = "GO!";
         }
 
-        // Close Barriers
         foreach (var barrier in startBarriers)
         {
             if (barrier != null) barrier.SetActive(false);

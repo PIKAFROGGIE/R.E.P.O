@@ -58,10 +58,6 @@ public class BossController : MonoBehaviourPunCallbacks
         }
     }
 
-    // =========================
-    // RPCs（所有客户端执行）
-    // =========================
-
     [PunRPC]
     void RPC_GreenLight()
     {
@@ -97,11 +93,6 @@ public class BossController : MonoBehaviourPunCallbacks
         state = BossState.FacingPlayer;
         animator.SetBool("IsFacingPlayer", true);
     }
-
-    // =========================
-    // Sound
-    // =========================
-
     void PlayBGM()
     {
         if (audioSource == null || bossClip == null) return;

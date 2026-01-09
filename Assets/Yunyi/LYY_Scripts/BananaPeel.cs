@@ -25,7 +25,6 @@ public class BananaPeel : MonoBehaviourPun
 
         triggered = true;
 
-        // ⭐ 只有被踩玩家自己发 RPC
         if (targetPV.IsMine)
         {
             BananaSkill skill = targetPV.GetComponent<BananaSkill>();
@@ -37,10 +36,8 @@ public class BananaPeel : MonoBehaviourPun
                 );
             }
 
-            // ✅ 临时锁控（在玩家身上开协程，不会被香蕉皮销毁打断）
             targetPV.RPC(nameof(PlayerController.RPC_TempControlLock), RpcTarget.All, slipDuration);
 
-            // 强制滑行
             Vector3 slipDir = targetPV.transform.forward;
             targetPV.RPC(
                 nameof(PlayerKnockback1.RPC_ApplyKnockback),
@@ -49,7 +46,6 @@ public class BananaPeel : MonoBehaviourPun
                 slipForce
             );
 
-            // ✅ 触发后立刻清理香蕉皮（现在不会影响解锁了）
             targetPV.RPC(
                 nameof(PlayerController.RPC_DestroyAllBananaPeels),
                 RpcTarget.All
