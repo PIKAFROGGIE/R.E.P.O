@@ -5890,13 +5890,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 531454016}
-  - component: {fileID: 531454021}
-  - component: {fileID: 531454022}
   - component: {fileID: 531454015}
   - component: {fileID: 531454017}
   - component: {fileID: 531454023}
   - component: {fileID: 531454024}
-  - component: {fileID: 531454025}
+  - component: {fileID: 531454026}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5963,41 +5961,6 @@ MonoBehaviour:
   gravity: 30
   startFallingBase: 0
   startFallingMiddle: 0
---- !u!114 &531454021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531454014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627413b00a815c34d83df60dab0a1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hotkey1: 49
-  hotkey2: 50
-  hotkey3: 51
-  hotkey4: 52
-  targetSceneName1: Yunyi
-  targetSceneName2: Wanyun
-  targetSceneName3: Qiuting
-  targetSceneName4: Bryan
---- !u!114 &531454022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531454014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5aaaefee4afc214f951cd856e952f56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 7543273444019867401, guid: c3da566acae8bfa4e8e0b7bca683179e,
-    type: 3}
-  respawnArea: {fileID: 1253302017}
 --- !u!114 &531454023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6030,12 +5993,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 531454025}
+  ObservedComponents: []
   sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &531454025
+--- !u!114 &531454026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6044,13 +6006,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 531454014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: a5aaaefee4afc214f951cd856e952f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  playerPrefab: {fileID: 7543273444019867401, guid: c3da566acae8bfa4e8e0b7bca683179e,
+    type: 3}
+  respawnArea: {fileID: 1253302017}
 --- !u!1001 &542018882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21853,6 +21814,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.0000000059729865
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366295259965782010, guid: 1d19f4796f3889042ad11d56258ddd0b,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7303722166854987233, guid: 1d19f4796f3889042ad11d56258ddd0b,
         type: 3}

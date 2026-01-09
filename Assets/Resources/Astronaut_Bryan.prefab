@@ -2308,7 +2308,6 @@ GameObject:
   - component: {fileID: 1913996506918333617}
   - component: {fileID: 4580381814217146341}
   - component: {fileID: 1870528044530734579}
-  - component: {fileID: 3298869939133566897}
   - component: {fileID: 8077376436199104111}
   - component: {fileID: 4508773262678985152}
   - component: {fileID: 7112969426524898142}
@@ -2320,13 +2319,14 @@ GameObject:
   - component: {fileID: 4253640357337482241}
   - component: {fileID: 5564570854167271077}
   - component: {fileID: 494867934172272132}
+  - component: {fileID: 979791480158296990}
   m_Layer: 0
   m_Name: Astronaut_Bryan
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1090717770452642075
 Transform:
   m_ObjectHideFlags: 0
@@ -2445,23 +2445,6 @@ MonoBehaviour:
   - {fileID: 6169592242872783403}
   fallDelay: 1
   floating: 1
---- !u!114 &3298869939133566897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7543273444019867401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d8f720132938464086b239918c64381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerUIPrefab: {fileID: 3371973813944403233, guid: 84b3a314355392b449ea35da7b8e3db5,
-    type: 3}
-  vcam: {fileID: 8606359559229526534}
-  followTarget: {fileID: 1090717770452642075}
-  lookAtTarget: {fileID: 1090717770452642075}
 --- !u!114 &8077376436199104111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2508,7 +2491,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7543273444019867401}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f29d619fca047d74da1241af78f8906f, type: 3}
   m_Name: 
@@ -2559,7 +2542,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7543273444019867401}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b00969f6947081e43808e0e02273ff6d, type: 3}
   m_Name: 
@@ -2657,6 +2640,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 3168098096403058748}
   targetCamera: {fileID: 5459466434597033994}
+--- !u!114 &979791480158296990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7543273444019867401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d8f720132938464086b239918c64381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerUIPrefab: {fileID: 0}
+  vcam: {fileID: 8606359559229526534}
+  followTarget: {fileID: 1090717770452642075}
+  lookAtTarget: {fileID: 1090717770452642075}
 --- !u!1 &7836401393069596010
 GameObject:
   m_ObjectHideFlags: 0
