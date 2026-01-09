@@ -9,10 +9,12 @@ public class TestKey : MonoBehaviourPunCallbacks
     public KeyCode hotkey2 = KeyCode.Alpha2;
     public KeyCode hotkey3 = KeyCode.Alpha3;
     public KeyCode hotkey4 = KeyCode.Alpha4;
+    public KeyCode hotkey5 = KeyCode.Alpha5;
     public string targetSceneName1 = "Yunyi";
     public string targetSceneName2 = "Wanyun";
     public string targetSceneName3 = "Qiuting";
     public string targetSceneName4 = "Bryan";
+    public string targetSceneName5 = "Josh";
 
     void Start()
     {
@@ -41,6 +43,11 @@ public class TestKey : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(hotkey4))
         {
             PhotonNetwork.LoadLevel(targetSceneName4);
+        }
+
+        if (Input.GetKeyDown(hotkey5))
+        {
+            PhotonNetwork.LoadLevel(targetSceneName5);
         }
     }
 }
