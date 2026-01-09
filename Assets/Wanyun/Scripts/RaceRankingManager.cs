@@ -29,7 +29,6 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         Instance = this;
     }
 
-    // 由 GameEndManager 在“时间到”时调用（Master only）
     public void OnRaceTimeUp()
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -38,14 +37,12 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         EndRace();
     }
 
-    // RPC：由 FinishLineTrigger 发送到 Master
     [PunRPC]
     public void RPC_PlayerReachedFinish(Player player)
     {
         PlayerReachedFinish(player);
     }
 
-    // 记录玩家到达终点（Master only）
     public void PlayerReachedFinish(Player player)
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -60,7 +57,6 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         finishTimeDict[player] = Time.time;
         Debug.Log(player.NickName + " reached finish");
 
-        // 若所有玩家都到达，提前结束
         if (finishTimeDict.Count == PhotonNetwork.PlayerList.Length)
         {
             EndRace();
@@ -97,18 +93,15 @@ public class RaceRankingManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // 计算最终排名（到达优先，其次按距离）
     List<Player> CalculateFinalRanking()
     {
         List<Player> allPlayers = PhotonNetwork.PlayerList.ToList();
 
-        // 已到终点：按到达时间
         var finishedPlayers = finishTimeDict
             .OrderBy(kv => kv.Value)
             .Select(kv => kv.Key)
             .ToList();
 
-        // 未到终点：按距离终点
         var unfinishedPlayers = allPlayers
             .Where(p => !finishTimeDict.ContainsKey(p))
             .OrderBy(p => GetDistanceToFinish(p))

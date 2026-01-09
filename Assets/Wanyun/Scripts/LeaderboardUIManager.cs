@@ -38,9 +38,23 @@ public class LeaderboardUIManager : MonoBehaviour
     public void RefreshLeaderboard()
     {
         ClearItems();
+        int round = 1;
 
-        // Round БъЬт
-        roundTitleText.text = $"Round {RoundScoreManager.Instance.currentRound}";
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(
+                RoundScoreManager.ROOM_ROUND_KEY))
+        {
+            round = (int)PhotonNetwork.CurrentRoom.CustomProperties[
+                RoundScoreManager.ROOM_ROUND_KEY];
+        }
+
+        if (round >= 3)
+        {
+            roundTitleText.text = "Final Round";
+        }
+        else
+        {
+            roundTitleText.text = $"Round {round}";
+        }
 
         List<Player> players =
             RoundScoreManager.Instance.GetSortedPlayersByScore();

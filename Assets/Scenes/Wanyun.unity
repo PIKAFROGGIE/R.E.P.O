@@ -30507,7 +30507,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 18, y: 3.0313528, z: 18}
+  m_Size: {x: 17.5, y: 3.0313528, z: 21.2}
   m_Center: {x: 0, y: -2.4843256, z: 0}
 --- !u!4 &862340883
 Transform:
@@ -30518,9 +30518,9 @@ Transform:
   m_GameObject: {fileID: 862340881}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 75.1, y: -23.43, z: 588.97}
-  m_LocalScale: {x: 0.58017, y: 0.58017, z: 0.58017}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 75.1, y: -24.42, z: 74.44}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43469,7 +43469,6 @@ GameObject:
   - component: {fileID: 1256283189}
   - component: {fileID: 1256283188}
   - component: {fileID: 1256283190}
-  - component: {fileID: 1256283191}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -43612,28 +43611,6 @@ MonoBehaviour:
   - type: 3
     clip: {fileID: 8300000, guid: d31f931ecacea9f41a23bf6af6c5f0c0, type: 3}
   uiClips: []
---- !u!114 &1256283191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1256283184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 5
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1001 &1256789932
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52412,7 +52389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usePhotonSync: 0
-  totalGameTime: 10000
+  totalGameTime: 125
 --- !u!114 &1577176683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75939,6 +75916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 3
+  destroyY: -2
 --- !u!1 &4126450594782879669
 GameObject:
   m_ObjectHideFlags: 0
@@ -76001,6 +75979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 4
+  destroyY: -2
 --- !u!1 &5250294343852493608
 GameObject:
   m_ObjectHideFlags: 0
@@ -76194,6 +76173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 2
+  destroyY: -2
 --- !u!114 &7944134935942070440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76649,6 +76629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 1
+  destroyY: -2
 --- !u!23 &8857023625078090434
 MeshRenderer:
   m_ObjectHideFlags: 0
