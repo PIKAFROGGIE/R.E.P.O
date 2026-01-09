@@ -15,17 +15,14 @@ public class EggSkill : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        // ? 本地算好位置 & 方向
         Vector3 firePos = handPoint.position;
         Vector3 fireDir = handPoint.forward;
 
-        // 播放发射音效
         photonView.RPC(
             nameof(RPC_PlayEggShootSFX),
             RpcTarget.All
         );
 
-        // ? 同步发射结果
         photonView.RPC(
             nameof(RPC_UseEgg),
             RpcTarget.All,
@@ -53,10 +50,6 @@ public class EggSkill : MonoBehaviourPun
         proj.GetComponent<EggProjectile>()
             .Init(ownerPV, fireDir);
     }
-
-    // =======================
-    // SFX
-    // =======================
     public void PlayEggShootSFX()
     {
         if (audioSource != null && shootSFX != null)

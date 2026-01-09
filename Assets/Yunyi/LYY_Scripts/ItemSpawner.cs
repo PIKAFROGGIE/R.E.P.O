@@ -54,7 +54,6 @@ public class ItemSpawner : MonoBehaviourPun
         Debug.Log("Spawn: " + prefab.name);
     }
 
-    // 可视化生成区域
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

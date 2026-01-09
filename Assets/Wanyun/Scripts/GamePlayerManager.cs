@@ -18,7 +18,6 @@ public class GamePlayerManager : MonoBehaviour
             return;
         }
 
-        // 只有 TagObject 为 null 时才生成玩家
         if (PhotonNetwork.LocalPlayer.TagObject != null) return;
 
         Vector3 spawnPos = GetRandomSpawnPosition();

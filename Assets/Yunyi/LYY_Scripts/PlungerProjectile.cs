@@ -42,20 +42,18 @@ public class PlungerProjectile : MonoBehaviour
         if (targetPV == null || knockback == null) return;
         if (targetPV == ownerPV) return;
 
-        Debug.Log($"🪠 Plunger hit {targetPV.Owner?.NickName}");
+        Debug.Log($"Plunger hit {targetPV.Owner?.NickName}");
 
         Vector3 pullTarget =
             ownerPV.transform.position +
             ownerPV.transform.forward * 1.2f;
 
-        // 拉人
         targetPV.RPC(
             nameof(PlayerKnockback1.RPC_PullToPosition),
             RpcTarget.All,
             pullTarget
         );
 
-        // ⭐⭐ 关键：通知“发射者”的 PlungerSkill 播命中音效
         PlungerSkill skill = ownerPV.GetComponent<PlungerSkill>();
         if (skill != null)
         {
@@ -67,15 +65,12 @@ public class PlungerProjectile : MonoBehaviour
 
         hasHit = true;
 
-        // 关闭 HitBox，防重复
         if (hitBox != null)
             hitBox.enabled = false;
 
-        // 关闭所有可见 Renderer（立刻视觉消失）
         foreach (var r in GetComponentsInChildren<Renderer>())
             r.enabled = false;
 
-        // （可选）如果有 Rigidbody，避免残余物理
         var rb = GetComponent<Rigidbody>();
         if (rb != null)
         {

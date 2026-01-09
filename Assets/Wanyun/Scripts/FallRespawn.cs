@@ -34,7 +34,6 @@ public class FallRespawn : MonoBehaviour
 
     void Start()
     {
-        // 🔍 Prefab 无法拖引用 → 运行时查找 RespawnArea
         if (respawnArea == null)
         {
             GameObject area = GameObject.FindWithTag("RespawnArea");
@@ -65,13 +64,11 @@ public class FallRespawn : MonoBehaviour
         isRespawning = true;
         canDie = false;
 
-        // Fade In（黑屏）
         if (fadeCanvas != null)
             yield return StartCoroutine(Fade(1f));
 
         yield return new WaitForSeconds(respawnDelay);
 
-        // 🧭 计算安全复活点
         Vector3 safePos = FindSafeRespawnPoint();
         cc.enabled = false;
         transform.position = safePos;
@@ -79,7 +76,6 @@ public class FallRespawn : MonoBehaviour
 
         yield return new WaitForSeconds(invincibleAfterRespawn);
 
-        // Fade Out（恢复画面）
         if (fadeCanvas != null)
             yield return StartCoroutine(Fade(0f));
 
@@ -89,7 +85,6 @@ public class FallRespawn : MonoBehaviour
 
     Vector3 FindSafeRespawnPoint()
     {
-        // 兜底：没有 RespawnArea 就原地上移
         if (respawnArea == null)
         {
             return transform.position + Vector3.up * 2f;
@@ -105,7 +100,6 @@ public class FallRespawn : MonoBehaviour
 
             Vector3 candidate = new Vector3(x, y, z);
 
-            // 🔒 防止刷到其他玩家
             Collider[] hits = Physics.OverlapSphere(
                 candidate,
                 checkRadius,
@@ -127,7 +121,6 @@ public class FallRespawn : MonoBehaviour
                 return candidate;
         }
 
-        // 实在找不到 → 中心点兜底
         return respawnArea.bounds.center + Vector3.up * groundOffset;
     }
 
@@ -146,9 +139,6 @@ public class FallRespawn : MonoBehaviour
         fadeCanvas.alpha = targetAlpha;
     }
 
-    /// <summary>
-    /// 给外部（Boss / Trap / Debug）强制重生用
-    /// </summary>
     public void ForceRespawn()
     {
         if (!pv.IsMine) return;

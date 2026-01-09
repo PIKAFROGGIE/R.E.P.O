@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class RaceResultCache
 {
-    // 当前轮的最终排名
+    // Final ranking for the current round
     public static List<Player> FinalRanking;
 
-    // 当前是第几轮
+    // Current round number
     public static int CurrentRound = 1;
 }

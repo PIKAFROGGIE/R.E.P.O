@@ -18,7 +18,6 @@ public class PlayerEggEffect : MonoBehaviourPun
     [PunRPC]
     public void RPC_ShowEggEffect()
     {
-        // ⭐ 只影响本地玩家
         if (!photonView.IsMine) return;
 
         if (eggRoutine != null)

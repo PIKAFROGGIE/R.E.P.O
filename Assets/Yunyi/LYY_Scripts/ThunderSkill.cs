@@ -9,7 +9,7 @@ public class ThunderSkill : MonoBehaviourPun
 
     [Header("VFX")]
     public GameObject thunderVFXPrefab;
-    public float vfxDuration = 0.6f; // 光罩存在时间
+    public float vfxDuration = 0.6f;
 
     [Header("Sound")]
     public AudioSource audioSource;
@@ -32,19 +32,16 @@ public class ThunderSkill : MonoBehaviourPun
         RpcTarget.All
         );
 
-        // ========= 1. 生成光罩 =========
         if (thunderVFXPrefab != null)
         {
             GameObject vfx = Instantiate(thunderVFXPrefab, center, Quaternion.identity);
 
-            // ⭐ 核心：用同一个 radius 控制特效大小
             float diameter = radius * 2f;
             vfx.transform.localScale = new Vector3(diameter, diameter, diameter);
 
             Destroy(vfx, vfxDuration);
         }
 
-        // ========= 2. 震飞逻辑 =========
         Collider[] hits = Physics.OverlapSphere(center, radius);
 
         foreach (Collider hit in hits)

@@ -1,5 +1,6 @@
-using UnityEngine;
+using Photon.Pun;
 using System.Collections;
+using UnityEngine;
 
 public class RankingAutoNext : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class RankingAutoNext : MonoBehaviour
     public float waitTime = 5f;
 
     public static RankingAutoNext Instance;
+
+    [Header("Scene")]
+    public string victorySceneName = "VictoryScene";
 
     void Awake()
     {
@@ -35,5 +39,21 @@ public class RankingAutoNext : MonoBehaviour
         {
             Debug.LogError("GameOverManager.Instance is null");
         }
+    }
+
+    public void LoadFinalRound()
+    {
+        StartCoroutine(AutoFinal());
+    }
+
+    IEnumerator AutoFinal()
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(victorySceneName);
+        }
+        
     }
 }

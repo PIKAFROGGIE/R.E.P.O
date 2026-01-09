@@ -40,16 +40,11 @@ public class PlayerItemHandler : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        // ?? 右键使用道具
         if (currentItem != ItemType.None && Input.GetMouseButtonDown(1))
         {
             UseItem();
         }
     }
-
-    // ======================
-    // 拾取道具
-    // ======================
     public bool PickupItem(ItemType type)
     {
         if (currentItem != ItemType.None)
@@ -95,9 +90,6 @@ public class PlayerItemHandler : MonoBehaviourPun
 
     }
 
-    // ======================
-    // 使用道具
-    // ======================
     void UseItem()
     {
         switch (currentItem)
@@ -117,7 +109,6 @@ public class PlayerItemHandler : MonoBehaviourPun
                 break;
         }
 
-        // 使用后清空
         photonView.RPC(nameof(RPC_ClearItem), RpcTarget.All);
     }
 

@@ -35,14 +35,12 @@ public class BananaProjectile : MonoBehaviour
     {
         if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit, 3f))
         {
-            // 计算贴地旋转
             Vector3 forwardOnGround = Vector3.ProjectOnPlane(moveDir, hit.normal).normalized;
             if (forwardOnGround.sqrMagnitude < 0.001f)
                 forwardOnGround = Vector3.ProjectOnPlane(Vector3.forward, hit.normal).normalized;
 
             Quaternion rot = Quaternion.LookRotation(forwardOnGround, hit.normal);
 
-            // ⭐ 关键：根据香蕉皮自身 Collider 高度向上抬
             Collider peelCol = bananaPeelPrefab.GetComponent<Collider>();
             float heightOffset = 0.05f;
 
