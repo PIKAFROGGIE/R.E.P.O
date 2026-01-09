@@ -95,6 +95,6 @@ public class PlayerUI : MonoBehaviour
             Debug.LogError("❌ SceneRankingManager NOT FOUND on MasterClient!");
         }
 
-        GameOverManager.Instance.EndGame();
+        //GameOverManager.Instance.EndGame();
     }   
 }
