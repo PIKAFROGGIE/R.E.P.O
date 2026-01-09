@@ -18,6 +18,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
     [Header("References")]
     public PlayerController controller;
     public Animator anim;
+    public int upperBodyLayer;
 
     public bool isStunned { get; private set; }
 
@@ -32,7 +33,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-
+        upperBodyLayer = anim.GetLayerIndex("PunchingLayer");
     }
 
     // Update is called once per frame
@@ -88,7 +89,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_SetStunned", RpcTarget.All, false);
         //RPC_SetStunned(false);
         anim.speed = 1f;
-        anim.CrossFade("Idle", 0.1f);
+        photonView.RPC("RPC_CrossFade", RpcTarget.All, "Idle",0.1f);
     }
 
     [PunRPC]
@@ -104,6 +105,7 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
         if (anim != null && stunned)
         {
             anim.CrossFade("Stun", 0.15f);
+            anim.CrossFade("Stun", 0.15f, upperBodyLayer);
             StartCoroutine(FreezeStunAnimation());
         }
 

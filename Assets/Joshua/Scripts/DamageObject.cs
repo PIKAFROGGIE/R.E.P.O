@@ -29,10 +29,10 @@ public class DamageObject : MonoBehaviour
         if (!enable) return;
         if (!attackPlayer) return;
         if (other.gameObject.CompareTag("Player") )return;
-        health = other.GetComponent<PlayerHealthController>();
-        PhotonView targetPV = other.GetComponent<PhotonView>();
+        health = other.GetComponentInParent<PlayerHealthController>();
+        PhotonView targetPV = other.GetComponentInParent<PhotonView>();
 
-        if (health == null || targetPV == null) return;
+        if (health == null && targetPV == null) return;
 
         if (!targetPV.IsMine) return;
 

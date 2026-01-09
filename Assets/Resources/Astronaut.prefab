@@ -1436,11 +1436,11 @@ GameObject:
   - component: {fileID: 174424739692581102}
   m_Layer: 0
   m_Name: Astronaut
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1350513128743471558
 Transform:
   m_ObjectHideFlags: 0
@@ -1619,7 +1619,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4767010686573849210}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f29d619fca047d74da1241af78f8906f, type: 3}
   m_Name: 
@@ -1631,6 +1631,7 @@ MonoBehaviour:
   health: 100
   controller: {fileID: 0}
   anim: {fileID: 0}
+  upperBodyLayer: 0
 --- !u!114 &4936999820732889465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1756,6 +1757,7 @@ GameObject:
   - component: {fileID: 1026011456257805960}
   - component: {fileID: 1448318920810694909}
   - component: {fileID: 5652595548944553020}
+  - component: {fileID: 629465595787860847}
   m_Layer: 0
   m_Name: Astronaut
   m_TagString: Untagged
@@ -1846,6 +1848,29 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 2
     LayerIndex: 1
+--- !u!136 &629465595787860847
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972552929907811207}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.63
+  m_Height: 1.82
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.79, z: 0}
 --- !u!1 &5387467127792976202
 GameObject:
   m_ObjectHideFlags: 0
