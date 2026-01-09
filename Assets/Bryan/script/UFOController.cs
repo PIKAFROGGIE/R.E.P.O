@@ -74,6 +74,11 @@ public class UFOController : MonoBehaviour
             fallSpeedMiddle += gravity * Time.deltaTime;   // accelerate
             UFOMiddle.transform.position += Vector3.down * fallSpeedMiddle * Time.deltaTime;
         }
+
+        if(timer.GetCurrentTime() <= 0f)
+        {
+            LastManRanking.Instance.OnRaceTimeUp();
+        }
     }
 
     IEnumerator HideAllUI()

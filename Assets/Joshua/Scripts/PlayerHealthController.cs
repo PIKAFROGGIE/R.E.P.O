@@ -106,6 +106,14 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
             anim.CrossFade("Stun", 0.15f);
             StartCoroutine(FreezeStunAnimation());
         }
+
+        VFXController vfx = GetComponent<VFXController>();
+
+        if(vfx != null)
+        {
+            //photonView.RPC("RPC_StunEffect", RpcTarget.All, false);
+            VFXController.Instance.RPC_StunEffect();
+        }
     }
 
     IEnumerator FreezeStunAnimation()

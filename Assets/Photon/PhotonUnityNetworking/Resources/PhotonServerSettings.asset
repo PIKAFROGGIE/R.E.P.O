@@ -97,6 +97,7 @@ MonoBehaviour:
   - RPC_RemoveControlLock
   - RPC_PlayBananaHitSFX
   - RPC_TempControlLock
+  - RPC_ReportDeath
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
