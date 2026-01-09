@@ -27,6 +27,10 @@ public class PlayerItemHandler : MonoBehaviourPun
     public EggSkill eggSkill;
     public BananaSkill bananaSkill;
 
+    [Header("Sound")]
+    public AudioSource audioSource;
+    public AudioClip pickupSFX;
+
     void Start()
     {
         UpdateItemModel();
@@ -51,9 +55,22 @@ public class PlayerItemHandler : MonoBehaviourPun
         if (currentItem != ItemType.None)
             return false;
 
+        if (photonView.IsMine)
+        {
+            PlayPickupSFX();
+        }
+
         photonView.RPC(nameof(RPC_PickupItem), RpcTarget.All, type);
         return true;
     }
+    void PlayPickupSFX()
+    {
+        if (audioSource != null && pickupSFX != null)
+        {
+            audioSource.PlayOneShot(pickupSFX);
+        }
+    }
+
 
     [PunRPC]
     void RPC_PickupItem(ItemType type)

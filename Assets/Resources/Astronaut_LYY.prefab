@@ -3544,7 +3544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4480363245140443057
 Transform:
   m_ObjectHideFlags: 0
@@ -3756,6 +3756,8 @@ MonoBehaviour:
   plungerSkill: {fileID: 436468174433727134}
   eggSkill: {fileID: 3580684631761920818}
   bananaSkill: {fileID: 7321636031389665336}
+  audioSource: {fileID: 4703899538487968435}
+  pickupSFX: {fileID: 8300000, guid: 37039409929cbf54f8e0244b88b0c681, type: 3}
 --- !u!114 &3171284272932032640
 MonoBehaviour:
   m_ObjectHideFlags: 0
