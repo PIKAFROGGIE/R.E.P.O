@@ -11,6 +11,8 @@ public class DragPlayer : MonoBehaviourPunCallbacks
     public float struggleDecay = 15f;
 
     public bool isBeingDragged { get; private set; }
+    Vector3 dragTargetPos;
+    bool hasDragTarget = false;
 
     PlayerHealthController health;
     PlayerController controller;
@@ -55,6 +57,18 @@ public class DragPlayer : MonoBehaviourPunCallbacks
             //RPC_BreakFree();
             photonView.RPC("RPC_BreakFree",RpcTarget.All);
         }
+    }
+    void FixedUpdate()
+    {
+        if (!photonView.IsMine) return;
+        if (!isBeingDragged) return;
+        if (!hasDragTarget) return;
+
+        transform.position = Vector3.Lerp(
+            transform.position,
+            dragTargetPos,
+            Time.fixedDeltaTime * 8f
+        );
     }
 
     [PunRPC]
@@ -134,6 +148,13 @@ public class DragPlayer : MonoBehaviourPunCallbacks
         {
             transform.position = hit.point;
         }
+    }
+
+    [PunRPC]
+    void RPC_SetDragTarget(Vector3 pos)
+    {
+        dragTargetPos = pos;
+        hasDragTarget = true;
     }
 
 

@@ -60,17 +60,12 @@ public class PlayerDrag : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) return;
         if (currentTarget == null) return;
 
-        Transform targetTransform = currentTarget.transform;
-
         Vector3 desiredPos =
             transform.position - transform.forward * dragDistance;
 
-        targetTransform.position = Vector3.Lerp(
-            targetTransform.position,
-            desiredPos,
-            Time.fixedDeltaTime * dragFollowSpeed
-        );
+        currentTarget.photonView.RPC("RPC_SetDragTarget",currentTarget.photonView.Owner,desiredPos);
     }
+
 
 
     void TryStartDrag()

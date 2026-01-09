@@ -112,8 +112,8 @@ public class PlayerHealthController : MonoBehaviourPunCallbacks
 
         if(vfx != null)
         {
-            photonView.RPC("RPC_StunEffect", RpcTarget.All, false);
-            vfx.RPC_StunEffect();
+            photonView.RPC("RPC_StunEffect", RpcTarget.All);
+            //vfx.RPC_StunEffect();
         }
         if(!stunned)
         {
