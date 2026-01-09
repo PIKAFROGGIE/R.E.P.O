@@ -597,6 +597,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47703198}
   m_CullTransparentMesh: 1
+--- !u!1 &95662941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 95662944}
+  - component: {fileID: 95662943}
+  - component: {fileID: 95662942}
+  m_Layer: 0
+  m_Name: RoundScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &95662942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95662941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444478c9ee0dbd841af004ab73919dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 5
+  victorySceneName: VictoryScene
+--- !u!114 &95662943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95662941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db6382b24641c7409cc07374637d67a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentRound: 1
+  maxRound: 3
+--- !u!4 &95662944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95662941}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 75.1, y: -24.42, z: 588.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &113565734
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,33 +858,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 146053679}
-  - component: {fileID: 146053678}
+  - component: {fileID: 146053680}
+  - component: {fileID: 146053684}
   - component: {fileID: 146053681}
   - component: {fileID: 146053682}
-  - component: {fileID: 146053680}
-  - component: {fileID: 146053683}
-  - component: {fileID: 146053684}
   m_Layer: 0
-  m_Name: RoundScoreManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &146053678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146053676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9db6382b24641c7409cc07374637d67a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentRound: 1
-  maxRound: 3
 --- !u!4 &146053679
 Transform:
   m_ObjectHideFlags: 0
@@ -885,19 +930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16b040bcbbe7c34a97f3008f1018093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &146053683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146053676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 444478c9ee0dbd841af004ab73919dbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waitTime: 5
 --- !u!114 &146053684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4389,3 +4421,4 @@ SceneRoots:
   - {fileID: 1231883796}
   - {fileID: 2115262332}
   - {fileID: 146053679}
+  - {fileID: 95662944}
