@@ -57,9 +57,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.7944621
-  m_Height: 6.435166
+  m_Height: 6.259354
   m_Direction: 1
-  m_Center: {x: -0.094579645, y: -0.0023978343, z: -6.7602535e-10}
+  m_Center: {x: -0.094579645, y: 0.08550791, z: -6.7602535e-10}
 --- !u!114 &3201861252026199596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,9 +120,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &7032104823352393846
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -142,8 +142,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0974827, y: 0.33215788, z: 1}
-  m_Center: {x: -0.048741434, y: -2.9830112, z: -3.1296077e-10}
+  m_Size: {x: 1.0974827, y: 0.37883887, z: 1}
+  m_Center: {x: -0.048741434, y: -3.1356745, z: -3.1296077e-10}
 --- !u!1 &1546348001151666155
 GameObject:
   m_ObjectHideFlags: 0
