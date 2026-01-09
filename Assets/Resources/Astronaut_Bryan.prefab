@@ -87,9 +87,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409277890451233471}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000029750831, y: 0.000000030095606, z: -0.000000003773403,
+  m_LocalRotation: {x: -0.0000000074425435, y: 0.000000053183786, z: -0.0000000066682118,
     w: 1}
-  m_LocalPosition: {x: -4.270378e-15, y: -0.00000047670613, z: -0.000000011177176}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2326,7 +2326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1090717770452642075
 Transform:
   m_ObjectHideFlags: 0
@@ -2518,8 +2518,8 @@ MonoBehaviour:
   stunTime: 10
   stunDecayRate: 15
   health: 100
-  controller: {fileID: 0}
-  anim: {fileID: 0}
+  controller: {fileID: 1870528044530734579}
+  anim: {fileID: 8661971703898328198}
 --- !u!114 &8327086150552509316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2559,7 +2559,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7543273444019867401}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b00969f6947081e43808e0e02273ff6d, type: 3}
   m_Name: 
@@ -2636,11 +2636,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnim: {fileID: 8661971703898328198}
   spawnPosition: {fileID: 1534098616140058210}
-  stunPosition: {fileID: 0}
+  stunPosition: {fileID: 6629888926325847195}
   runningSmoke: {fileID: 6813416509558619124, guid: 3b7f2c753d435d647a80f1f047a113e3,
     type: 3}
-  hitEffect: {fileID: 0}
-  stunEffect: {fileID: 0}
+  hitEffect: {fileID: 3125908671876608230, guid: 3ef418da6affb9348a4ba3f6d56be544,
+    type: 3}
+  stunEffect: {fileID: 5659291355382750488, guid: ed00f01736f5cf643b500527b8d4a239,
+    type: 3}
 --- !u!114 &494867934172272132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2799,7 +2801,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.018141454, y: 0.000000042089248, z: -0.0000000060546324,
     w: 0.9998355}
-  m_LocalPosition: {x: -4.270378e-15, y: -0.00000047670613, z: -0.000000011177176}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

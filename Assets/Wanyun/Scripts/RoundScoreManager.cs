@@ -15,9 +15,6 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
 
     public const string ROOM_ROUND_KEY = "Round";
 
-    [Header("Scene")]
-    public string victorySceneName = "VictoryScene";
-
     private readonly int[] rankRewards = { 10000, 5000, 2000 };
 
     void Awake()
@@ -73,10 +70,7 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("All rounds finished ¡ú VictoryScene");
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel(victorySceneName);
-            }
+            RankingAutoNext.Instance.LoadFinalRound();
         }
         else
         {

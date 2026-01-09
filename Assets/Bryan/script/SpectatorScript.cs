@@ -42,10 +42,6 @@ public class PhotonSpectatorScript : MonoBehaviour
         // 3. Auto-Switch if the person we are watching DIES
         else if (currentDieController != null && currentDieController.checkDead())
         {
-            // CRITICAL FIX: 
-            // We do NOT call SwitchToNextPlayer() here because that increases the index.
-            // Instead, we 'forget' the current target and force a refresh. 
-            // This makes the camera instantly snap to the first available survivor.
             currentTarget = null;
             RefreshTargetList();
         }
