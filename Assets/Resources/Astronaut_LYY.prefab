@@ -2415,6 +2415,37 @@ Transform:
   - {fileID: 3013776690924691019}
   m_Father: {fileID: 1307842020039614805}
   m_LocalEulerAnglesHint: {x: 4.3713923, y: 60.55393, z: 60.266388}
+--- !u!1 &6337607616198608869
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1926904827257457726}
+  m_Layer: 0
+  m_Name: stunEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1926904827257457726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6337607616198608869}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4480363245140443057}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6606627600247985291
 GameObject:
   m_ObjectHideFlags: 0
@@ -3416,6 +3447,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8842546784434471663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3196003563393638023}
+  m_Layer: 0
+  m_Name: smokeEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3196003563393638023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8842546784434471663}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.4949999, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4480363245140443057}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8844454886905594611
 GameObject:
   m_ObjectHideFlags: 0
@@ -3538,13 +3600,14 @@ GameObject:
   - component: {fileID: 3580684631761920818}
   - component: {fileID: 7321636031389665336}
   - component: {fileID: 5436327177086952326}
+  - component: {fileID: 408573458275852548}
   m_Layer: 0
   m_Name: Astronaut_LYY
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4480363245140443057
 Transform:
   m_ObjectHideFlags: 0
@@ -3562,6 +3625,8 @@ Transform:
   - {fileID: 6007621164635028501}
   - {fileID: 6777684228111928566}
   - {fileID: 5519528012564863623}
+  - {fileID: 1926904827257457726}
+  - {fileID: 3196003563393638023}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2991373850182440917
@@ -3990,6 +4055,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 243723942099576838}
   targetCamera: {fileID: 1102801001881625770}
+--- !u!114 &408573458275852548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9124163343527512255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb95222f0339234f9585efade847e4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnim: {fileID: 5873985181090354296}
+  spawnPosition: {fileID: 3196003563393638023}
+  stunPosition: {fileID: 1926904827257457726}
+  runningSmoke: {fileID: 6813416509558619124, guid: 3b7f2c753d435d647a80f1f047a113e3,
+    type: 3}
+  hitEffect: {fileID: 3125908671876608230, guid: 3ef418da6affb9348a4ba3f6d56be544,
+    type: 3}
+  stunEffect: {fileID: 5659291355382750488, guid: ed00f01736f5cf643b500527b8d4a239,
+    type: 3}
 --- !u!1 &9143266489187212178
 GameObject:
   m_ObjectHideFlags: 0

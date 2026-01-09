@@ -687,6 +687,7 @@ GameObject:
   - component: {fileID: -5144188126116123517}
   - component: {fileID: 374312646005212265}
   - component: {fileID: -3976614872185736585}
+  - component: {fileID: -1886775674966817657}
   m_Layer: 0
   m_Name: Astronaut_LWY
   m_TagString: Player
@@ -712,6 +713,8 @@ Transform:
   - {fileID: 3291877712520911754}
   - {fileID: 4747575580007033707}
   - {fileID: 346384640763134633}
+  - {fileID: 6731929945243393655}
+  - {fileID: 4650797962270254555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &7749787020969453577
@@ -1170,6 +1173,27 @@ MonoBehaviour:
   bananaSkill: {fileID: 5725501622550312664}
   audioSource: {fileID: 0}
   pickupSFX: {fileID: 0}
+--- !u!114 &-1886775674966817657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686771815633203412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb95222f0339234f9585efade847e4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnim: {fileID: 412349872821272859}
+  spawnPosition: {fileID: 4650797962270254555}
+  stunPosition: {fileID: 6731929945243393655}
+  runningSmoke: {fileID: 6813416509558619124, guid: 3b7f2c753d435d647a80f1f047a113e3,
+    type: 3}
+  hitEffect: {fileID: 3125908671876608230, guid: 3ef418da6affb9348a4ba3f6d56be544,
+    type: 3}
+  stunEffect: {fileID: 5659291355382750488, guid: ed00f01736f5cf643b500527b8d4a239,
+    type: 3}
 --- !u!1 &1949608939221751876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,6 +1455,37 @@ Transform:
   - {fileID: 4336648514511864877}
   m_Father: {fileID: 215586161557433760}
   m_LocalEulerAnglesHint: {x: -13.044145, y: -6.7487774, z: 2.8568478}
+--- !u!1 &3059685528483601886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4650797962270254555}
+  m_Layer: 0
+  m_Name: smokeEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4650797962270254555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059685528483601886}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.4949999, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 389288971156844421}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3204599230858369793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,6 +1876,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4336648514511864877}
   m_LocalEulerAnglesHint: {x: -0.00000055492444, y: -0.00000088787937, z: -0.0000035515175}
+--- !u!1 &4172465328133325167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6731929945243393655}
+  m_Layer: 0
+  m_Name: stunEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6731929945243393655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172465328133325167}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 389288971156844421}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4322128304323169034
 GameObject:
   m_ObjectHideFlags: 0
