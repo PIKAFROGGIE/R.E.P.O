@@ -13,7 +13,11 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
     public int currentRound = 1;
     public int maxRound = 3;
 
-    // 第 1 / 2 / 3 名奖励
+    public const string ROOM_ROUND_KEY = "Round";
+
+    [Header("Scene")]
+    public string victorySceneName = "VictoryScene";
+
     private readonly int[] rankRewards = { 10000, 5000, 2000 };
 
     void Awake()
@@ -24,11 +28,17 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
     {
-        // RankingScene 进入时自动结算本轮
+        if (PhotonNetwork.CurrentRoom != null &&
+            PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(ROOM_ROUND_KEY))
+        {
+            currentRound = (int)PhotonNetwork.CurrentRoom.CustomProperties[ROOM_ROUND_KEY];
+        }
+
         if (!PhotonNetwork.IsMasterClient)
             return;
 
@@ -41,7 +51,6 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
         EndRound(RaceResultCache.FinalRanking);
     }
 
-    // 只由 MasterClient 调用
     void EndRound(List<Player> rankedPlayers)
     {
         Debug.Log($"Round {currentRound} End");
@@ -52,25 +61,26 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
             AddScore(rankedPlayers[i], reward);
         }
 
-        // 通知所有客户端分数已更新
-        photonView.RPC(nameof(RPC_SyncScores), RpcTarget.All);
-
         currentRound++;
 
-        // 保存轮次，给下一场用
-        RaceResultCache.CurrentRound = currentRound;
+        Hashtable roomProps = new Hashtable
+        {
+            { ROOM_ROUND_KEY, currentRound }
+        };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
 
         if (currentRound > maxRound)
         {
-            Debug.Log("All rounds finished");
-            // 最终排名 Scene 或结算 Scene
-            // PhotonNetwork.LoadLevel("FinalResultScene");
+            Debug.Log("All rounds finished → VictoryScene");
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LoadLevel(victorySceneName);
+            }
         }
         else
         {
-            
             RankingAutoNext.Instance.PrepareForNextRound();
-            Debug.Log("Waiting for next round");
         }
     }
 
@@ -82,28 +92,12 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
 
         Hashtable ht = new Hashtable
         {
-            ["Score"] = oldScore + add
+            { "Score", oldScore + add }
         };
 
         player.SetCustomProperties(ht);
     }
 
-    [PunRPC]
-    void RPC_SyncScores()
-    {
-        Debug.Log("Scores synced");
-
-        if (LeaderboardUIManager.Instance == null)
-        {
-            Debug.LogError("LeaderboardUIManager.Instance is null");
-            return;
-        }
-
-        LeaderboardUIManager.Instance.RefreshLeaderboard();
-    }
-
-
-    // 给排行榜 UI 用
     public List<Player> GetSortedPlayersByScore()
     {
         return PhotonNetwork.PlayerList
@@ -113,5 +107,4 @@ public class RoundScoreManager : MonoBehaviourPunCallbacks
                     : 0)
             .ToList();
     }
-
 }
