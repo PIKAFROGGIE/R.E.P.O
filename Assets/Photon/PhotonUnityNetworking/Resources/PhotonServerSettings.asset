@@ -83,6 +83,11 @@ MonoBehaviour:
   - RPC_PlayHitSFX
   - RPC_PlayShootSFX
   - RPC_PlaySkillSFX
+  - RPC_SetControlLocked
+  - RPC_ShowEggEffect
+  - RPC_UseEgg
+  - RPC_PlayEggHitSFX
+  - RPC_PlayEggShootSFX
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

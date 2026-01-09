@@ -12,10 +12,12 @@ public class ItemPickup : MonoBehaviourPun
 
         if (handler != null && pv != null && pv.IsMine)
         {
-            handler.PickupItem(itemType);
+            bool picked = handler.PickupItem(itemType);
 
-            // 所有人看到消失
-            photonView.RPC(nameof(RPC_Disable), RpcTarget.All);
+            if (picked)
+            {
+                photonView.RPC(nameof(RPC_Disable), RpcTarget.All);
+            }
         }
     }
 

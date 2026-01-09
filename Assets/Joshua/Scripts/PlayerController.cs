@@ -56,6 +56,10 @@ public class PlayerController : MonoBehaviour
     public bool floating = true;
     float airTimer;
 
+    //LYY update
+    [Header("Control Lock")]
+    public bool isControlLocked = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -69,6 +73,18 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (!PV.IsMine) return;
+
+        //LYY update
+        if (isControlLocked)
+        {
+            moveInput = Vector3.zero;
+
+            if (walking) walking.Stop();
+            if (running) running.Stop();
+
+            anim.SetFloat("Blend", 0f);
+            return;
+        }
 
         if (CC.isGrounded)
         {
@@ -338,4 +354,12 @@ public class PlayerController : MonoBehaviour
             inputBuffered = true;
         }
     }
+
+    //LYY update
+    [PunRPC]
+    public void RPC_SetControlLocked(bool value)
+    {
+        isControlLocked = value;
+    }
+
 }

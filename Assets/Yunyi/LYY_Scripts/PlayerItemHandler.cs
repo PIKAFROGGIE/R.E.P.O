@@ -5,7 +5,8 @@ public enum ItemType
 {
     None,
     Thunder,
-    Plunger
+    Plunger,
+    Egg
 }
 
 public class PlayerItemHandler : MonoBehaviourPun
@@ -16,10 +17,12 @@ public class PlayerItemHandler : MonoBehaviourPun
     [Header("Item Models (On Player)")]
     public GameObject thunderModel;
     public GameObject plungerModel;
+    public GameObject eggModel;
 
     [Header("Item Skills")]
     public ThunderSkill thunderSkill;
     public PlungerSkill plungerSkill;
+    public EggSkill eggSkill;
 
     void Start()
     {
@@ -40,11 +43,13 @@ public class PlayerItemHandler : MonoBehaviourPun
     // ======================
     // Ê°È¡µÀ¾ß
     // ======================
-    public void PickupItem(ItemType type)
+    public bool PickupItem(ItemType type)
     {
-        if (currentItem != ItemType.None) return;
+        if (currentItem != ItemType.None)
+            return false;
 
         photonView.RPC(nameof(RPC_PickupItem), RpcTarget.All, type);
+        return true;
     }
 
     [PunRPC]
@@ -61,6 +66,9 @@ public class PlayerItemHandler : MonoBehaviourPun
 
         if (plungerModel != null)
             plungerModel.SetActive(currentItem == ItemType.Plunger);
+
+        if (eggModel != null)
+            eggModel.SetActive(currentItem == ItemType.Egg);
     }
 
     // ======================
@@ -76,6 +84,9 @@ public class PlayerItemHandler : MonoBehaviourPun
                 break;
             case ItemType.Plunger:
                 plungerSkill.Activate();
+                break;
+            case ItemType.Egg:
+                eggSkill.Activate();
                 break;
         }
 

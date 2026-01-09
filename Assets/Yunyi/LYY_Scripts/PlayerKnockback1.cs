@@ -46,8 +46,15 @@ public class PlayerKnockback1 : MonoBehaviourPun
     [PunRPC]
     public void RPC_PullToPosition(Vector3 targetPosition)
     {
+        PlayerController pc = GetComponent<PlayerController>();
+        if (pc != null)
+        {
+            pc.isControlLocked = true;
+        }
+
         StartCoroutine(PullRoutine(targetPosition));
     }
+
 
     IEnumerator PullRoutine(Vector3 targetPosition)
     {
@@ -74,6 +81,12 @@ public class PlayerKnockback1 : MonoBehaviourPun
         controller.enabled = true;
 
         isKnockbacking = false;
+
+        PlayerController pc = GetComponent<PlayerController>();
+        if (pc != null)
+        {
+            pc.isControlLocked = false;
+        }
     }
 
 }
