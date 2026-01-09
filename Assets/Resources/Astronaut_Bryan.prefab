@@ -3125,6 +3125,7 @@ GameObject:
   - component: {fileID: 9094321313890798164}
   - component: {fileID: 2349440815272139728}
   - component: {fileID: 8883201033247745936}
+  - component: {fileID: -2870534141979654601}
   m_Layer: 0
   m_Name: Astronaut_Bryan
   m_TagString: Player
@@ -3712,6 +3713,22 @@ CapsuleCollider:
   m_Height: 3.27
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &-2870534141979654601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7543273444019867401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b51d1506315f6f645ab841af1c311125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  struggleValue: 0
+  struggleMax: 100
+  struggleAddPerPress: 25
+  struggleDecay: 15
 --- !u!1 &7836401393069596010
 GameObject:
   m_ObjectHideFlags: 0
