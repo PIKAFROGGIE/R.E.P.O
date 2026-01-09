@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using ExitGames.Client.Photon; // Photon Hashtable
+using ExitGames.Client.Photon;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-// ===============================
-// 可序列化类，用于 Inspector 管理每个关卡
-// ===============================
 [System.Serializable]
 public class SceneInfo
 {
-    public string sceneName;      // 场景文件名，例如 "GameScene_A"
-    public string displayName;    // UI上显示的名字，例如 "Map1 - Pulse Corridor"
-    public string rule;           // 场景规则，例如 "规则 A：存活到最后"
-    public Sprite image;          // 对应图片（直接拖入Inspector）
+    public string sceneName;    // 场景文件名
+    public string displayName;  // UI 显示名称
+    public string rule;         // 场景规则
+    public Sprite image;        // 对应图片
 }
 
 public class LoadingGameManager : MonoBehaviourPunCallbacks
@@ -29,115 +27,131 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     [Header("场景配置")]
     public List<SceneInfo> scenes = new List<SceneInfo>();
 
-    private const string USED_SCENES_KEY = "UsedScenes";
     private const string CURRENT_SCENE_KEY = "CurrentScene";
-    private const int TOTAL_ROUNDS = 3; // 玩三轮
+    private const string USED_SCENES_KEY = "UsedScenes";
+    private const int TOTAL_ROUNDS = 3;
+
+    private int currentRound = 0;
+    private bool isRunning = false;
 
     void Start()
     {
-        // 开启自动场景同步（Photon 会自动让客户端加载 Master Client 的场景）
         PhotonNetwork.AutomaticallySyncScene = true;
 
         if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(StartGameSequence());
+            // Master 直接启动流程
+            StartCoroutine(MasterRoundsCoroutine());
         }
         else
         {
-            // 客户端等待 Master Client 设置 CURRENT_SCENE_KEY
-            StartCoroutine(WaitForSceneSelection());
+            // Client 持续显示 LoadingScene UI
+            StartCoroutine(ClientShowLoadingUI());
         }
     }
 
     // ===============================
-    // Master Client 主流程协程
+    // MasterClient 控制游戏流程
     // ===============================
-    IEnumerator StartGameSequence()
+    IEnumerator MasterRoundsCoroutine()
     {
-        for (int round = 0; round < TOTAL_ROUNDS; round++)
+        if (isRunning) yield break;
+        isRunning = true;
+
+        while (currentRound < TOTAL_ROUNDS)
         {
+            // 1️⃣ 选择关卡
             string selectedScene = PickRandomScene();
             if (string.IsNullOrEmpty(selectedScene))
                 yield break;
 
-            ShowSceneInfo(selectedScene);
-
-            yield return new WaitForSeconds(3f);
-
-            // ✅ Master 明确标记“当前正在玩的关卡”
+            // 2️⃣ 更新 CustomProperties，让客户端显示 UI
             ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
-{
-    { CURRENT_SCENE_KEY, selectedScene }
-};
-
+            {
+                { CURRENT_SCENE_KEY, selectedScene }
+            };
             PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
+            // 3️⃣ 等待一帧确保 CustomProperties 同步
+            yield return null;
+
+            // 4️⃣ 等待 LoadingScene 加载完成（Master 可能在 LoadingScene）
+            if (SceneManager.GetActiveScene().name != "LoadingScene")
+            {
+                PhotonNetwork.LoadLevel("LoadingScene");
+                yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "LoadingScene");
+            }
+
+            // 5️⃣ 显示关卡 UI 并等待 5 秒
+            ShowSceneInfo(selectedScene);
+            yield return new WaitForSeconds(5f);
+
+            // 6️⃣ 清理玩家
+            PhotonView pv = PhotonView.Get(this);
+            if (pv != null)
+                pv.RPC("RPC_CleanupPlayer", RpcTarget.All);
+
+            // 7️⃣ 加载游戏场景
             PhotonNetwork.LoadLevel(selectedScene);
 
-            // ✅ 等待 GameOverManager 把 CURRENT_SCENE_KEY 清空
-            yield return new WaitUntil(() =>
-            {
-                if (!PhotonNetwork.InRoom) return true;
-                if (!PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY)) return false;
+            // 等待游戏场景加载完成
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == selectedScene);
 
-                string current = PhotonNetwork.CurrentRoom.CustomProperties[CURRENT_SCENE_KEY] as string;
-                return string.IsNullOrEmpty(current);
-            });
+            currentRound++;
         }
 
+        isRunning = false;
         Debug.Log("三轮游戏结束");
     }
 
     // ===============================
-    // 客户端等待 Master Client 设置关卡
+    // Client 持续显示 LoadingScene UI
     // ===============================
-    IEnumerator WaitForSceneSelection()
+    IEnumerator ClientShowLoadingUI()
     {
         while (true)
         {
-            if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY))
+            if (PhotonNetwork.CurrentRoom != null &&
+                PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CURRENT_SCENE_KEY))
             {
                 string sceneName = PhotonNetwork.CurrentRoom.CustomProperties[CURRENT_SCENE_KEY] as string;
                 ShowSceneInfo(sceneName);
-                break;
             }
             yield return null;
         }
     }
 
     // ===============================
-    // 随机选择关卡（仅 Master Client）
+    // 随机选择未使用关卡
     // ===============================
     string PickRandomScene()
     {
-        if (!PhotonNetwork.IsMasterClient) return null; // 仅 Master Client 选场景
+        if (!PhotonNetwork.IsMasterClient) return null;
 
         List<string> usedScenes = GetUsedScenes();
-
         List<SceneInfo> available = new List<SceneInfo>();
-        foreach (SceneInfo s in scenes)
-        {
+
+        foreach (var s in scenes)
             if (!usedScenes.Contains(s.sceneName))
                 available.Add(s);
-        }
 
-        if (available.Count == 0)
-            return null;
+        if (available.Count == 0) return null;
 
         SceneInfo selected = available[Random.Range(0, available.Count)];
         usedScenes.Add(selected.sceneName);
 
-        // 更新 Photon Room CustomProperties
-        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
-        props[USED_SCENES_KEY] = string.Join(",", usedScenes);
-        props[CURRENT_SCENE_KEY] = selected.sceneName;
+        // 更新已使用关卡
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+        {
+            { USED_SCENES_KEY, string.Join(",", usedScenes) }
+        };
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
 
         return selected.sceneName;
     }
 
     // ===============================
-    // 显示 UI 信息
+    // UI 显示关卡信息
     // ===============================
     void ShowSceneInfo(string sceneName)
     {
@@ -157,7 +171,7 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
     }
 
     // ===============================
-    // 获取已用关卡
+    // 获取已使用关卡
     // ===============================
     List<string> GetUsedScenes()
     {
@@ -168,15 +182,27 @@ public class LoadingGameManager : MonoBehaviourPunCallbacks
         return new List<string>(data.Split(','));
     }
 
-    // ===============================
-    // 监听 Room CustomProperties 更新（保证客户端 UI 同步）
-    // ===============================
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         if (propertiesThatChanged.ContainsKey(CURRENT_SCENE_KEY))
         {
             string sceneName = propertiesThatChanged[CURRENT_SCENE_KEY] as string;
             ShowSceneInfo(sceneName);
+        }
+    }
+
+    // ===============================
+    // RPC 清理玩家
+    // ===============================
+    [PunRPC]
+    void RPC_CleanupPlayer()
+    {
+        if (PhotonNetwork.LocalPlayer.TagObject != null)
+        {
+            GameObject player = PhotonNetwork.LocalPlayer.TagObject as GameObject;
+            if (player != null)
+                Destroy(player);
+            PhotonNetwork.LocalPlayer.TagObject = null;
         }
     }
 }

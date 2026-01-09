@@ -6,7 +6,7 @@ public class GamePlayerManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] private GameObject playerPrefab;
 
-    [Header("Spawn Area (Only for wanyun map)")]
+    [Header("Spawn Area")]
     [SerializeField] private BoxCollider respawnArea;
 
     void Start()
@@ -18,7 +18,7 @@ public class GamePlayerManager : MonoBehaviour
             return;
         }
 
-        // 防止重复生成
+        // 只有 TagObject 为 null 时才生成玩家
         if (PhotonNetwork.LocalPlayer.TagObject != null) return;
 
         Vector3 spawnPos = GetRandomSpawnPosition();
@@ -34,10 +34,8 @@ public class GamePlayerManager : MonoBehaviour
 
     Vector3 GetRandomSpawnPosition()
     {
-        // 如果没有设置 RespawnArea，兜底方案
         if (respawnArea == null)
         {
-            Debug.LogWarning("RespawnArea not set, using default random.");
             return new Vector3(
                 Random.Range(-10f, 10f),
                 2f,
@@ -46,10 +44,9 @@ public class GamePlayerManager : MonoBehaviour
         }
 
         Bounds b = respawnArea.bounds;
-
         float x = Random.Range(b.min.x, b.max.x);
         float z = Random.Range(b.min.z, b.max.z);
-        float y = b.max.y + 0.5f; // 确保在地面上方
+        float y = b.max.y + 0.5f;
 
         return new Vector3(x, y, z);
     }
